@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/24 10:47:06 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/14 17:56:13 by mbozzi           ###   ########.fr       */
+/*   Created: 2023/02/14 14:00:33 by mbozzi            #+#    #+#             */
+/*   Updated: 2023/02/14 18:01:43 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../mylib.h"
+#include "../minishell.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+void	pwd(t_data **data)
 {
-	size_t			i;
-
-	i = 0;
-	while (i < n && (s1[i] || s2[i]))
-	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i++;
-	}
-	return (0);
+	(*data)->pwd = getcwd(NULL, 0);
+	getcwd((*data)->pwd, sizeof((*data)->pwd));
+	printf("%s", (*data)->pwd);
+	free((*data)->pwd);
 }

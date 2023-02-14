@@ -1,6 +1,6 @@
 NAME = minishell
 
-SRC = 
+SRC = minishell.c builtins.c
 
 SRC_DIR = ./Src/
 
@@ -8,7 +8,7 @@ SRCP = $(addprefix $(SRC_DIR),$(SRC))
 
 OBJ = $(SRCP:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror -fPIE -g
+CFLAGS = -Wall -Wextra -Werror -g
 
 LIB = ./Src/MyLib/mylib.a
 
@@ -19,7 +19,7 @@ lib:
 
 $(NAME): $(OBJ)
 	@echo "\033[32mCompiling $(NAME) 🚀"
-	@gcc $(CFLAGS) $(OBJ) $(LIB) -o $(NAME)
+	@gcc $(CFLAGS) $(OBJ) $(LIB) -lreadline -o $(NAME)
 	@echo "Compiled ✅\033[0;37m"
 
 clean:
@@ -34,4 +34,4 @@ fclean: clean
 
 re: fclean all
 
-.SILENT: $(OBJ) lib
+.SILENT:  $(OBJ) lib
