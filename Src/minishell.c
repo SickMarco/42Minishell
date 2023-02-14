@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:19:29 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/14 18:02:43 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/14 19:48:49 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,13 @@ int	main(void)
 	welcome_msg(&data);
 	while (1)
 	{
-		data->input = readline("\n$>");
+		data->input = readline("$>");
 		data->trimmed = ft_strtrim(data->input, " ");
 		if (data->input == NULL)
 			break ;
 		if (ft_strncmp(data->trimmed, "pwd", 4) == 0)
 			pwd(&data);
+		history(&data);
 		free(data->input);
 		free(data->trimmed);
 	}
