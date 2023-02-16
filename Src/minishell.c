@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:19:29 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/14 19:48:49 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/16 12:17:53 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	welcome_msg(t_data **data)
 	printf("░╚═══██╗██║╚██╔╝██║██╔══██║░╚═══██╗██╔══██║██╔══╝░░██║░░░░░██║░░░░░\n");
 	printf("██████╔╝██║░╚═╝░██║██║░░██║██████╔╝██║░░██║███████╗███████╗███████╗\n");
 	printf("╚═════╝░╚═╝░░░░░╚═╝╚═╝░░╚═╝╚═════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚══════╝\n");
-	printf("\033[0;37m\nWelcome %s\n", (*data)->user);
+	printf("\033[0;37m\nWelcome %s\n\n", (*data)->user);
 }
 
 int	main(void)
@@ -35,13 +35,15 @@ int	main(void)
 	{
 		data->input = readline("$>");
 		data->trimmed = ft_strtrim(data->input, " ");
-		if (data->input == NULL)
+		if (data->input == NULL || ft_strncmp(data->trimmed, "exit", 5) == 0)
 			break ;
-		if (ft_strncmp(data->trimmed, "pwd", 4) == 0)
-			pwd(&data);
-		history(&data);
+		ft_parser(&data);
+		ft_history(&data);
 		free(data->input);
 		free(data->trimmed);
 	}
+	free(data->input);
+	free(data->trimmed);
 	free(data);
+	exit (EXIT_SUCCESS);
 }
