@@ -6,44 +6,49 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:19:29 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/16 12:17:53 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/18 18:11:41 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	welcome_msg(t_data **data)
+void	ft_clear(t_data **ms)
 {
 	printf("\033[H\033[J\033[0;31m");
-	printf("\n░██████╗███╗░░░███╗░█████╗░░██████╗██╗░░██╗███████╗██╗░░░░░██╗░░░░░\n");
-	printf("██╔════╝████╗░████║██╔══██╗██╔════╝██║░░██║██╔════╝██║░░░░░██║░░░░░\n");
-	printf("╚█████╗░██╔████╔██║███████║╚█████╗░███████║█████╗░░██║░░░░░██║░░░░░\n");
-	printf("░╚═══██╗██║╚██╔╝██║██╔══██║░╚═══██╗██╔══██║██╔══╝░░██║░░░░░██║░░░░░\n");
-	printf("██████╔╝██║░╚═╝░██║██║░░██║██████╔╝██║░░██║███████╗███████╗███████╗\n");
-	printf("╚═════╝░╚═╝░░░░░╚═╝╚═╝░░╚═╝╚═════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚══════╝\n");
-	printf("\033[0;37m\nWelcome %s\n\n", (*data)->user);
+	printf("\n░██████╗███╗░░░███╗░█████╗░░██████╗██╗░░\
+██╗███████╗██╗░░░░░██╗░░░░░\n");
+	printf("██╔════╝████╗░████║██╔══██╗██╔════╝██║░░██║\
+██╔════╝██║░░░░░██║░░░░░\n");
+	printf("╚█████╗░██╔████╔██║███████║╚█████╗░███████║\
+█████╗░░██║░░░░░██║░░░░░\n");
+	printf("░╚═══██╗██║╚██╔╝██║██╔══██║░╚═══██╗██╔══██║\
+██╔══╝░░██║░░░░░██║░░░░░\n");
+	printf("██████╔╝██║░╚═╝░██║██║░░██║██████╔╝██║░░██║\
+███████╗███████╗███████╗\n");
+	printf("╚═════╝░╚═╝░░░░░╚═╝╚═╝░░╚═╝╚═════╝░╚═╝░░╚═╝\
+╚══════╝╚══════╝╚══════╝\n");
+	printf("\033[0;37m\nWelcome %s\n\n", (*ms)->user);
 }
 
 int	main(void)
 {
-	t_data	*data;
+	t_data	*ms;
 
-	data = ft_calloc(sizeof(t_data), 1);
-	data->user = getenv("USER");
-	welcome_msg(&data);
+	ms = ft_calloc(sizeof(t_data), 1);
+	ms->user = getenv("USER");
+	ft_clear(&ms);
 	while (1)
 	{
-		data->input = readline("$>");
-		data->trimmed = ft_strtrim(data->input, " ");
-		if (data->input == NULL || ft_strncmp(data->trimmed, "exit", 5) == 0)
+		ms->trim = ft_strtrim(ms->input = readline("\033[0;36m$>\033[0m"), " ");
+		if (ms->input == NULL || ft_strncmp(ms->trim, "exit", 5) == 0)
 			break ;
-		ft_parser(&data);
-		ft_history(&data);
-		free(data->input);
-		free(data->trimmed);
+		ft_parser(&ms);
+		ft_history(&ms);
+		free(ms->input);
+		free(ms->trim);
 	}
-	free(data->input);
-	free(data->trimmed);
-	free(data);
+	free(ms->input);
+	free(ms->trim);
+	free(ms);
 	exit (EXIT_SUCCESS);
 }

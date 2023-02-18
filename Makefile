@@ -1,6 +1,6 @@
 NAME = minishell
 
-SRC = minishell.c builtins.c
+SRC = minishell.c builtins.c parser.c
 
 SRC_DIR = ./Src/
 
@@ -8,7 +8,7 @@ SRCP = $(addprefix $(SRC_DIR),$(SRC))
 
 OBJ = $(SRCP:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -fPIE -g 
 
 LIB = ./Src/MyLib/mylib.a
 
