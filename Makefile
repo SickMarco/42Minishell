@@ -1,6 +1,6 @@
 NAME = minishell
 
-SRC = minishell.c builtins.c parser.c
+SRC = minishell.c builtins.c parser.c utils.c
 
 SRC_DIR = ./Src/
 

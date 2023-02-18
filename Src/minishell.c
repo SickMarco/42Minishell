@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:19:29 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/18 18:11:41 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/18 19:09:49 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,12 @@ int	main(void)
 		if (ms->input == NULL || ft_strncmp(ms->trim, "exit", 5) == 0)
 			break ;
 		ft_parser(&ms);
-		ft_history(&ms);
+		if (ft_strlen(ms->input) != 0)
+			add_history(ms->input);
 		free(ms->input);
 		free(ms->trim);
 	}
+	rl_clear_history();
 	free(ms->input);
 	free(ms->trim);
 	free(ms);

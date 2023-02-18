@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:00:33 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/18 18:11:34 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/18 19:34:30 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,6 @@ void	ft_pwd(t_data **ms)
 	getcwd((*ms)->pwd, sizeof((*ms)->pwd));
 	printf("%s\n", (*ms)->pwd);
 	free((*ms)->pwd);
-}
-
-void	ft_history(t_data **ms)
-{
-	if (ft_strlen((*ms)->input) != 0)
-		add_history((*ms)->input);
 }
 
 void	ft_cd(t_data **ms)
@@ -50,4 +44,26 @@ void	ft_env(void)
 	i = -1;
 	while (environ[++i])
 		printf("%s\n", environ[i]);
+}
+
+void	ft_export(t_data **ms)
+{
+	char	**new_env;
+	char	**new;
+	int		i;
+
+	i = 0;
+	new = ft_split((*ms)->trim, ' ');
+	if (new[1] && check_input(new[1]))
+	{
+		while (environ[i])
+			i++;
+		new_env = ft_calloc(sizeof(char *), (i + 2));
+		i = -1;
+		while (environ[++i])
+			new_env[i] = environ[i];
+		new_env[i] = new[1];
+		environ = new_env;
+	}
+	free(new);
 }
