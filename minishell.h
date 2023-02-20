@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/18 19:34:40 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/20 19:49:17 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,23 +31,37 @@
 
 extern char	**environ;
 
+typedef struct s_exp {
+	int			len;
+	int			start;
+	char		*var;
+	int			var_len;
+	char		*exp_var;
+	char		*exp_cmd;
+}				t_exp;
+
 typedef struct s_data {
 	char		*user;
 	char		*input;
 	char		*pwd;
 	char		*trim;
 	char		*home;
+	char		*user_dir;
+	char		**cmd;
+	t_exp		*exp;
 }				t_data;
 
 //			BUILTINS		//
 
 void	ft_pwd(t_data **data);
 void	ft_history(t_data **data);
-void	ft_clear(t_data **data);
+void	ft_clear(void);
 void	ft_cd(t_data **data);
 void	ft_env(void);
 void	ft_export(t_data **data);
+void	user_dir_set(t_data **ms);
 
+void	ft_expander(t_data **ms);
 int		check_input(char *arg);
 void	ft_parser(t_data **data);
 
