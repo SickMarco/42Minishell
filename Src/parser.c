@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 17:19:20 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/18 19:25:58 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/20 19:54:36 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_parser(t_data **ms)
 	if (ft_strncmp((*ms)->trim, "pwd", 4) == 0)
 		ft_pwd(ms);
 	else if (ft_strncmp((*ms)->trim, "clear", 6) == 0)
-		ft_clear(ms);
+		ft_clear();
 	else if (ft_strncmp((*ms)->trim, "cd", 2) == 0)
 		ft_cd(ms);
 	else if (ft_strncmp((*ms)->trim, "env", 4) == 0)
