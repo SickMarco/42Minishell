@@ -1,16 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_splittone.c                                     :+:      :+:    :+:   */
+/*   ft_countwords1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 14:47:01 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/02/20 20:32:04 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/02/21 11:05:29 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <stdio.h>
 
 void	ft_skip_space(char *s, int *i)
 {
@@ -18,7 +16,7 @@ void	ft_skip_space(char *s, int *i)
 		(*i)++;
 }
 
-void	ft_close_quote(char *s, int *i, char c)
+static void	ft_close_quote(char *s, int *i, char c)
 {
 	(*i)++;
 	while (s[*i] && s[*i] != c)
@@ -26,35 +24,33 @@ void	ft_close_quote(char *s, int *i, char c)
 	(*i)++;
 }
 
-int	ft_countwords(char *s)
+static void	ft_sq(char *s, int *i, int *words)
+{
+	*words += (s[*i - 1] && s[*i - 1] != 32);
+	ft_close_quote(s, i, 39);
+	while (s[*i] && s[*i] != 32 && s[*i] != 34 && s[*i] != 39)
+		(*i)++;
+}
+
+int	ft_countwords1(char *s)
 {
 	int	i;
 	int	words;
 
 	words = 0;
 	i = 0;
-	if (!s || !(*s))
-		return (0);
-	ft_skip_space(s, &i);
-	while (s[i])
+	while (s && s[i])
 	{
-		words++;
+		words += (s[i] != 32);
 		while (s[i] && s[i] != 32)
 		{
 			if (s[i] == 34)
 			{
-				if (s[i - 1] && s[i - 1] != 32)
-					words++;
+				words += (s[i - 1] && s[i - 1] != 32);
 				ft_close_quote(s, &i, 34);
 			}
 			else if (s[i] == 39)
-			{
-				if (s[i - 1] && s[i - 1] != 32)
-					words++;
-				ft_close_quote(s, &i, 39);
-				while (s[i] && s[i] != 32 && s[i] != 34 && s[i] != 39)
-					i++;
-			}
+				ft_sq(s, &i, &words);
 			else
 				i++;
 		}
@@ -62,7 +58,7 @@ int	ft_countwords(char *s)
 	}
 	return (words);
 }
-
+/*
 int main(int ac, char **av)
 {
 	char s[] = "ciao come stai                                                                   ";
@@ -74,12 +70,8 @@ int main(int ac, char **av)
 	s[24] = 39;
 	s[26] = 39;
 	s[23] = 65;
+	char s[] = "        echo \"hello      there\" how are 'you 'doing? $USER |wc -l >outfile";
 	printf("words = %d\n",ft_countwords(s));
-}
-/*
-char **ft_splitone(char *s)
-{
-
 }*/
 /*
 static long long int	countstr(char *s, char c)
