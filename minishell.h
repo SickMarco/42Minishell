@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/21 11:41:19 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/02/21 19:24:56 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,7 @@ int		ft_countwords1(char *s);
 void	ft_skip_space(char *s, int *i);
 void	ft_close_quote(char *s, int *i, char c);
 char	**ft_split1(char *s);
+t_list	*ft_createlist(char **tab);
+t_list	*ft_subsplit(char **tab);
 
 #endif
