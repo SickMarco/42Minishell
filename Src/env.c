@@ -6,11 +6,34 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 16:53:53 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/22 16:55:06 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/22 19:43:09 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	check_input(t_data **ms)
+{
+	int	i;
+
+	i = 0;
+	if ((*ms)->cmd[1][i] == '=')
+		return (0);
+	while ((*ms)->cmd[1][i] && (ft_isalnum((*ms)->cmd[1][i])
+		|| ft_isalpha((*ms)->cmd[1][i])))
+		i++;
+	if (!(*ms)->cmd[1][i] || (*ms)->cmd[1][i] != '=')
+		return (0);
+	i++;
+	if (!(*ms)->cmd[1][i])
+		return (0);
+	while ((*ms)->cmd[1][i] && (ft_isalnum((*ms)->cmd[1][i])
+		|| ft_isalpha((*ms)->cmd[1][i])))
+		i++;
+	if (!(*ms)->cmd[1][i])
+		return (1);
+	return (0);
+}
 
 void	ft_env(t_data **ms)
 {

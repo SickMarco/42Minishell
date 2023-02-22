@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:19:29 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/22 16:40:22 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/22 20:10:51 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,17 @@ void	ft_clear(void)
 ╚══════╝╚══════╝╚══════╝\n\n\033[0;37m");
 }
 
-void	init_ms(t_data **ms, char **envp)
+void	init_ms(t_data **ms, char **envp, int ac, char	**av)
 {
+	(void)ac;
+	(void)av;
 	*ms = ft_calloc(sizeof(t_data), 1);
 	(*ms)->exp = ft_calloc(sizeof(t_exp), 1);
 	(*ms)->user = getenv("USER");
 	(*ms)->home = getenv("HOME");
 	mat_dup(ms, envp);
-	user_dir_set(ms);
+	(*ms)->user_dir = ft_strjoin("\033[0;36m", (*ms)->user);
+	(*ms)->user_dir = ft_strjoin2((*ms)->user_dir, "@minishell: \033[0;37m");
 	ft_clear();
 	printf("Welcome %s\n\n", (*ms)->user);
 }
@@ -45,9 +48,11 @@ int	main(int ac, char **av, char **envp)
 {
 	t_data	*ms;
 
-	init_ms(&ms, envp);
-	while (ac && av)
+	init_ms(&ms, envp, ac, av);
+	while (1)
 	{
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, ctrlc_handler);
 		ms->input = readline(ms->user_dir);
 		if (ms->input == NULL || ft_strncmp(ms->input, "exit", 5) == 0)
 			break ;
@@ -58,6 +63,5 @@ int	main(int ac, char **av, char **envp)
 	}
 	rl_clear_history();
 	free_for_all(&ms);
-	free(ms);
 	exit (EXIT_SUCCESS);
 }

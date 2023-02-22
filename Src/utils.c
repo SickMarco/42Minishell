@@ -6,11 +6,22 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:28:56 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/22 17:25:09 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/22 20:08:10 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ctrlc_handler(int sig)
+{
+	if (sig == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
 
 void	mat_dup(t_data **ms, char **envp)
 {
@@ -38,44 +49,16 @@ void	cmd_builder(t_data **ms)
 	free((*ms)->cmd);
 }
 
-int	check_input(t_data **ms)
-{
-	int	i;
-
-	i = 0;
-	if ((*ms)->cmd[1][i] == '=')
-		return (0);
-	while ((*ms)->cmd[1][i] && (ft_isalnum((*ms)->cmd[1][i])
-		|| ft_isalpha((*ms)->cmd[1][i])))
-		i++;
-	if (!(*ms)->cmd[1][i] || (*ms)->cmd[1][i] != '=')
-		return (0);
-	i++;
-	if (!(*ms)->cmd[1][i])
-		return (0);
-	while ((*ms)->cmd[1][i] && (ft_isalnum((*ms)->cmd[1][i])
-		|| ft_isalpha((*ms)->cmd[1][i])))
-		i++;
-	if (!(*ms)->cmd[1][i])
-		return (1);
-	return (0);
-}
-
-void	user_dir_set(t_data **ms)
-{
-	(*ms)->user_dir = ft_strjoin("\033[0;36m", (*ms)->user);
-	(*ms)->user_dir = ft_strjoin2((*ms)->user_dir, "@minishell: \033[0;37m");
-}
-
 void	free_for_all(t_data **ms)
 {
 	int	i;
 
 	i = -1;
+	while ((*ms)->env[++i])
+		free((*ms)->env[i]);
 	free((*ms)->user_dir);
 	free((*ms)->exp);
 	free((*ms)->input);
-	while ((*ms)->env[++i])
-		free((*ms)->env[i]);
 	free((*ms)->env);
+	free(*ms);
 }
