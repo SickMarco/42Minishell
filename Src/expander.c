@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 14:44:30 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/22 14:28:13 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/22 17:33:47 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	check_apex(t_data **ms, int i)
 
 	j = -1;
 	check = 0;
-	if ((check_dapex(ms, i)) == 0)
+	if ((check_dapex(ms, i)) == 1)
 		return (0);
 	while ((*ms)->cmd[i][++j])
 		if ((*ms)->cmd[i][j] == 39)
@@ -89,21 +89,21 @@ int	ft_find_var(t_data **ms)
 	int	x;
 
 	i = -1;
-	while (environ[++i])
-		if (ft_strncmp(environ[i], (*ms)->exp->var,
+	while ((*ms)->env[++i])
+		if (ft_strncmp((*ms)->env[i], (*ms)->exp->var,
 				ft_strlen((*ms)->exp->var) - 1) == 0)
 			break ;
-	if (!environ[i])
+	if (!(*ms)->env[i])
 		return (1);
 	j = ft_strlen((*ms)->exp->var);
-	if (environ[i][j] == '=')
+	if ((*ms)->env[i][j] == '=')
 		j++;
 	(*ms)->exp->exp_var = ft_calloc(sizeof(char),
-			ft_strlen(environ[i]) - j + 1);
+			ft_strlen((*ms)->env[i]) - j + 1);
 	x = 0;
-	while (environ[i][j])
+	while ((*ms)->env[i][j])
 	{
-		(*ms)->exp->exp_var[x] = environ[i][j];
+		(*ms)->exp->exp_var[x] = (*ms)->env[i][j];
 		x++;
 		j++;
 	}
@@ -127,7 +127,7 @@ void	ft_expander(t_data **ms)
 		j++;
 	(*ms)->exp->start = j;
 	while ((*ms)->cmd[i][j] && (*ms)->cmd[i][j] != ' ' &&
-		(*ms)->cmd[i][j] != '"' && (*ms)->cmd[i][j] != 39)
+		(*ms)->cmd[i][j] != 34 && (*ms)->cmd[i][j] != 39)
 		j++;
 	(*ms)->exp->var_len = j - (*ms)->exp->start;
 	(*ms)->exp->var = ft_calloc(sizeof(char), (*ms)->exp->var_len + 1);

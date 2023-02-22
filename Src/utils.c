@@ -6,11 +6,24 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:28:56 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/22 14:16:10 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/22 17:25:09 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	mat_dup(t_data **ms, char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+		i++;
+	(*ms)->env = ft_calloc(sizeof(char *), (i + 1));
+	i = -1;
+	while (envp[++i])
+		(*ms)->env[i] = ft_strdup(envp[i]);
+}
 
 void	cmd_builder(t_data **ms)
 {
@@ -56,7 +69,13 @@ void	user_dir_set(t_data **ms)
 
 void	free_for_all(t_data **ms)
 {
+	int	i;
+
+	i = -1;
 	free((*ms)->user_dir);
 	free((*ms)->exp);
 	free((*ms)->input);
+	while ((*ms)->env[++i])
+		free((*ms)->env[i]);
+	free((*ms)->env);
 }

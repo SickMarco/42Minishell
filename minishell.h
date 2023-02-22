@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/22 15:28:31 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/02/22 17:40:21 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@
 # include <dirent.h>
 # include <errno.h>
 
-extern char	**environ;
-
 typedef struct s_exp {
 	int			len;
 	int			start;
@@ -43,6 +41,7 @@ typedef struct s_exp {
 typedef struct s_data {
 	char		*user;
 	char		*input;
+	char		**env;
 	char		*pwd;
 	char		*home;
 	char		*user_dir;
@@ -56,9 +55,11 @@ void	ft_pwd(t_data **data);
 void	ft_history(t_data **data);
 void	ft_clear(void);
 void	ft_cd(t_data **data);
-void	ft_env(void);
+void	ft_env(t_data **ms);
 void	ft_export(t_data **data);
 void	user_dir_set(t_data **ms);
+void	ft_unset(t_data **ms);
+void	ft_echo(t_data **ms);
 
 void	ft_expander(t_data **ms);
 int		check_input(t_data **ms);
@@ -72,5 +73,6 @@ t_list	*ft_subsplit(char **tab);
 void	cmd_builder(t_data **ms);
 void	free_for_all(t_data **ms);
 int		ft_print_slst(t_list *lst);//for debugging
+void	mat_dup(t_data **ms, char **envp);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:00:33 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/21 15:07:27 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/22 17:37:45 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,31 +31,29 @@ void	ft_cd(t_data **ms)
 		perror("cd");
 }
 
-void	ft_env(void)
+void	ft_echo(t_data **ms)
 {
+	int	flag;
 	int	i;
 
-	i = -1;
-	while (environ[++i])
-		printf("%s\n", environ[i]);
-}
-
-void	ft_export(t_data **ms)
-{
-	char	**new_env;
-	int		i;
-
+	flag = 0;
 	i = 0;
-	if ((*ms)->cmd[1] && check_input(ms))
+	if ((*ms)->cmd[i])
 	{
-		while (environ[i])
-			i++;
-		new_env = ft_calloc(sizeof(char *), (i + 2));
-		i = -1;
-		while (environ[++i])
-			new_env[i] = environ[i];
-		new_env[i] = ft_strdup((*ms)->cmd[1]);
-		free(environ);
-		environ = new_env;
+		while ((*ms)->cmd[++i])
+		{
+			if (!ft_strncmp((*ms)->cmd[1], "-n", 2))
+			{
+				flag = 1;
+				i++;
+			}
+			if ((*ms)->cmd[i + 1])
+				printf("%s ", (*ms)->cmd[i]);
+			else
+				printf("%s", (*ms)->cmd[i]);
+		}
+		if (flag == 0)
+			printf("\n");
 	}
+
 }
