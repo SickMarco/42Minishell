@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/21 19:24:56 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/02/22 14:23:31 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ typedef struct s_data {
 	char		*user;
 	char		*input;
 	char		*pwd;
-	char		*trim;
 	char		*home;
 	char		*user_dir;
 	char		**cmd;
@@ -62,7 +61,7 @@ void	ft_export(t_data **data);
 void	user_dir_set(t_data **ms);
 
 void	ft_expander(t_data **ms);
-int		check_input(char *arg);
+int		check_input(t_data **ms);
 void	ft_parser(t_data **data);
 int		ft_countwords1(char *s);
 void	ft_skip_space(char *s, int *i);
@@ -70,5 +69,7 @@ void	ft_close_quote(char *s, int *i, char c);
 char	**ft_split1(char *s);
 t_list	*ft_createlist(char **tab);
 t_list	*ft_subsplit(char **tab);
+void	cmd_builder(t_data **ms);
+void	free_for_all(t_data **ms);
 
 #endif

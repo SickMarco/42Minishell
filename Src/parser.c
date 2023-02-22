@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 17:19:20 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/20 19:54:36 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/21 15:58:51 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,24 @@
 
 void	ft_parser(t_data **ms)
 {
-	if (ft_strncmp((*ms)->trim, "pwd", 4) == 0)
+	int	i;
+
+	i = -1;
+	if (ft_strncmp((*ms)->cmd[0], "pwd", 4) == 0 && !(*ms)->cmd[1])
 		ft_pwd(ms);
-	else if (ft_strncmp((*ms)->trim, "clear", 6) == 0)
+	else if (ft_strncmp((*ms)->cmd[0], "clear", 6) == 0)
 		ft_clear();
-	else if (ft_strncmp((*ms)->trim, "cd", 2) == 0)
+	else if (ft_strncmp((*ms)->cmd[0], "cd", 2) == 0)
 		ft_cd(ms);
-	else if (ft_strncmp((*ms)->trim, "env", 4) == 0)
+	else if (ft_strncmp((*ms)->cmd[0], "env", 4) == 0)
 		ft_env();
-	else if (ft_strncmp((*ms)->trim, "export", 6) == 0)
+	else if (ft_strncmp((*ms)->cmd[0], "export", 6) == 0)
 		ft_export(ms);
-	else if (ft_strncmp((*ms)->trim, "\0", 2) != 0)
-		ft_printf("smashell: command not found: %s\n", (*ms)->trim);
+	else if (ft_strncmp((*ms)->cmd[0], "\0", 2) != 0)
+	{
+		printf("smashell: command not found: ");
+		while ((*ms)->cmd[++i])
+			printf("%s ", (*ms)->cmd[i]);
+		printf("\n");
+	}
 }

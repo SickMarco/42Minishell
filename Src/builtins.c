@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:00:33 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/18 19:34:30 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/21 15:07:27 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,13 @@ void	ft_pwd(t_data **ms)
 
 void	ft_cd(t_data **ms)
 {
-	char	**args;
 	int		i;
 
 	i = -1;
-	args = ft_split((*ms)->trim, ' ');
-	(*ms)->home = getenv("HOME");
-	if (!args[1])
+	if (!(*ms)->cmd[1])
 		chdir((*ms)-> home);
-	else if (chdir(args[1]) != 0)
+	else if (chdir((*ms)->cmd[1]) != 0)
 		perror("cd");
-	while (args[++i])
-		free(args[i]);
-	free(args);
 }
 
 void	ft_env(void)
@@ -49,12 +43,10 @@ void	ft_env(void)
 void	ft_export(t_data **ms)
 {
 	char	**new_env;
-	char	**new;
 	int		i;
 
 	i = 0;
-	new = ft_split((*ms)->trim, ' ');
-	if (new[1] && check_input(new[1]))
+	if ((*ms)->cmd[1] && check_input(ms))
 	{
 		while (environ[i])
 			i++;
@@ -62,8 +54,8 @@ void	ft_export(t_data **ms)
 		i = -1;
 		while (environ[++i])
 			new_env[i] = environ[i];
-		new_env[i] = new[1];
+		new_env[i] = ft_strdup((*ms)->cmd[1]);
+		free(environ);
 		environ = new_env;
 	}
-	free(new);
 }

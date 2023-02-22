@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:19:29 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/20 19:49:20 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/21 18:17:31 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	init_ms(t_data **ms)
 	*ms = ft_calloc(sizeof(t_data), 1);
 	(*ms)->exp = ft_calloc(sizeof(t_exp), 1);
 	(*ms)->user = getenv("USER");
+	(*ms)->home = getenv("HOME");
+	user_dir_set(ms);
 	ft_clear();
 	printf("Welcome %s\n\n", (*ms)->user);
 }
@@ -45,21 +47,16 @@ int	main(void)
 	init_ms(&ms);
 	while (1)
 	{
-		user_dir_set(&ms);
-		ms->trim = ft_strtrim(ms->input = readline(ms->user_dir), " ");
-		if (ms->input == NULL || ft_strncmp(ms->trim, "exit", 5) == 0)
+		ms->input = readline(ms->user_dir);
+		if (ms->input == NULL || ft_strncmp(ms->input, "exit", 5) == 0)
 			break ;
-		ft_parser(&ms);
+		cmd_builder(&ms);
 		if (ft_strlen(ms->input) != 0)
 			add_history(ms->input);
-		free(ms->user_dir);
 		free(ms->input);
-		free(ms->trim);
 	}
 	rl_clear_history();
-	free(ms->user_dir);
-	free(ms->input);
-	free(ms->trim);
+	free_for_all(&ms);
 	free(ms);
 	exit (EXIT_SUCCESS);
 }
