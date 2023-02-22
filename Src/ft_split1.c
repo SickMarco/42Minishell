@@ -6,7 +6,7 @@
 /*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:36:29 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/02/21 12:31:19 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/02/22 17:16:31 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,20 +61,29 @@ char	**ft_split1(char *s)
 	return (matrix);
 }
 /*
-#include <stdio.h>
-
 int main()
 {
-	char s[] = "        echo vhello      therev how are 'you 'doing? $USER |wc -l >outfile  ";
+	char s[] = "        echo vhello      therev how are 'you 'doing? $USER a|wc -l >outfile  ";
 	s[13] = 34;
 	s[30] = 34;
 	char **matrix;
 	int i = 0;
 	matrix = ft_split1(s);
-	printf("\n\n\n\n");
+//	printf("\n\n\n\n");
 	while (matrix[i])
 	{
 		printf("%s\n", matrix[i]);
 		i++;
 	}
+//	printf("\n\n");
+	printf("\n\n\n\n");
+	t_list *lst;
+//	lst = ft_createlist(matrix);
+	lst = ft_subsplit(matrix);
+//printf("%s", ((char *)(lst->content)));
+//	ft_print_slst(lst);
+	printf("\n\n\n\n");
+	ft_subsplit(&(lst));
+	ft_print_slst(lst);
+	printf("\n\n\n\n");
 }*/

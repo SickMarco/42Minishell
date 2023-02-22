@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/22 14:23:31 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/22 15:28:31 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,6 @@ t_list	*ft_createlist(char **tab);
 t_list	*ft_subsplit(char **tab);
 void	cmd_builder(t_data **ms);
 void	free_for_all(t_data **ms);
+int		ft_print_slst(t_list *lst);//for debugging
 
 #endif
