@@ -1,6 +1,6 @@
 NAME = minishell
 
-SRC = main.c builtins.c parser.c utils.c expander.c ft_countwords1.c ft_split1.c ft_createlist.c ft_subsplit.c env.c
+SRC = main.c builtins.c parser.c utils.c expander.c ft_countwords1.c ft_split1.c ft_createlist.c ft_subsplit.c env.c ft_ischarofset.c ft_trimone.c
 
 SRC_DIR = ./Src/
 

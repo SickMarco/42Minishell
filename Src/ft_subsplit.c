@@ -6,62 +6,64 @@
 /*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 14:40:32 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/02/24 12:19:40 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/02/24 14:42:17 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_ischarofset(char c, char *set)
+static int	ft_sl(const char *s)
 {
-	size_t	i;
+	int	i;
 
-	if (!set || !(*set) || !c)
+	if (!s || !(*s))
 		return (0);
 	i = 0;
-	while (set[i])
-	{
-		if (set[i] == c)
-			return (1);
+	while (s[i])
 		i++;
-	}
-	return (0);
+	return (i);
 }
 
-void	ft_reassemblelist(t_list **arg, int sin, int slen)
+static void	ft_rl(t_list **arg, int sin, int slen)
 {
 	t_list	*nn;
-	char	*sm;
-	char	*so; 
+	char	*so;
 
 	nn = (*arg)->next;
 	so = (char *)((*arg)->content);
-	sm = ft_substr(so, sin, slen);
-	if (sin)
+	(*arg)->next = ft_lstnew(ft_substr(so, sin, slen));
+	if (so[sin + slen])
 	{
-		(*arg)->next = ft_lstnew(sm);//create middle
-		if (so[sin + slen])//if there are 3 nodes
-		{
-			(*arg)->next->next = ft_lstnew(ft_substr(so, sin + slen, ft_strlen(&(so[sin + slen]))));//create next of middle
-			(*arg)->next->next->next = nn;//attach to the next of middle the rest of the list
-		}
-		else
-			(*arg)->next->next = nn;//attach to middle the rest of the list
-		(*arg)->content = ft_substr(so, 0, sin);//new content of start node
-//		printf("%s\n", ss);
-//		free((*arg)->content);//free previous content of start
-//		(*arg)->content = ss;
+		(*arg)->next->next = ft_lstnew(ft_substr(so, sin + slen,
+					ft_sl(&(so[sin + slen]))));
+		(*arg)->next->next->next = nn;
 	}
 	else
-	{
-		(*arg)->next = ft_lstnew(ft_substr(so, sin + 1, ft_strlen(&(so)[sin + 1])));
 		(*arg)->next->next = nn;
-		(*arg)->content = sm;
+	(*arg)->content = ft_substr(so, 0, sin);
+}
+
+static void	ft_reassemblelist(t_list **arg, int sin, int slen)
+{
+	t_list	*nn;
+	char	*so;
+
+	so = (char *)((*arg)->content);
+	if (slen == 2 && ft_sl(so) == 2)
+		return ;
+	nn = (*arg)->next;
+	if (sin)
+		ft_rl(arg, sin, slen);
+	else
+	{
+		(*arg)->next = ft_lstnew(ft_substr(so, sin + 1, ft_sl(&(so)[sin + 1])));
+		(*arg)->next->next = nn;
+		(*arg)->content = ft_substr(so, sin, slen);
 	}
 	free(so);
 }
 
-void	ft_splitlist(t_list *args)
+static void	ft_splitlist(t_list *args)
 {
 	int		i;
 	char	*s;
@@ -74,7 +76,8 @@ void	ft_splitlist(t_list *args)
 		{
 			if (ft_strlen(s) > 1 && ft_ischarofset(s[i], "|<>"))
 			{
-				if (s[i + 1] && ft_ischarofset(s[i + 1], "<>") && s[i] == s[i + 1])
+				if (s[i + 1]
+					&& ft_ischarofset(s[i + 1], "<>") && s[i] == s[i + 1])
 				{
 					ft_reassemblelist(&(args), i, 2);
 					i++;
@@ -92,10 +95,8 @@ t_list	*ft_subsplit(char **tab)
 	t_list	*args;
 
 	args = ft_createlist(tab);
-//	ft_print_slst(args);///
-//	if (!args)
-//		return (NULL);
+	if (!args)
+		return (NULL);
 	ft_splitlist(args);
-//	ft_print_slst(args);///
 	return (args);
 }
