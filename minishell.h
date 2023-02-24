@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/22 20:06:44 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/24 17:15:25 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,12 @@ typedef struct s_data {
 	char		*input;
 	char		**env;
 	char		*pwd;
+	char		**path;
 	char		*home;
 	char		*user_dir;
 	char		**cmd;
 	t_exp		*exp;
+	pid_t		pid;
 }				t_data;
 
 //			BUILTINS		//
@@ -79,5 +81,6 @@ void	mat_dup(t_data **ms, char **envp);
 void	cmd_builder(t_data **ms);
 void	signal_handler(t_data **ms);
 void	ctrlc_handler(int sig);
+void	executor(t_data **ms);
 
 #endif
