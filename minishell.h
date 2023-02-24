@@ -43,10 +43,12 @@ typedef struct s_data {
 	char		*input;
 	char		**env;
 	char		*pwd;
+	char		**path;
 	char		*home;
 	char		*user_dir;
 	char		**cmd;
 	t_exp		*exp;
+	pid_t		pid;
 }				t_data;
 
 //			BUILTINS		//
@@ -81,5 +83,6 @@ void	mat_dup(t_data **ms, char **envp);
 void	cmd_builder(t_data **ms);
 void	signal_handler(t_data **ms);
 void	ctrlc_handler(int sig);
+void	executor(t_data **ms);
 
 #endif

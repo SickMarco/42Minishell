@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 17:19:20 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/22 17:19:39 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/24 14:25:54 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 void	ft_parser(t_data **ms)
 {
-	int	i;
-
-	i = -1;
 	if (!(*ms)->cmd[0])
 		return ;
 	else if (!ft_strncmp((*ms)->cmd[0], "pwd", 4) && !(*ms)->cmd[1])
@@ -33,11 +30,6 @@ void	ft_parser(t_data **ms)
 		ft_unset(ms);
 	else if (!ft_strncmp((*ms)->cmd[0], "echo", 4))
 		ft_echo(ms);
-	else if (ft_strncmp((*ms)->cmd[0], "\0", 2))
-	{
-		printf("smashell: command not found: ");
-		while ((*ms)->cmd[++i])
-			printf("%s ", (*ms)->cmd[i]);
-		printf("\n");
-	}
+	else
+		executor(ms);
 }

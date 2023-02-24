@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:28:56 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/22 20:08:10 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/24 15:48:23 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,10 @@ void	free_for_all(t_data **ms)
 	i = -1;
 	while ((*ms)->env[++i])
 		free((*ms)->env[i]);
+	i = -1;
+	while ((*ms)->path[++i])
+		free((*ms)->path[i]);
+	free((*ms)->path);
 	free((*ms)->user_dir);
 	free((*ms)->exp);
 	free((*ms)->input);
