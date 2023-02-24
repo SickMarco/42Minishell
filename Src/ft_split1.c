@@ -6,7 +6,7 @@
 /*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:36:29 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/02/22 17:16:31 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/02/24 12:20:27 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ int main()
 	lst = ft_subsplit(matrix);
 //printf("%s", ((char *)(lst->content)));
 //	ft_print_slst(lst);
-	printf("\n\n\n\n");
-	ft_subsplit(&(lst));
+//	printf("\n\n\n\n");
+//	ft_subsplit(&(lst));
 	ft_print_slst(lst);
-	printf("\n\n\n\n");
+//	printf("\n\n\n\n");
 }*/
