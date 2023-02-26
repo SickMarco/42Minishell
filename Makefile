@@ -1,6 +1,6 @@
 NAME = minishell
 
-SRC = main.c builtins.c parser.c utils.c expander.c ft_countwords1.c ft_split1.c ft_createlist.c ft_subsplit.c env.c executor.c ft_ischarofset.c ft_trimone.c
+SRC = main.c builtins.c utils.c expander.c ft_countwords1.c ft_split1.c ft_createlist.c ft_subsplit.c env.c executor.c ft_ischarofset.c ft_trimone.c
 
 SRC_DIR = ./Src/
 
@@ -34,4 +34,4 @@ fclean: clean
 
 re: fclean all
 
-.SILENT:  $(OBJ) lib
+.SILENT:   lib

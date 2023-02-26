@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:00:33 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/22 19:40:07 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/26 19:09:45 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,16 @@ void	ft_pwd(t_data **ms)
 	getcwd((*ms)->pwd, sizeof((*ms)->pwd));
 	printf("%s\n", (*ms)->pwd);
 	free((*ms)->pwd);
+	g_exit = 0;
 }
 
 void	ft_cd(t_data **ms)
 {
-	int		i;
-
-	i = -1;
 	if (!(*ms)->cmd[1])
 		chdir((*ms)-> home);
 	else if (chdir((*ms)->cmd[1]) != 0)
 		perror("cd");
+	g_exit = 0;
 }
 
 void	ft_echo(t_data **ms)
@@ -55,4 +54,5 @@ void	ft_echo(t_data **ms)
 		if (flag == 0)
 			printf("\n");
 	}
+	g_exit = 0;
 }

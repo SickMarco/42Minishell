@@ -6,14 +6,17 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:19:29 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/24 17:32:52 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/26 18:39:18 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+int	g_exit;
+
 void	ft_clear(void)
 {
+	g_exit = 0;
 	printf("\033[H\033[J\033[0;31m");
 	printf("\n░██████╗███╗░░░███╗░█████╗░░██████╗██╗░░\
 ██╗███████╗██╗░░░░░██╗░░░░░\n");
@@ -38,6 +41,7 @@ void	init_ms(t_data **ms, char **envp, int ac, char	**av)
 	(void)av;
 	*ms = ft_calloc(sizeof(t_data), 1);
 	(*ms)->exp = ft_calloc(sizeof(t_exp), 1);
+	g_exit = 0;
 	(*ms)->user = getenv("USER");
 	(*ms)->home = getenv("HOME");
 	(*ms)->path = ft_split(getenv("PATH"), ':');
