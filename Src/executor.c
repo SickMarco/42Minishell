@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:08:17 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/26 19:49:13 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/26 20:40:29 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	forker(t_data **ms, char *cmd)
 	{
 		wait(&flag);
 		if (WIFEXITED(flag))
-			g_exit = flag;
+			g_exit = WEXITSTATUS(flag);
 	}
 }
 
