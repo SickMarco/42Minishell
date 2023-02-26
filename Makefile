@@ -34,4 +34,4 @@ fclean: clean
 
 re: fclean all
 
-.SILENT:   lib
+.SILENT: $(OBJ) lib
