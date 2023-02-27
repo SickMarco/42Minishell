@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/26 19:47:19 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/27 15:26:47 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,6 @@ void	signal_handler(t_data **ms);
 void	ctrlc_handler(int sig);
 int		executor(t_data **ms);
 void	no_cmd(t_data **ms);
+int		exit_exp(t_data **ms);
 
 #endif

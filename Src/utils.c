@@ -6,27 +6,11 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:28:56 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/26 19:51:44 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/27 15:53:23 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	cmd_builder(t_data **ms)
-{
-	int	i;
-
-	(*ms)->cmd = ft_split1((*ms)->input);
-	if (ft_strncmp((*ms)->cmd[0], "$?", 3))
-		ft_expander(ms);
-	if (ft_builtin(ms) == false)
-		if (executor(ms))
-			no_cmd(ms);
-	i = -1;
-	while ((*ms)->cmd[++i])
-		free((*ms)->cmd[i]);
-	free((*ms)->cmd);
-}
 
 void	ctrlc_handler(int sig)
 {
@@ -38,6 +22,39 @@ void	ctrlc_handler(int sig)
 		rl_redisplay();
 		g_exit = 130;
 	}
+}
+
+void	ft_clear(void)
+{
+	g_exit = 0;
+	printf("\033[H\033[J\033[0;31m");
+	printf("\n░██████╗███╗░░░███╗░█████╗░░██████╗██╗░░\
+██╗███████╗██╗░░░░░██╗░░░░░\n");
+	printf("██╔════╝████╗░████║██╔══██╗██╔════╝██║░░██║\
+██╔════╝██║░░░░░██║░░░░░\n");
+	printf("╚█████╗░██╔████╔██║███████║╚█████╗░███████║\
+█████╗░░██║░░░░░██║░░░░░\n");
+	printf("░╚═══██╗██║╚██╔╝██║██╔══██║░╚═══██╗██╔══██║\
+██╔══╝░░██║░░░░░██║░░░░░\n");
+	printf("██████╔╝██║░╚═╝░██║██║░░██║██████╔╝██║░░██║\
+███████╗███████╗███████╗\n");
+	printf("╚═════╝░╚═╝░░░░░╚═╝╚═╝░░╚═╝╚═════╝░╚═╝░░╚═╝\
+╚══════╝╚══════╝╚══════╝\n\n\033[0;37m");
+}
+
+void	cmd_builder(t_data **ms)
+{
+	int	i;
+
+	(*ms)->cmd = ft_split1((*ms)->input);
+	ft_expander(ms);
+	if (ft_builtin(ms) == false)
+		if (executor(ms))
+			no_cmd(ms);
+	i = -1;
+	while ((*ms)->cmd[++i])
+		free((*ms)->cmd[i]);
+	free((*ms)->cmd);
 }
 
 void	mat_dup(t_data **ms, char **envp)
