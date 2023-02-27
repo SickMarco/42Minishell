@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 14:44:30 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/26 19:50:22 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/27 15:47:05 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int	ft_find_var(t_data **ms)
 		x++;
 		j++;
 	}
+	free((*ms)->exp->var);
 	return (0);
 }
 
@@ -121,7 +122,8 @@ void	ft_expander(t_data **ms)
 	while ((*ms)->cmd[++i])
 		if (ft_strchr((*ms)->cmd[i], '$'))
 			break ;
-	if (!(*ms)->cmd[i] || check_apex(ms, i) == 1)
+	if (!(*ms)->cmd[i] || check_apex(ms, i) == 1
+		|| !exit_exp(ms))
 		return ;
 	while ((*ms)->cmd[i][j] && (*ms)->cmd[i][j] != '$')
 		j++;
@@ -136,5 +138,4 @@ void	ft_expander(t_data **ms)
 		(*ms)->exp->var[++x] = (*ms)->cmd[i][(*ms)->exp->start];
 	if (ft_find_var(ms) != 1)
 		ft_cmd_exp(ms, i);
-	free((*ms)->exp->var);
 }

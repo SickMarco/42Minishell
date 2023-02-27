@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:08:17 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/26 20:40:29 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/27 15:04:08 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ bool	ft_builtin(t_data **ms)
 		ft_unset(ms);
 	else if (!ft_strncmp((*ms)->cmd[0], "echo", 4))
 		ft_echo(ms);
-	else if (!ft_strncmp((*ms)->cmd[0], "$?", 3))
-		printf("%d\n", g_exit);
 	else
 		return (false);
 	return (true);
@@ -76,7 +74,7 @@ void	forker(t_data **ms, char *cmd)
 	}
 	else if ((*ms)->pid > 0)
 	{
-		wait(&flag);
+		waitpid((*ms)->pid, &flag, 0);
 		if (WIFEXITED(flag))
 			g_exit = WEXITSTATUS(flag);
 	}
@@ -92,15 +90,21 @@ int	executor(t_data **ms)
 	while ((*ms)->path[++i])
 	{
 		cmd = ft_strjoin((*ms)->path[i], (*ms)->cmd[0]);
-		if (access(cmd, F_OK) == 0)
+		if (!access(cmd, F_OK))
 			break ;
 		free(cmd);
 	}
-	if (!(*ms)->path[i])
+	if (!access((*ms)->cmd[0], F_OK))
+		forker(ms, (*ms)->cmd[0]);
+	else if (!(*ms)->path[i])
 	{
 		g_exit = 127;
 		return (1);
 	}
-	forker(ms, cmd);
+	else
+	{
+		forker(ms, cmd);
+		free(cmd);
+	}
 	return (0);
 }

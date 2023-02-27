@@ -6,31 +6,13 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:19:29 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/26 18:39:18 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/27 15:53:37 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 int	g_exit;
-
-void	ft_clear(void)
-{
-	g_exit = 0;
-	printf("\033[H\033[J\033[0;31m");
-	printf("\n░██████╗███╗░░░███╗░█████╗░░██████╗██╗░░\
-██╗███████╗██╗░░░░░██╗░░░░░\n");
-	printf("██╔════╝████╗░████║██╔══██╗██╔════╝██║░░██║\
-██╔════╝██║░░░░░██║░░░░░\n");
-	printf("╚█████╗░██╔████╔██║███████║╚█████╗░███████║\
-█████╗░░██║░░░░░██║░░░░░\n");
-	printf("░╚═══██╗██║╚██╔╝██║██╔══██║░╚═══██╗██╔══██║\
-██╔══╝░░██║░░░░░██║░░░░░\n");
-	printf("██████╔╝██║░╚═╝░██║██║░░██║██████╔╝██║░░██║\
-███████╗███████╗███████╗\n");
-	printf("╚═════╝░╚═╝░░░░░╚═╝╚═╝░░╚═╝╚═════╝░╚═╝░░╚═╝\
-╚══════╝╚══════╝╚══════╝\n\n\033[0;37m");
-}
 
 void	init_ms(t_data **ms, char **envp, int ac, char	**av)
 {
@@ -66,7 +48,10 @@ int	main(int ac, char **av, char **envp)
 		signal(SIGINT, ctrlc_handler);
 		ms->input = readline(ms->user_dir);
 		if (ms->input == NULL || ft_strncmp(ms->input, "exit", 5) == 0)
+		{
+			printf("\nexit\n");
 			break ;
+		}
 		cmd_builder(&ms);
 		if (ft_strlen(ms->input) != 0)
 			add_history(ms->input);
