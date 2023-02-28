@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/27 15:26:47 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/28 11:46:11 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,13 @@ void	ctrlc_handler(int sig);
 int		executor(t_data **ms);
 void	no_cmd(t_data **ms);
 int		exit_exp(t_data **ms);
+
+//		PROMPT_READER		//
+
+void	ft_readifyouneed(char **origin);
+void	ft_count_quotes(char *s, int *dc, int *sc);
+void	ft_search_last_n_scale(char **origin, char c);
+char	*ft_sp(char *s);
+int		ft_lts(char *s);
 
 #endif

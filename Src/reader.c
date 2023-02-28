@@ -1,24 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   reader.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/28 11:29:58 by mabaffo           #+#    #+#             */
+/*   Updated: 2023/02/28 11:42:08 by mabaffo          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-void	ft_search_last_n_scale(char **origin, char c);
-
-void	ft_count_quotes(char *s, int *dc, int *sc)
-{
-	*dc = 0;
-	*sc = 0;
-	if (!s || !(*s))
-		return ;
-	while (*s)
-	{
-		if (*s == '\'')
-			(*sc)++;
-		else if (*s == '\"')
-			(*dc)++;
-		s++;
-	}
-}
-
-void	ft_promptpipe(char **origin)
+static void	ft_promptpipe(char **origin)
 {
 	char	*line;
 	char	*tmp;
@@ -34,7 +28,7 @@ void	ft_promptpipe(char **origin)
 	}
 }
 
-void	ft_reader(char **origin, char *prompt, char *c)
+static void	ft_reader(char **origin, char *prompt, char *c)
 {
 	char	*line;
 	char	*tmp;
@@ -49,12 +43,10 @@ void	ft_reader(char **origin, char *prompt, char *c)
 			if (!ft_strncmp(c, line, ft_strlen(c)))
 			{
 				free(line);
-//				printf("orig = %s\n", *origin);
 				break ;
 			}
 			tmp = *origin;
 			*origin = ft_strjoin(*origin, line);
-			//printf("\n%s\n", *origin);
 			free(tmp);
 			free(line);
 		}
@@ -63,7 +55,7 @@ void	ft_reader(char **origin, char *prompt, char *c)
 	}
 }
 
-void	ft_search_first(char **origin)
+static void	ft_search_first(char **origin)
 {
 	int	i;
 
@@ -84,66 +76,8 @@ void	ft_search_first(char **origin)
 	}
 }
 
-void	ft_search_last_n_scale(char **origin, char c)
+static void ft_heredoc(char **origin, char *sep, int till_sep)
 {
-	int		lstx;
-	int		i;
-	char	*tmp;
-
-	lstx = -1;
-	i = 0;
-	while (origin[0][i])
-	{
-		if (origin[0][i] == c)
-			lstx = i;
-		i++;
-	}
-	if (lstx > -1)
-	{
-		i = lstx;
-		while (origin[0][i])
-		{
-			origin[0][i] = origin[0][i + 1];
-			i++;
-		}
-		tmp = ft_strdup(*origin);
-		free(*origin);
-		*origin = tmp;
-	}
-}
-
-char	*ft_sp(char *s)
-{
-	int	i;
-
-	if (!s | !(*s))
-		return (NULL);
-	i = 0;
-	while (s[i] && s[i] != 32)
-		i++;
-	while (s[i] == 32)
-		i++;
-	if (s[i])
-		return (&s[i]);
-	return (NULL);
-}
-
-int	ft_lts(char *s)
-{
-	int	i;
-
-	if (!s || !(*s))
-		return (0);
-	i = 0;
-	while (s[i] && s[i] != 32)
-		i++;
-	return (i);
-}
-
-void ft_heredoc(char **origin, char *sep, int till_sep)
-{/*
-	printf("sep = %s\n", sep);
-	printf("\ntill_sep = %d\n", till_sep);*/
 	char *start;
 	char *end;
 
