@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/28 11:46:11 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/02/28 19:20:42 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	mat_dup(t_data **ms, char **envp);
 void	cmd_builder(t_data **ms);
 void	signal_handler(t_data **ms);
 void	ctrlc_handler(int sig);
-int		executor(t_data **ms);
+void	executor(t_data **ms);
 void	no_cmd(t_data **ms);
 int		exit_exp(t_data **ms);
 

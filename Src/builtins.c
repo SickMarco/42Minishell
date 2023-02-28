@@ -6,11 +6,34 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:00:33 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/26 19:09:45 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/28 18:26:46 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+bool	ft_builtin(t_data **ms)
+{
+	if (!(*ms)->cmd[0])
+		return (false);
+	else if (!ft_strncmp((*ms)->cmd[0], "pwd", 4) && !(*ms)->cmd[1])
+		ft_pwd(ms);
+	else if (!ft_strncmp((*ms)->cmd[0], "clear", 6))
+		ft_clear();
+	else if (!ft_strncmp((*ms)->cmd[0], "cd", 3))
+		ft_cd(ms);
+	else if (!ft_strncmp((*ms)->cmd[0], "env", 4))
+		ft_env(ms);
+	else if (!ft_strncmp((*ms)->cmd[0], "export", 6))
+		ft_export(ms);
+	else if (!ft_strncmp((*ms)->cmd[0], "unset", 5))
+		ft_unset(ms);
+	else if (!ft_strncmp((*ms)->cmd[0], "echo", 4))
+		ft_echo(ms);
+	else
+		return (false);
+	return (true);
+}
 
 void	ft_pwd(t_data **ms)
 {
@@ -26,7 +49,10 @@ void	ft_cd(t_data **ms)
 	if (!(*ms)->cmd[1])
 		chdir((*ms)-> home);
 	else if (chdir((*ms)->cmd[1]) != 0)
-		perror("cd");
+	{
+		g_exit = 1;
+		return (perror("cd"));
+	}
 	g_exit = 0;
 }
 

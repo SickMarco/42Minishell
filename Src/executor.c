@@ -6,33 +6,22 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:08:17 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/27 15:04:08 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/28 19:18:38 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-bool	ft_builtin(t_data **ms)
+void	no_cmd(t_data **ms)
 {
-	if (!(*ms)->cmd[0])
-		return (false);
-	else if (!ft_strncmp((*ms)->cmd[0], "pwd", 4) && !(*ms)->cmd[1])
-		ft_pwd(ms);
-	else if (!ft_strncmp((*ms)->cmd[0], "clear", 6))
-		ft_clear();
-	else if (!ft_strncmp((*ms)->cmd[0], "cd", 3))
-		ft_cd(ms);
-	else if (!ft_strncmp((*ms)->cmd[0], "env", 4))
-		ft_env(ms);
-	else if (!ft_strncmp((*ms)->cmd[0], "export", 6))
-		ft_export(ms);
-	else if (!ft_strncmp((*ms)->cmd[0], "unset", 5))
-		ft_unset(ms);
-	else if (!ft_strncmp((*ms)->cmd[0], "echo", 4))
-		ft_echo(ms);
-	else
-		return (false);
-	return (true);
+	int	i;
+
+	i = -1;
+	g_exit = 127;
+	printf("smashell: command not found: ");
+	while ((*ms)->cmd[++i])
+		printf("%s ", (*ms)->cmd[i]);
+	printf("\n");
 }
 
 void	prnt_ctrl(int sig)
@@ -44,67 +33,74 @@ void	prnt_ctrl(int sig)
 	}
 }
 
-void	no_cmd(t_data **ms)
-{
-	int	i;
-
-	i = -1;
-	printf("smashell: command not found: ");
-	while ((*ms)->cmd[++i])
-		printf("%s ", (*ms)->cmd[i]);
-	printf("\n");
-}
-
 void	forker(t_data **ms, char *cmd)
 {
-	int	flag;
+	int			status;
 
 	(*ms)->pid = fork();
 	if ((*ms)->pid == -1)
-	{
-		perror("fork");
-		return ;
-	}
+		return (perror("fork"));
 	if (!(*ms)->pid)
 	{
-		if (access(cmd, F_OK) == 0)
+		if (!access(cmd, F_OK | X_OK))
 			execve(cmd, (*ms)->cmd, (*ms)->env);
 		else
-			exit (1);
+		{
+			perror("smashell");
+			exit (EXIT_FAILURE);
+		}
+		exit(EXIT_SUCCESS);
 	}
 	else if ((*ms)->pid > 0)
 	{
-		waitpid((*ms)->pid, &flag, 0);
-		if (WIFEXITED(flag))
-			g_exit = WEXITSTATUS(flag);
+		waitpid((*ms)->pid, &status, 0);
+		if (WIFEXITED(status))
+			g_exit = WEXITSTATUS(status);
 	}
 }
 
-int	executor(t_data **ms)
+void	custom_exec(t_data **ms)
 {
-	int		i;
-	char	*cmd;
+	struct stat	info;
+
+	stat((*ms)->cmd[0], &info);
+	if (S_ISDIR(info.st_mode))
+	{
+		g_exit = 126;
+		printf("smashell: %s: Is a directory\n", (*ms)->cmd[0]);
+	}
+	else if (!access((*ms)->cmd[0], X_OK))
+		forker(ms, (*ms)->cmd[0]);
+	else if (!access((*ms)->cmd[0], F_OK))
+	{
+		g_exit = 126;
+		perror("smashell");
+	}
+	else
+		no_cmd(ms);
+	return ;
+}
+
+void	executor(t_data **ms)
+{
+	int			i;
+	char		*cmd;
 
 	i = -1;
 	signal(SIGINT, prnt_ctrl);
-	while ((*ms)->path[++i])
+	while ((*ms)->path[++i] && ft_strncmp((*ms)->cmd[0], ".", 1))
 	{
 		cmd = ft_strjoin((*ms)->path[i], (*ms)->cmd[0]);
 		if (!access(cmd, F_OK))
 			break ;
 		free(cmd);
 	}
-	if (!access((*ms)->cmd[0], F_OK))
-		forker(ms, (*ms)->cmd[0]);
-	else if (!(*ms)->path[i])
-	{
-		g_exit = 127;
-		return (1);
-	}
+	if (!(*ms)->path[i] || i == 0)
+		custom_exec(ms);
 	else
 	{
 		forker(ms, cmd);
-		free(cmd);
+		//free(cmd);
 	}
-	return (0);
+	return ;
 }

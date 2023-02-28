@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:19:29 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/27 15:53:37 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/27 17:27:38 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	main(int ac, char **av, char **envp)
 		ms->input = readline(ms->user_dir);
 		if (ms->input == NULL || ft_strncmp(ms->input, "exit", 5) == 0)
 		{
-			printf("\nexit\n");
+			printf("exit\n");
 			break ;
 		}
 		cmd_builder(&ms);

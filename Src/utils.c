@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:28:56 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/27 15:53:23 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/02/28 15:32:01 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,8 @@ void	cmd_builder(t_data **ms)
 
 	(*ms)->cmd = ft_split1((*ms)->input);
 	ft_expander(ms);
-	if (ft_builtin(ms) == false)
-		if (executor(ms))
-			no_cmd(ms);
+	if (ft_builtin(ms) == false && (*ms)->cmd[0])
+		executor(ms);
 	i = -1;
 	while ((*ms)->cmd[++i])
 		free((*ms)->cmd[i]);
