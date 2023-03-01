@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:08:17 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/28 19:18:38 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/01 18:03:53 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	forker(t_data **ms, char *cmd)
 		return (perror("fork"));
 	if (!(*ms)->pid)
 	{
-		if (!access(cmd, F_OK | X_OK))
+		if (!access(cmd, X_OK))
 			execve(cmd, (*ms)->cmd, (*ms)->env);
 		else
 		{
@@ -63,11 +63,13 @@ void	custom_exec(t_data **ms)
 {
 	struct stat	info;
 
-	stat((*ms)->cmd[0], &info);
-	if (S_ISDIR(info.st_mode))
+	if (!stat((*ms)->cmd[0], &info))
 	{
-		g_exit = 126;
-		printf("smashell: %s: Is a directory\n", (*ms)->cmd[0]);
+		if (S_ISDIR(info.st_mode))
+		{
+			g_exit = 126;
+			printf("smashell: %s: Is a directory\n", (*ms)->cmd[0]);
+		}
 	}
 	else if (!access((*ms)->cmd[0], X_OK))
 		forker(ms, (*ms)->cmd[0]);
@@ -100,7 +102,7 @@ void	executor(t_data **ms)
 	else
 	{
 		forker(ms, cmd);
-		//free(cmd);
+		free(cmd);
 	}
 	return ;
 }
