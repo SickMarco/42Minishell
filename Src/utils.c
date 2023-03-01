@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:28:56 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/28 15:32:01 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/01 14:51:43 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	cmd_builder(t_data **ms)
 {
 	int	i;
 
+	ft_readifyouneed(&((*ms)->input));
 	(*ms)->cmd = ft_split1((*ms)->input);
 	ft_expander(ms);
 	if (ft_builtin(ms) == false && (*ms)->cmd[0])

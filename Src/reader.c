@@ -6,7 +6,7 @@
 /*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 11:29:58 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/01 17:50:33 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/01 20:12:41 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ static void	ft_reader(char **origin, char *prompt, char *c)
 {
 	char	*line;
 	char	*tmp;
-	if (ft_strncmp(c, "\'", ft_strlen(c)) || ft_strncmp(c, "\"", ft_strlen(c)))
+	if (!ft_strncmp(c, "\'", ft_strlen(c)) || 
+			!ft_strncmp(c, "\"", ft_strlen(c)))
 		ft_search_last_n_scale(origin, c[0]);
 	while (1)
 	{
