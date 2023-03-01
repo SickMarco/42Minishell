@@ -6,7 +6,7 @@
 /*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 11:29:54 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/02/28 11:46:14 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/01 15:37:09 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,18 @@ int	ft_lts(char *s)
 		return (0);
 	i = 0;
 	while (s[i] && s[i] != 32)
+		i++;
+	return (i);
+}
+
+int	ft_splen(char *s)
+{
+	int	i;
+
+	if (!s || !(*s))
+		return (0);
+	i = 0;
+	while (s[i] && s[i] == 32)
 		i++;
 	return (i);
 }

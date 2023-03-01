@@ -6,7 +6,7 @@
 /*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 11:29:58 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/02/28 11:42:08 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/01 17:50:33 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ static void	ft_reader(char **origin, char *prompt, char *c)
 		line = get_next_line(0);
 		if (line && *line)
 		{
-			if (!ft_strncmp(c, line, ft_strlen(c)))
+			if (!(ft_strncmp(c, line, ft_strlen(c))) && 
+					(ft_strlen(c) == (ft_strlen(line) - 1)))
 			{
 				free(line);
 				break ;
@@ -81,8 +82,12 @@ static void ft_heredoc(char **origin, char *sep, int till_sep)
 	char *start;
 	char *end;
 
+	if (!sep || !(*sep))
+		return (void)(printf("heredoc: wrog syntax\n"));
 	start = ft_substr(*origin, 0, till_sep);
-	end = ft_strdup(ft_sp(*origin + till_sep + 2 + ft_strlen(sep)));
+	end = ft_sp(*origin + till_sep + 2 + ft_strlen(sep));
+	if (end)
+		end = ft_strdup(ft_sp(*origin + till_sep + 2 + ft_strlen(sep)));
 	ft_reader(&start, "heredoc> ", sep);
 	free(*origin);
 	if (end)
@@ -112,7 +117,8 @@ void	ft_readifyouneed(char **origin)
 	else if (ft_strnstr(*origin, "<<", ft_strlen(*origin)))
 	{
 		sc = ft_strnstr(*origin, "<<", ft_strlen(*origin)) - *origin;
-		sep = ft_substr(*origin, sc + 2, ft_lts(&(origin[0][sc + 2])));
+		sep = ft_substr(*origin, sc + 2 + ft_splen(&(origin[0][sc + 2])),
+				ft_lts(&(origin[0][sc + 2 + ft_splen(&(origin[0][sc + 2]))])));
 		ft_heredoc(origin, sep, sc);
 	}
 	else if (origin[0][ft_strlen(*origin) - 1] == '|')

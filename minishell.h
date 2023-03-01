@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/28 19:20:42 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/01 15:39:53 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,6 @@ void	ft_count_quotes(char *s, int *dc, int *sc);
 void	ft_search_last_n_scale(char **origin, char c);
 char	*ft_sp(char *s);
 int		ft_lts(char *s);
+int		ft_splen(char *s);
 
 #endif
