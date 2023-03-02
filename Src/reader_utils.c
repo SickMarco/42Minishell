@@ -6,7 +6,7 @@
 /*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 11:29:54 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/01 15:37:09 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/02 23:19:03 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	ft_search_last_n_scale(char **origin, char c)
 
 	lstx = -1;
 	i = 0;
+	if (!origin || !(*origin))
+		return ;
 	while (origin[0][i])
 	{
 		if (origin[0][i] == c)
