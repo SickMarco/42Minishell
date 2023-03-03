@@ -6,42 +6,11 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 11:29:58 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/03 19:35:07 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/03 20:56:27 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static void	ft_freejoin(char **origin, char **line)
-{
-	char	*tmp;
-
-	if (!(*origin) || !(*line) || !line || !origin)
-		return ;
-	tmp = *origin;
-	*origin = ft_strjoin(*origin, *line);
-	if (tmp)
-		free(tmp);
-	if (*line)
-		free(*line);
-}
-
-static void	ft_promptpipe(char **origin)
-{
-	char	*line;
-	char	*tmp;
-
-	g_exit = 0;
-	write(1, "pipe> ", 6);
-	line = gnl(0);
-	if (line && *line)
-	{
-		tmp = *origin;
-		*origin = ft_strjoin(tmp, line);
-		free(tmp);
-		free(line);
-	}
-}
 
 static int	ft_endread(char *c, char **line, char **origin)
 {
@@ -58,7 +27,7 @@ static int	ft_endread(char *c, char **line, char **origin)
 			ft_freejoin(origin, line);
 		}
 		else
-			a = 0;;
+			a = 0;
 	}
 	else if (!(ft_strncmp(c, *line, ft_sl(c))) &&
 			(ft_sl(c) == (ft_sl(*line) - 1)))
@@ -72,7 +41,7 @@ static int	ft_endread(char *c, char **line, char **origin)
 	return (a);
 }
 
-static void	ft_reader(char **origin, char *prompt, char *c)
+void	ft_reader(char **origin, char *prompt, char *c)
 {
 	char	*line;
 
@@ -87,7 +56,10 @@ static void	ft_reader(char **origin, char *prompt, char *c)
 		{
 			if (ft_endread(c, &line, origin))
 				break ;
-			ft_freejoin(origin, &line);
+			if (ft_strncmp("heredoc> ", prompt, ft_sl(prompt)))
+				ft_putinhdoc_n_free(&line);
+			else
+				ft_freejoin(origin, &line);
 		}
 		else
 			break ;
@@ -115,46 +87,6 @@ static void	ft_search_first(char **origin)
 	}
 }
 
-static void ft_heredoc(char **origin, char *sep, int till_sep)
-{
-	char *start;
-	char *end;
-
-	if (!sep || !(*sep))
-		return (void)(printf("heredoc: wrog syntax\n"));
-	start = ft_substr(*origin, 0, till_sep);
-	end = ft_sp(*origin + till_sep + 2 + ft_strlen(sep));
-	if (end)
-		end = ft_strdup(ft_sp(*origin + till_sep + 2 + ft_strlen(sep)));
-	ft_reader(&start, "heredoc> ", sep);
-	free(*origin);
-	if (end)
-	{
-		*origin = ft_strjoin(start, end);
-		free(end);
-		free(start);
-	}
-	else
-		*origin = start;
-	free(sep);
-}
-
-void	ft_addnl(char **origin)
-{
-	char	*tmp;
-	char	*nl;
-
-	nl = malloc(2);
-	if (!nl)
-		return ;
-	nl[0] = '\n';
-	nl[1] = '\0';
-	tmp = *origin;
-	*origin = ft_strjoin(*origin, nl);
-	free(tmp);
-	free(nl);
-}
-
 void	ft_readifyouneed(char **origin, t_data **ms)
 {
 	int		dc;
@@ -175,7 +107,7 @@ void	ft_readifyouneed(char **origin, t_data **ms)
 		sc = ft_strnstr(*origin, "<<", ft_strlen(*origin)) - *origin;
 		sep = ft_substr(*origin, sc + 2 + ft_splen(&(origin[0][sc + 2])),
 				ft_lts(&(origin[0][sc + 2 + ft_splen(&(origin[0][sc + 2]))])));
-		ft_heredoc(origin, sep, sc);
+		ft_heredoc(origin, sep, sc, ms);
 		(*ms)->hist = false;
 	}
 	else if (origin[0][ft_strlen(*origin) - 1] == '|')

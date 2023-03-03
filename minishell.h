@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/03 19:42:49 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/03 21:00:50 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,11 @@ char	*ft_sp(char *s);
 int		ft_lts(char *s);
 int		ft_splen(char *s);
 char	*gnl(int fd);
+void	ft_putinhdoc_n_free(char **line);
+void	ft_heredoc(char **origin, char *sep, int till_sep);
+void	ft_freejoin(char **origin, char **line);
+void	ft_addnl(char **origin);
+void	ft_promptpipe(char **origin);
+void	ft_reader(char **origin, char *prompt, char *c);
 
 #endif
