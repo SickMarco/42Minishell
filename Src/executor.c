@@ -6,31 +6,16 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:08:17 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/01 18:03:53 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/03 16:18:52 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	no_cmd(t_data **ms)
-{
-	int	i;
-
-	i = -1;
-	g_exit = 127;
-	printf("smashell: command not found: ");
-	while ((*ms)->cmd[++i])
-		printf("%s ", (*ms)->cmd[i]);
-	printf("\n");
-}
-
 void	prnt_ctrl(int sig)
 {
-	if (sig == SIGINT)
-	{
-		write(1, "\n", 1);
-		g_exit = 130;
-	}
+	(void)sig;
+	write(STDOUT_FILENO, "\n", 1);
 }
 
 void	forker(t_data **ms, char *cmd)
@@ -42,20 +27,19 @@ void	forker(t_data **ms, char *cmd)
 		return (perror("fork"));
 	if (!(*ms)->pid)
 	{
-		if (!access(cmd, X_OK))
-			execve(cmd, (*ms)->cmd, (*ms)->env);
-		else
-		{
-			perror("smashell");
-			exit (EXIT_FAILURE);
-		}
-		exit(EXIT_SUCCESS);
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+		execve(cmd, (*ms)->cmd, (*ms)->env);
+		perror("smashell");
+		exit (EXIT_FAILURE);
 	}
 	else if ((*ms)->pid > 0)
 	{
 		waitpid((*ms)->pid, &status, 0);
 		if (WIFEXITED(status))
 			g_exit = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			g_exit = WTERMSIG(status) + 128;
 	}
 }
 
@@ -63,13 +47,11 @@ void	custom_exec(t_data **ms)
 {
 	struct stat	info;
 
-	if (!stat((*ms)->cmd[0], &info))
+	if (!stat((*ms)->cmd[0], &info) && (S_ISDIR(info.st_mode)))
 	{
-		if (S_ISDIR(info.st_mode))
-		{
-			g_exit = 126;
-			printf("smashell: %s: Is a directory\n", (*ms)->cmd[0]);
-		}
+		g_exit = 126;
+		printf("smashell: %s: Is a directory\n", (*ms)->cmd[0]);
+		return ;
 	}
 	else if (!access((*ms)->cmd[0], X_OK))
 		forker(ms, (*ms)->cmd[0]);
@@ -90,6 +72,7 @@ void	executor(t_data **ms)
 
 	i = -1;
 	signal(SIGINT, prnt_ctrl);
+	signal(SIGQUIT, prnt_ctrl);
 	while ((*ms)->path[++i] && ft_strncmp((*ms)->cmd[0], ".", 1))
 	{
 		cmd = ft_strjoin((*ms)->path[i], (*ms)->cmd[0]);

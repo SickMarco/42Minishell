@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 16:53:53 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/23 15:47:12 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/03 15:36:50 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,14 @@ void	ft_unset(t_data **ms)
 	free((*ms)->env[pos]);
 	free((*ms)->env);
 	(*ms)->env = new_env;
+}
+
+int	env_len(t_data **ms, int i)
+{
+	int	j;
+
+	j = 0;
+	while ((*ms)->env[i][j] && (*ms)->env[i][j] != '=')
+		j++;
+	return (j);
 }

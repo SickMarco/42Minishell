@@ -29,6 +29,7 @@
 # include <dirent.h>
 # include <errno.h>
 # include <stdbool.h>
+# include <sys/ioctl.h>
 
 extern int	g_exit;
 
@@ -48,7 +49,7 @@ typedef struct s_data {
 	char		*pwd;
 	char		**path;
 	char		*home;
-	char		*user_dir;
+	char		*prompt;
 	char		**cmd;
 	t_exp		*exp;
 	pid_t		pid;
@@ -90,6 +91,7 @@ void	ctrlc_handler(int sig);
 void	executor(t_data **ms);
 void	no_cmd(t_data **ms);
 int		exit_exp(t_data **ms);
+int		env_len(t_data **ms, int i);
 
 //		PROMPT_READER		//
 

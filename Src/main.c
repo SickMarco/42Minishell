@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:19:29 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/27 17:27:38 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/03 16:05:51 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	init_ms(t_data **ms, char **envp, int ac, char	**av)
 	while ((*ms)->path[++i])
 		(*ms)->path[i] = ft_strjoin2((*ms)->path[i], "/");
 	mat_dup(ms, envp);
-	(*ms)->user_dir = ft_strjoin("\033[0;36m", (*ms)->user);
-	(*ms)->user_dir = ft_strjoin2((*ms)->user_dir, "@minishell: \033[0;37m");
+	(*ms)->prompt = ft_strjoin("\033[0;36m", (*ms)->user);
+	(*ms)->prompt = ft_strjoin2((*ms)->prompt, "@minishell: \033[0;37m");
 	(*ms)->pid = 0;
 	ft_clear();
 	printf("Welcome %s\n\n", (*ms)->user);
@@ -46,7 +46,7 @@ int	main(int ac, char **av, char **envp)
 	{
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, ctrlc_handler);
-		ms->input = readline(ms->user_dir);
+		ms->input = readline(ms->prompt);
 		if (ms->input == NULL || ft_strncmp(ms->input, "exit", 5) == 0)
 		{
 			printf("exit\n");
