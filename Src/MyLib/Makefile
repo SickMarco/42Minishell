@@ -15,9 +15,11 @@ SRC =	ft_isalnum.c ft_isprint.c ft_memcmp.c \
 
 SRC_DIR = ./Src/
 
+OBJ_DIR = ./Src/.obj/
+
 SRCP = $(addprefix $(SRC_DIR),$(SRC))
 
-OBJ = $(SRCP:.c=.o)
+OBJP = $(addprefix $(OBJ_DIR),$(notdir $(SRCP:.c=.o)))
 
 CC = gcc
 
@@ -25,11 +27,15 @@ CFLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	@ar rcs  $(NAME) $(OBJ)
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+	@mkdir -p $(OBJ_DIR)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(NAME): $(OBJP)
+	@ar rcs  $(NAME) $(OBJP)
 
 clean:
-	@rm -rf $(OBJ)
+	@rm -rf $(OBJ_DIR)
 
 fclean: clean
 	@rm -rf $(NAME)
@@ -37,3 +43,5 @@ fclean: clean
 re: fclean all
 
 .SILENT: $(OBJ)
+
+.PHONY: all clean fclean re
