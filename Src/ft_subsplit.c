@@ -6,13 +6,13 @@
 /*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 14:40:32 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/02/24 14:42:17 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/03 15:53:53 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	ft_sl(const char *s)
+int	ft_sl(const char *s)
 {
 	int	i;
 

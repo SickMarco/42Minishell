@@ -6,7 +6,7 @@
 /*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 11:29:58 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/02 23:24:33 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/03 16:27:53 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ static int	ft_endread(char *c, char **line, char **origin)
 		else
 			a = 0;;
 	}
-	else if (!(ft_strncmp(c, *line, ft_strlen(c))) && (ft_strlen(c) == (ft_strlen(*line) - 1)))
+	else if (!(ft_strncmp(c, *line, ft_sl(c))) &&
+			(ft_sl(c) == (ft_sl(*line) - 1)))
 	{
 		a = 1;
 		if (*line)
@@ -75,6 +76,7 @@ static void	ft_reader(char **origin, char *prompt, char *c)
 {
 	char	*line;
 
+	g_exit = 0;
 	if (!ft_strncmp(c, "\'", ft_strlen(c)) || !ft_strncmp(c, "\"", ft_strlen(c)))
 		ft_search_last_n_scale(origin, c[0]);
 	while (g_exit != 130)
@@ -159,7 +161,6 @@ void	ft_readifyouneed(char **origin)
 	int		sc;
 	char	*sep;
 
-	g_exit = 0;
 	ft_count_quotes(*origin, &dc, &sc);
 	if ((dc && dc % 2 ) || (sc && sc % 2))
 		ft_addnl(origin);

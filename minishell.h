@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/02 21:59:24 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/03 15:54:38 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ t_list	*ft_createlist(char **tab);
 t_list	*ft_subsplit(char **tab);
 int		ft_ischarofset(char c, char *set);
 void	ft_trimone(char **args);
+int		ft_sl(const char *s);
 
 //			UTILS			//
 
