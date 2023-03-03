@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:00:33 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/03 14:29:02 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/03 19:42:21 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_pwd(t_data **ms)
 void	ft_cd(t_data **ms)
 {
 	if (!(*ms)->cmd[1])
-		chdir((*ms)-> home);
+		chdir(getenv("HOME"));
 	else if (chdir((*ms)->cmd[1]) != 0)
 	{
 		g_exit = 1;

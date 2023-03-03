@@ -6,11 +6,26 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:28:56 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/03 16:24:51 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/03 19:48:54 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	cmd_builder(t_data **ms)
+{
+	int	i;
+
+	ft_readifyouneed(&((*ms)->input), ms);
+	(*ms)->cmd = ft_split1((*ms)->input);
+	ft_expander(ms);
+	if (ft_builtin(ms) == false && (*ms)->cmd[0])
+		executor(ms);
+	i = -1;
+	while ((*ms)->cmd[++i])
+		free((*ms)->cmd[i]);
+	free((*ms)->cmd);
+}
 
 void	ctrlc_handler(int sig)
 {
@@ -43,25 +58,14 @@ void	ft_clear(void)
 ╚══════╝╚══════╝╚══════╝\n\n\033[0;37m");
 }
 
-void	cmd_builder(t_data **ms)
+void	set_env(t_data **ms, char **envp)
 {
 	int	i;
 
-	ft_readifyouneed(&((*ms)->input));
-	(*ms)->cmd = ft_split1((*ms)->input);
-	ft_expander(ms);
-	if (ft_builtin(ms) == false && (*ms)->cmd[0])
-		executor(ms);
 	i = -1;
-	while ((*ms)->cmd[++i])
-		free((*ms)->cmd[i]);
-	free((*ms)->cmd);
-}
-
-void	mat_dup(t_data **ms, char **envp)
-{
-	int	i;
-
+	(*ms)->path = ft_split(getenv("PATH"), ':');
+	while ((*ms)->path[++i])
+		(*ms)->path[i] = ft_strjoin2((*ms)->path[i], "/");
 	i = 0;
 	while (envp[i])
 		i++;

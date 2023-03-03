@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:19:29 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/03 16:05:51 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/03 19:42:39 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,16 @@ int	g_exit;
 
 void	init_ms(t_data **ms, char **envp, int ac, char	**av)
 {
-	int	i;
-
-	i = -1;
 	(void)ac;
 	(void)av;
+	g_exit = 0;
 	*ms = ft_calloc(sizeof(t_data), 1);
 	(*ms)->exp = ft_calloc(sizeof(t_exp), 1);
-	g_exit = 0;
-	(*ms)->user = getenv("USER");
-	(*ms)->home = getenv("HOME");
-	(*ms)->path = ft_split(getenv("PATH"), ':');
-	while ((*ms)->path[++i])
-		(*ms)->path[i] = ft_strjoin2((*ms)->path[i], "/");
-	mat_dup(ms, envp);
-	(*ms)->prompt = ft_strjoin("\033[0;36m", (*ms)->user);
+	(*ms)->prompt = ft_strjoin("\033[0;36m", getenv("USER"));
 	(*ms)->prompt = ft_strjoin2((*ms)->prompt, "@minishell: \033[0;37m");
-	(*ms)->pid = 0;
+	set_env(ms, envp);
 	ft_clear();
-	printf("Welcome %s\n\n", (*ms)->user);
+	printf("Welcome %s\n\n", getenv("USER"));
 }
 
 int	main(int ac, char **av, char **envp)
@@ -46,14 +37,15 @@ int	main(int ac, char **av, char **envp)
 	{
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, ctrlc_handler);
+		ms->hist = true;
 		ms->input = readline(ms->prompt);
-		if (ms->input == NULL || ft_strncmp(ms->input, "exit", 5) == 0)
+		if (ms->input == NULL || !ft_strncmp(ms->input, "exit", 5))
 		{
 			printf("exit\n");
 			break ;
 		}
 		cmd_builder(&ms);
-		if (ft_strlen(ms->input) != 0)
+		if (ft_strlen(ms->input) != 0 && ms->hist == true)
 			add_history(ms->input);
 		free(ms->input);
 	}

@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 11:29:58 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/03 16:27:53 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/03 19:35:07 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ void	ft_addnl(char **origin)
 	free(nl);
 }
 
-void	ft_readifyouneed(char **origin)
+void	ft_readifyouneed(char **origin, t_data **ms)
 {
 	int		dc;
 	int		sc;
@@ -176,6 +176,7 @@ void	ft_readifyouneed(char **origin)
 		sep = ft_substr(*origin, sc + 2 + ft_splen(&(origin[0][sc + 2])),
 				ft_lts(&(origin[0][sc + 2 + ft_splen(&(origin[0][sc + 2]))])));
 		ft_heredoc(origin, sep, sc);
+		(*ms)->hist = false;
 	}
 	else if (origin[0][ft_strlen(*origin) - 1] == '|')
 		ft_promptpipe(origin);

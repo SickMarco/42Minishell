@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/03 15:54:38 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/03 19:42:49 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,15 @@ typedef struct s_exp {
 }				t_exp;
 
 typedef struct s_data {
-	char		*user;
 	char		*input;
 	char		**env;
 	char		*pwd;
 	char		**path;
-	char		*home;
 	char		*prompt;
 	char		**cmd;
 	t_exp		*exp;
 	pid_t		pid;
+	bool		hist;
 }				t_data;
 
 //			BUILTINS		//
@@ -84,7 +83,7 @@ int		ft_sl(const char *s);
 void	ft_history(t_data **data);
 void	free_for_all(t_data **ms);
 int		ft_print_slst(t_list *lst);//for debugging
-void	mat_dup(t_data **ms, char **envp);
+void	set_env(t_data **ms, char **envp);
 void	cmd_builder(t_data **ms);
 void	signal_handler(t_data **ms);
 void	ctrlc_handler(int sig);
@@ -95,7 +94,7 @@ int		env_len(t_data **ms, int i);
 
 //		PROMPT_READER		//
 
-void	ft_readifyouneed(char **origin);
+void	ft_readifyouneed(char **origin, t_data **ms);
 void	ft_count_quotes(char *s, int *dc, int *sc);
 void	ft_search_last_n_scale(char **origin, char c);
 char	*ft_sp(char *s);
