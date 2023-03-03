@@ -6,7 +6,7 @@
 /*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 14:19:29 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/03 16:29:00 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/03 21:14:12 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <fcntl.h>
 #include <sys/wait.h>
 #include <string.h>
+#include "../minishell.h"
 
 void	ft_perrex(char *s)
 {
@@ -128,6 +129,7 @@ void execute_multi_pipe(t_list *lst)
 
 int main()
 {
-	execute_multi_pipe("ls | grep .c > output.txt | cat < output.txt");
+	char *s = ft_strdup("ls | grep .c > output.txt | cat < output.txt");
+	execute_multi_pipe(ft_subsplit((ft_split1(s))));
 	return 0;
 }
