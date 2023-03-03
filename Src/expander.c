@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 14:44:30 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/27 16:02:04 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/03 15:22:21 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,12 @@ int	ft_find_var(t_data **ms)
 	int	x;
 
 	i = -1;
-	while ((*ms)->env[++i])
-		if (ft_strncmp((*ms)->env[i], (*ms)->exp->var,
-				ft_strlen((*ms)->exp->var) - 1) == 0)
-			break ;
-	if (!(*ms)->env[i])
-		return (1);
 	j = ft_strlen((*ms)->exp->var);
+	while ((*ms)->env[++i])
+		if (!ft_strncmp((*ms)->env[i], (*ms)->exp->var, env_len(ms, i)))
+			break ;
+	if (!(*ms)->env[i] || !(*ms)->env[i + 1])
+		return (1);
 	if ((*ms)->env[i][j] == '=')
 		j++;
 	(*ms)->exp->exp_var = ft_calloc(sizeof(char),

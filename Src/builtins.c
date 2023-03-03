@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:00:33 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/28 18:26:46 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/03 14:29:02 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,16 @@ void	ft_echo(t_data **ms)
 			printf("\n");
 	}
 	g_exit = 0;
+}
+
+void	no_cmd(t_data **ms)
+{
+	int	i;
+
+	i = -1;
+	g_exit = 127;
+	printf("smashell: command not found: ");
+	while ((*ms)->cmd[++i])
+		printf("%s ", (*ms)->cmd[i]);
+	printf("\n");
 }

@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:28:56 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/01 14:51:43 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/03 16:24:51 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ctrlc_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		printf("\n");
+		write(STDOUT_FILENO, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
@@ -27,7 +27,8 @@ void	ctrlc_handler(int sig)
 void	ft_clear(void)
 {
 	g_exit = 0;
-	printf("\033[H\033[J\033[0;31m");
+	write(STDOUT_FILENO, "\e[1;1H\e[2J", 12);
+	printf("\033[31m" );
 	printf("\n░██████╗███╗░░░███╗░█████╗░░██████╗██╗░░\
 ██╗███████╗██╗░░░░░██╗░░░░░\n");
 	printf("██╔════╝████╗░████║██╔══██╗██╔════╝██║░░██║\
@@ -81,7 +82,7 @@ void	free_for_all(t_data **ms)
 	while ((*ms)->path[++i])
 		free((*ms)->path[i]);
 	free((*ms)->path);
-	free((*ms)->user_dir);
+	free((*ms)->prompt);
 	free((*ms)->exp);
 	free((*ms)->input);
 	free((*ms)->env);
