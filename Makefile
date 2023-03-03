@@ -5,7 +5,7 @@ SRC = main.c builtins.c utils.c expander.c ft_countwords1.c ft_split1.c ft_creat
 
 SRC_DIR = ./Src/
 
-OBJ_DIR = ./.obj/
+OBJ_DIR = ./Src/.obj/
 
 SRCP = $(addprefix $(SRC_DIR),$(SRC))
 
@@ -14,8 +14,6 @@ OBJP = $(addprefix $(OBJ_DIR),$(notdir $(SRCP:.c=.o)))
 CFLAGS = -Wall -Wextra -Werror -fPIE -g 
 
 LIB = ./Src/MyLib/mylib.a
-
-TOTALE := $(words $(SRC))
 
 all: lib $(NAME)
 
@@ -33,7 +31,6 @@ $(NAME): $(OBJP)
 
 clean:
 	@echo "\033[0;31mCleaning objects 🧹"
-	@rm -rf $(OBJP)
 	@rm -rf $(OBJ_DIR)
 	@make clean -s -C Src/MyLib
 
