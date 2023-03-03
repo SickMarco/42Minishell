@@ -5,27 +5,36 @@ SRC = main.c builtins.c utils.c expander.c ft_countwords1.c ft_split1.c ft_creat
 
 SRC_DIR = ./Src/
 
+OBJ_DIR = ./.obj/
+
 SRCP = $(addprefix $(SRC_DIR),$(SRC))
 
-OBJ = $(SRCP:.c=.o)
+OBJP = $(addprefix $(OBJ_DIR),$(notdir $(SRCP:.c=.o)))
 
 CFLAGS = -Wall -Wextra -Werror -fPIE -g 
 
 LIB = ./Src/MyLib/mylib.a
 
+TOTALE := $(words $(SRC))
+
 all: lib $(NAME)
 
 lib:
+	@echo "\033[32mCompiling $(NAME) 🚀"
 	make -s -C Src/MyLib
 
-$(NAME): $(OBJ)
-	@echo "\033[32mCompiling $(NAME) 🚀"
-	@gcc $(CFLAGS) $(OBJ) $(LIB) -lreadline -o $(NAME)
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+	@mkdir -p $(OBJ_DIR)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(NAME): $(OBJP)
+	@gcc $(CFLAGS) $(OBJP) $(LIB) -lreadline -o $(NAME)
 	@echo "Compiled ✅\033[0;37m"
 
 clean:
 	@echo "\033[0;31mCleaning objects 🧹"
-	@rm -rf $(OBJ)
+	@rm -rf $(OBJP)
+	@rm -rf $(OBJ_DIR)
 	@make clean -s -C Src/MyLib
 
 fclean: clean
@@ -36,3 +45,5 @@ fclean: clean
 re: fclean all
 
 .SILENT: $(OBJ) lib
+
+.PHONY: all lib clean fclean re
