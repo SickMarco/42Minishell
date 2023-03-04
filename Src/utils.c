@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:28:56 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/03 19:48:54 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/04 19:45:26 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	ctrlc_handler(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 		g_exit = 130;
+		if (!access(HERED, F_OK))
+			unlink(HERED);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/03 21:00:50 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/04 19:52:21 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@
 # include <errno.h>
 # include <stdbool.h>
 # include <sys/ioctl.h>
+
+# ifndef HERED
+#  define HERED "Src/.obj/.heredoc"
+# endif
 
 extern int	g_exit;
 
@@ -107,5 +111,6 @@ void	ft_freejoin(char **origin, char **line);
 void	ft_addnl(char **origin);
 void	ft_promptpipe(char **origin);
 void	ft_reader(char **origin, char *prompt, char *c);
+void	heredoc_fork(t_data **ms, char *cmd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 11:29:58 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/04 16:29:34 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/04 19:10:29 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	ft_reader(char **origin, char *prompt, char *c)
 		{
 			if (ft_endread(c, &line, origin))
 				break ;
-			if (ft_strncmp("heredoc> ", prompt, ft_sl(prompt)))
+			if (!ft_strncmp("heredoc> ", prompt, ft_sl(prompt)))
 				ft_putinhdoc_n_free(&line);
 			else
 				ft_freejoin(origin, &line);
