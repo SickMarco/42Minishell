@@ -6,7 +6,7 @@
 /*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 14:19:29 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/03 21:14:12 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/04 15:21:33 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,74 @@
 #include <string.h>
 #include "../minishell.h"
 
+typedef struct s_cmd
+{
+	char	**arg;
+	int		pipe_fds[2];
+	int		prev_pipe_fds[2];
+
+}	t_cmd;
+
 void	ft_perrex(char *s)
 {
 	perror(s);
 	exit(EXIT_FAILURE);
+}
+
+int	ft_cmdlen(t_list *lst)
+{
+	char	*str;
+	int		i;
+
+	i = 0;
+	if (lst)
+		str = (char *)(lst->content);
+	while (lst && !(ft_strncmp(str, "|", ft_sl(str) ||
+		ft_strncmp(str, "<", ft_sl(str)) ||
+		ft_strncmp(str, ">", ft_sl(str)) ||
+		ft_strncmp(str, ">>", ft_sl(str)))))
+	{
+		i++;
+		lst = lst->next;
+		if (lst)
+			str = (char *)(lst->content);
+	}
+	return (i);
+}
+
+void	ft_fillarg(t_cmd *cmd, t_list **lst)
+{
+	int	len;
+	int	i;
+
+	i = 0;
+	len = ft_cmdlen(*lst);
+	cmd->arg = malloc(len + 1);
+	if (!(cmd->arg))
+		return ;
+	(cmd->arg)[len] = NULL;
+	while (i < len)
+	{
+		(cmd->arg)[i] = (char *)((*lst)->content);
+		i++;
+	}
+}
+
+void	ft_freearg(t_cmd *cmd)
+{
+	char	**arg;
+	int		i;
+
+	arg = cmd->arg;
+	if (!arg)
+		return ;
+	i = 0;
+	while (arg[i])
+	{
+		free(arg[i]);
+		i++;
+	}
+	free(arg);
 }
 
 void execute_multi_pipe(t_list *lst)
@@ -42,68 +106,23 @@ void execute_multi_pipe(t_list *lst)
 		if (!(ft_strncmp((char *)(lst->content), "|",
 					ft_sl((char *)(lst->content)))))
 		{
-			pipe(prev_pipe_fds);
-			pid = fork();///int
-			if (pid == 0)//child
-			{
-				close(prev_pipe_fds[1]);
-				dup2(prev_pipe_fds[0], STDIN_FILENO);
-				close(prev_pipe_fds[0]);
-				if (out_fd != STDOUT_FILENO)
-				{
-					dup2(out_fd, STDOUT_FILENO);
-					close(out_fd);
-				}
-				execve(args[0], args, NULL);
-				exit(EXIT_FAILURE);
-			}
-			else if (pid > 0)//padre
-			{
-				close(prev_pipe_fds[0]);
-				close(out_fd);
-				out_fd = prev_pipe_fds[1];
-				arg_count = 0;
-			}
-			else
-				ft_perrex("fork");
-			i++;
+			
 		}
 		else if (!(ft_strncmp((char *)(lst->content), "<",
 						ft_sl((char *)(lst->content)))))
 		{
-			char	*filename;
-
-			lst = lst->next;
-			filename = ft_strdup((char *)(lst->content));
-			in_fd = open(filename, O_RDONLY);
-			if (in_fd < 0)
-				ft_perrex("open");
-			free(filename);
-			i = j;
+			
 		}
 		else if (!(ft_strncmp((char *)(lst->content), ">", ft_sl((char *)(lst->content)))))
 		{
-			out_fd = open((char *)(lst->next->content), O_WRONLY | O_CREAT | O_TRUNC, 0666);
-			if (out_fd < 0)
-				ft_perrex("open");
+			
 		}
 		else if (!(ft_strncmp((char *)(lst->content), ">>", ft_sl((char *)(lst->content)))))
 		{
-			out_fd = open((char *)(lst->next->content), O_WRONLY | O_CREAT | O_APPEND, 0666);
-			if (out_fd < 0)
-				ft_perrex("open");
+			
 		}
 		else
-		{
-			int j = i;
-			while (command[j] != ' ' && command[j] != '|' && command[j] != '<' && command[j] != '>' && command[j] != '\0')
-				j++;
-			args[arg_count] = malloc(j - i + 1);
-			memcpy(args[arg_count], &command[i], j - i);
-			args[arg_count][j - i] = '\0';
-			arg_count++;
-			i = j;
-		}
+			ft_fillarg(&cmd, &lst);
 	}
 	args[arg_count] = NULL;
 	pid = fork();///int

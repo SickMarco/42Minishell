@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 11:29:58 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/03 20:56:27 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/04 16:29:34 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	ft_readifyouneed(char **origin, t_data **ms)
 		sc = ft_strnstr(*origin, "<<", ft_strlen(*origin)) - *origin;
 		sep = ft_substr(*origin, sc + 2 + ft_splen(&(origin[0][sc + 2])),
 				ft_lts(&(origin[0][sc + 2 + ft_splen(&(origin[0][sc + 2]))])));
-		ft_heredoc(origin, sep, sc, ms);
+		ft_heredoc(origin, sep, sc);
 		(*ms)->hist = false;
 	}
 	else if (origin[0][ft_strlen(*origin) - 1] == '|')
