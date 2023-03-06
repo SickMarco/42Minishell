@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:08:17 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/03 16:18:52 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/04 19:46:35 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,12 @@ void	executor(t_data **ms)
 			break ;
 		free(cmd);
 	}
-	if (!(*ms)->path[i] || i == 0)
-		custom_exec(ms);
-	else
-	{
+	if (cmd && !access(HERED, F_OK))
+		heredoc_fork(ms, cmd);
+	else if (cmd && (*ms)->hist != false)
 		forker(ms, cmd);
-		free(cmd);
-	}
+	else if (!(*ms)->path[i] || i == 0)
+		return (custom_exec(ms));
+	free(cmd);
 	return ;
 }

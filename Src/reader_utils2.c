@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reader_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 20:21:19 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/03 21:00:14 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/04 19:03:30 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_putinhdoc_n_free(char **line)
 {
 	int	fd;
 
-	fd = open("../.heredoc", O_RDWR | O_CREAT | O_APPEND, 0666);
+	fd = open(HERED, O_RDWR | O_CREAT | O_APPEND, 0666);
 	write(fd, *line, ft_sl(*line));
 	close(fd);
 	if (*line && **line)
