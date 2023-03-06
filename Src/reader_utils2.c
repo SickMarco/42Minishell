@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 20:21:19 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/04 19:03:30 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/06 15:38:53 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ void	ft_putinhdoc_n_free(char **line)
 
 void	ft_heredoc(char **origin, char *sep, int till_sep)
 {
-	char *start;
-	char *end;
+	char	*start;
+	char	*end;
 
 	if (!sep || !(*sep))
-		return (void)(printf("heredoc: wrog syntax\n"));
+		return ((void)(printf("heredoc: wrog syntax\n")));
 	start = ft_substr(*origin, 0, till_sep);
 	end = ft_sp(*origin + till_sep + 2 + ft_strlen(sep));
 	if (end)

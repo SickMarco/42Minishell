@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 11:29:58 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/04 19:10:29 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/06 15:49:09 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ static int	ft_endread(char *c, char **line, char **origin)
 		else
 			a = 0;
 	}
-	else if (!(ft_strncmp(c, *line, ft_sl(c))) &&
-			(ft_sl(c) == (ft_sl(*line) - 1)))
+	else if (!(ft_strncmp(c, *line, ft_sl(c)))
+		&& (ft_sl(c) == (ft_sl(*line) - 1)))
 	{
 		a = 1;
 		if (*line)
@@ -94,7 +94,7 @@ void	ft_readifyouneed(char **origin, t_data **ms)
 	char	*sep;
 
 	ft_count_quotes(*origin, &dc, &sc);
-	if ((dc && dc % 2 ) || (sc && sc % 2))
+	if ((dc && dc % 2) || (sc && sc % 2))
 		ft_addnl(origin);
 	if (dc && dc % 2 != 0 && !(sc % 2))
 		ft_reader(origin, "dquote> ", "\"");

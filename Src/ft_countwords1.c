@@ -6,7 +6,7 @@
 /*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 14:47:01 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/02/21 11:45:17 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/06 15:36:22 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ int	ft_countwords1(char *s)
 /*
 int main(int ac, char **av)
 {
-	char s[] = "ciao come stai                                                                   ";
+	char s[] = 
+"ciao come stai                                                         ";
 	s[17] = 97;
 
 	s[18] = 34;
@@ -70,6 +71,7 @@ int main(int ac, char **av)
 	s[24] = 39;
 	s[26] = 39;
 	s[23] = 65;
-	char s[] = "        echo \"hello      there\" how are 'you 'doing? $USER |wc -l >outfile";
+	char s[] = 
+"        echo \"hello      there\" how are 'you 'doing? $USER |wc -l >outfile";
 	printf("words = %d\n",ft_countwords(s));
 }*/

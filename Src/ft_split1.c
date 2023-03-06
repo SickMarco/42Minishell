@@ -6,7 +6,7 @@
 /*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:36:29 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/02/24 18:14:42 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/06 15:40:04 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ char	**ft_split1(char *s)
 /*
 int main()
 {
-	char s[] = "        echo \"hello      there\" 'how are' '''you 'doing? $USER '||'>> -l i>>ou<<tfile  ";
+	char s[] =
+"        echo \"hello      there\" 'how are' '''you 'doing? $USER '||'>> -l i>>
+ou<<tfile  ";
 
 //	s[13] = 34;
 //	s[30] = 34;
