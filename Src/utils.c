@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:28:56 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/04 19:45:26 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/06 16:00:32 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,19 @@ void	cmd_builder(t_data **ms)
 	i = -1;
 	while ((*ms)->cmd[++i])
 		free((*ms)->cmd[i]);
-	free((*ms)->cmd);
+	return ;
 }
 
 void	ctrlc_handler(int sig)
 {
-	if (sig == SIGINT)
-	{
-		write(STDOUT_FILENO, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		g_exit = 130;
-		if (!access(HERED, F_OK))
-			unlink(HERED);
-	}
+	(void)sig;
+	g_exit = 130;
+	write(STDOUT_FILENO, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+	if (!access(HERED, F_OK))
+		unlink(HERED);
 }
 
 void	ft_clear(void)

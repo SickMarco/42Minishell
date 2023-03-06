@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/04 19:52:21 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/06 15:44:42 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_data {
 	t_exp		*exp;
 	pid_t		pid;
 	bool		hist;
+	int			fd;
 }				t_data;
 
 //			BUILTINS		//

@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:08:17 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/04 19:46:35 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/06 15:58:10 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	forker(t_data **ms, char *cmd)
 	}
 	else if ((*ms)->pid > 0)
 	{
+		signal(SIGINT, prnt_ctrl);
+		signal(SIGQUIT, prnt_ctrl);
 		waitpid((*ms)->pid, &status, 0);
 		if (WIFEXITED(status))
 			g_exit = WEXITSTATUS(status);
@@ -71,8 +73,6 @@ void	executor(t_data **ms)
 	char		*cmd;
 
 	i = -1;
-	signal(SIGINT, prnt_ctrl);
-	signal(SIGQUIT, prnt_ctrl);
 	while ((*ms)->path[++i] && ft_strncmp((*ms)->cmd[0], ".", 1))
 	{
 		cmd = ft_strjoin((*ms)->path[i], (*ms)->cmd[0]);
@@ -82,10 +82,11 @@ void	executor(t_data **ms)
 	}
 	if (cmd && !access(HERED, F_OK))
 		heredoc_fork(ms, cmd);
-	else if (cmd && (*ms)->hist != false)
+	else if ((!(*ms)->path[i] || i == 0) && (*ms)->hist)
+		custom_exec(ms);
+	else if (cmd && (*ms)->hist)
 		forker(ms, cmd);
-	else if (!(*ms)->path[i] || i == 0)
-		return (custom_exec(ms));
-	free(cmd);
+	if (!access(HERED, F_OK))
+		unlink(HERED);
 	return ;
 }
