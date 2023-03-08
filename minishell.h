@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/07 18:47:49 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/08 19:02:37 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,13 @@
 # endif
 
 extern int	g_exit;
+
+typedef struct s_cmd
+{
+	char			**cmds;
+	char			*cmd;
+	struct s_cmd	*next;
+}				t_cmd;
 
 typedef struct s_exp {
 	char	**cmds;
@@ -94,6 +101,8 @@ void	executor(t_data **ms);
 void	no_cmd(t_data **ms);
 char	*exit_exp(char *line);
 int		env_len(t_data **ms, int i);
+void	prnt_ctrl(int sig);
+void	pipe_cmd(t_data **ms, t_cmd *cmd_list);
 
 //		PROMPT_READER		//
 
