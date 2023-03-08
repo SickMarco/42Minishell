@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 17:18:32 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/02/11 18:04:34 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/07 18:33:56 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,6 @@ t_stack			*ft_lstnewnum(int num);
 void			ft_lstadd_backnum(t_stack **lst, t_stack *new);
 void			ft_lstadd_frontnum(t_stack **lst, t_stack *new);
 int				ft_lstsizenum(t_stack *lst);
+char			*ft_strjoin3(char *s1, char *s2, int flag);
 
 #endif
