@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 20:21:19 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/06 15:38:53 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/08 15:15:34 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,13 @@
 
 void	ft_putinhdoc_n_free(char **line)
 {
-	int	fd;
+	int		fd;
+	char	*tmp;
 
 	fd = open(HERED, O_RDWR | O_CREAT | O_APPEND, 0666);
+	tmp = ft_strtrim(*line, "\n");
+	*line = ft_expander(tmp);
+	*line = ft_strjoin2(*line, "\n");
 	write(fd, *line, ft_sl(*line));
 	close(fd);
 	if (*line && **line)
