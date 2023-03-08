@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:08:17 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/06 15:58:10 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/08 14:45:28 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	forker(t_data **ms, char *cmd)
 			g_exit = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
 			g_exit = WTERMSIG(status) + 128;
+		free(cmd);
 	}
 }
 
@@ -81,7 +82,10 @@ void	executor(t_data **ms)
 		free(cmd);
 	}
 	if (cmd && !access(HERED, F_OK))
+	{
 		heredoc_fork(ms, cmd);
+		free(cmd);
+	}
 	else if ((!(*ms)->path[i] || i == 0) && (*ms)->hist)
 		custom_exec(ms);
 	else if (cmd && (*ms)->hist)
