@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:28:56 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/06 16:00:32 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/07 15:13:44 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,20 @@ void	cmd_builder(t_data **ms)
 {
 	int	i;
 
-	ft_readifyouneed(&((*ms)->input), ms);
-	(*ms)->cmd = ft_split1((*ms)->input);
-	ft_expander(ms);
-	if (ft_builtin(ms) == false && (*ms)->cmd[0])
-		executor(ms);
-	i = -1;
-	while ((*ms)->cmd[++i])
-		free((*ms)->cmd[i]);
+	if (ft_strncmp((*ms)->input, "\n", 2) != -10)
+	{
+		ft_readifyouneed(&((*ms)->input), ms);
+		(*ms)->cmd = ft_split1((*ms)->input);
+		i = -1;
+		while ((*ms)->cmd[++i])
+			(*ms)->cmd[i] = ft_expander((*ms)->cmd[i]);
+		if (ft_builtin(ms) == false && (*ms)->cmd[0])
+			executor(ms);
+		i = -1;
+		while ((*ms)->cmd[++i])
+			free((*ms)->cmd[i]);
+		free((*ms)->cmd);
+	}
 	return ;
 }
 

@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/06 15:44:42 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/07 18:47:49 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,10 @@
 extern int	g_exit;
 
 typedef struct s_exp {
-	int			len;
-	int			start;
-	char		*var;
-	int			var_len;
-	char		*exp_var;
-	char		*exp_cmd;
+	char	**cmds;
+	char	*var;
+	char	*ret;
+	char	*trim;
 }				t_exp;
 
 typedef struct s_data {
@@ -71,7 +69,7 @@ void	ft_echo(t_data **ms);
 
 //			PARSING			//
 
-void	ft_expander(t_data **ms);
+char	*ft_expander(char *line);
 bool	ft_builtin(t_data **data);
 int		ft_countwords1(char *s);
 void	ft_skip_space(char *s, int *i);
@@ -94,7 +92,7 @@ void	signal_handler(t_data **ms);
 void	ctrlc_handler(int sig);
 void	executor(t_data **ms);
 void	no_cmd(t_data **ms);
-int		exit_exp(t_data **ms);
+char	*exit_exp(char *line);
 int		env_len(t_data **ms, int i);
 
 //		PROMPT_READER		//
