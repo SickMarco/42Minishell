@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/09 17:48:47 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/09 21:13:20 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_data {
 	pid_t		pid;
 	bool		hist;
 	int			fd;
+	int			stdin_fd;
 }				t_data;
 
 //			BUILTINS		//

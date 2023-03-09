@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:08:17 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/09 17:18:43 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/09 20:33:55 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	custom_exec(t_data **ms, t_cmd *cmd)
 	}
 	else
 		no_cmd(cmd);
-	exit(EXIT_FAILURE);
+	exit(g_exit);
 }
 
 void	executor(t_data **ms, t_cmd *cmd)
