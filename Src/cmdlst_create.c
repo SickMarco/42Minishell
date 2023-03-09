@@ -6,7 +6,7 @@
 /*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 13:44:07 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/09 17:54:30 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/09 20:46:19 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ****************************************************************************/
 
@@ -18,11 +18,31 @@ void	ft_perrex(char *s)
 	exit(EXIT_FAILURE);
 }
 
+void	ft_freelist(t_list **lst)
+{
+	t_list	*nxt;
+
+	if (!lst || !(*lst))
+		return ;
+	while (*lst)
+	{
+		nxt = (*lst)->next;
+//		if ((*lst)->content)
+//			free((*lst)->content);
+		free((*lst));
+		*lst = nxt;
+	}
+}
+
 t_cmd	*create_cmdlst(t_list	**lst, t_data *ms)
 {
+	t_list	**lsthead;
 	t_cmd	*head;
 	t_cmd	*cmdlst;
-
+/*
+	ft_print_slst(*lst);
+	return NULL;*/
+	lsthead = lst;
 	cmdlst = ft_cmdnew(lst, ms->path);
 	head = cmdlst;
 	while (*lst)
@@ -84,6 +104,6 @@ t_cmd	*create_cmdlst(t_list	**lst, t_data *ms)
 		else
 			ft_cmd_addback(&cmdlst, ft_cmdnew(lst, ms->path));//scorre lst nodes
 	}
-//	free_lst(lst);//free just the nodes, not the contents
+	ft_freelist(lsthead);//free just the nodes, not the contents
 	return (head);
 }

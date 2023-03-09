@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 20:21:19 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/08 15:15:34 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/09 20:35:40 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_heredoc(char **origin, char *sep, int till_sep)
 
 	if (!sep || !(*sep))
 		return ((void)(printf("heredoc: wrog syntax\n")));
-	start = ft_substr(*origin, 0, till_sep);
+	start = ft_substr(*origin, 0, till_sep + 2);
 	end = ft_sp(*origin + till_sep + 2 + ft_strlen(sep));
 	if (end)
 		end = ft_strdup(ft_sp(*origin + till_sep + 2 + ft_strlen(sep)));
@@ -42,6 +42,9 @@ void	ft_heredoc(char **origin, char *sep, int till_sep)
 	free(*origin);
 	if (end)
 	{
+		*origin = end;
+		end = ft_strjoin(" ", end);
+		free(*origin);
 		*origin = ft_strjoin(start, end);
 		free(end);
 		free(start);
