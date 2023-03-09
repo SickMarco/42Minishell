@@ -6,31 +6,31 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 16:53:53 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/03 19:28:06 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/09 17:51:05 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	check_input(t_data **ms)
+int	check_input(t_cmd *cmd)
 {
 	int	i;
 
 	i = 0;
-	if ((*ms)->cmd[1][i] == '=')
+	if (cmd->cmds[1][i] == '=')
 		return (0);
-	while ((*ms)->cmd[1][i] && (ft_isalnum((*ms)->cmd[1][i])
-		|| ft_isalpha((*ms)->cmd[1][i])))
+	while (cmd->cmds[1][i] && (ft_isalnum(cmd->cmds[1][i])
+		|| ft_isalpha(cmd->cmds[1][i])))
 		i++;
-	if (!(*ms)->cmd[1][i] || (*ms)->cmd[1][i] != '=')
+	if (!cmd->cmds[1][i] || cmd->cmds[1][i] != '=')
 		return (0);
 	i++;
-	if (!(*ms)->cmd[1][i])
+	if (!cmd->cmds[1][i])
 		return (0);
-	while ((*ms)->cmd[1][i] && (ft_isalnum((*ms)->cmd[1][i])
-		|| ft_isalpha((*ms)->cmd[1][i])))
+	while (cmd->cmds[1][i] && (ft_isalnum(cmd->cmds[1][i])
+		|| ft_isalpha(cmd->cmds[1][i])))
 		i++;
-	if (!(*ms)->cmd[1][i])
+	if (!cmd->cmds[1][i])
 		return (1);
 	return (0);
 }
@@ -44,13 +44,13 @@ void	ft_env(t_data **ms)
 		printf("%s\n", (*ms)->env[i]);
 }
 
-void	ft_export(t_data **ms)
+void	ft_export(t_data **ms, t_cmd *cmd)
 {
 	char	**new_env;
 	int		i;
 
 	i = 0;
-	if ((*ms)->cmd[1] && check_input(ms))
+	if (cmd->cmds[1] && check_input(cmd))
 	{
 		while ((*ms)->env[i])
 			i++;
@@ -58,14 +58,14 @@ void	ft_export(t_data **ms)
 		i = -1;
 		while ((*ms)->env[++i])
 			new_env[i] = (*ms)->env[i];
-		new_env[i] = ft_strdup((*ms)->cmd[1]);
+		new_env[i] = ft_strdup(cmd->cmds[1]);
 		i = -1;
 		free((*ms)->env);
 		(*ms)->env = new_env;
 	}
 }
 
-void	ft_unset(t_data **ms)
+void	ft_unset(t_data **ms, t_cmd *cmd)
 {
 	int		i;
 	int		j;
@@ -74,10 +74,10 @@ void	ft_unset(t_data **ms)
 
 	i = -1;
 	j = 0;
-	if (!(*ms)->cmd[1])
+	if (!cmd->cmds[1])
 		return ;
 	while ((*ms)->env[++i])
-		if (!ft_strncmp((*ms)->env[i], (*ms)->cmd[1], ft_strlen((*ms)->cmd[1])))
+		if (!ft_strncmp((*ms)->env[i], cmd->cmds[1], ft_strlen(cmd->cmds[1])))
 			break ;
 	pos = i;
 	if (!(*ms)->env[i])

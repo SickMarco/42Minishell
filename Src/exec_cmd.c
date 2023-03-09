@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 17:52:41 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/09 16:46:23 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/09 17:49:18 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	child_pipe(t_data **ms, t_cmd *cmd_list, int pipefd[2])
 		exit(EXIT_FAILURE);
 	}
 	close(pipefd[1]);
-	if (ft_builtin(ms) == false)
+	if (ft_builtin(ms, cmd_list) == false)
 		executor(ms, cmd_list);
 	exit(EXIT_FAILURE);
 }
@@ -86,6 +86,6 @@ void	exec_cmd(t_data **ms, t_cmd *cmd_list)
 		else
 			parent_pipe(ms, cmd_list, pipefd);
 	}
-	else if (ft_builtin(ms) == false)
+	else if (ft_builtin(ms, cmd_list) == false)
 		last_cmd(ms, cmd_list);
 }

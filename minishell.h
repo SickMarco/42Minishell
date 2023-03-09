@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/09 17:23:48 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/09 17:48:47 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,14 @@ typedef struct s_data {
 
 //			BUILTINS		//
 
-bool	ft_builtin(t_data **data);
+bool	ft_builtin(t_data **data, t_cmd	*cmd);
 void	ft_pwd(t_data **data);
 void	ft_clear(void);
-void	ft_cd(t_data **data);
+void	ft_cd(t_cmd	*cmd);
 void	ft_env(t_data **ms);
-void	ft_export(t_data **data);
-void	ft_unset(t_data **ms);
-void	ft_echo(t_data **ms);
+void	ft_export(t_data **ms, t_cmd *cmd);
+void	ft_unset(t_data **ms, t_cmd *cmd);
+void	ft_echo(t_cmd *cmd);
 void	no_cmd(t_cmd *cmd);
 
 //			PARSING			//

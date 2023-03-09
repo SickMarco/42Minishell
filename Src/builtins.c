@@ -6,30 +6,30 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:00:33 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/09 16:36:31 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/09 17:54:51 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-bool	ft_builtin(t_data **ms)
+bool	ft_builtin(t_data **ms, t_cmd *cmd)
 {
-	if (!(*ms)->cmd[0])
+	if (!cmd->cmds[0])
 		return (false);
-	else if (!ft_strncmp((*ms)->cmd[0], "pwd", 4) && !(*ms)->cmd[1])
+	else if (!ft_strncmp(cmd->cmds[0], "pwd", 4) && !cmd->cmds[1])
 		ft_pwd(ms);
-	else if (!ft_strncmp((*ms)->cmd[0], "clear", 6))
+	else if (!ft_strncmp(cmd->cmds[0], "clear", 6))
 		ft_clear();
-	else if (!ft_strncmp((*ms)->cmd[0], "cd", 3))
-		ft_cd(ms);
-	else if (!ft_strncmp((*ms)->cmd[0], "env", 4))
+	else if (!ft_strncmp(cmd->cmds[0], "cd", 3))
+		ft_cd(cmd);
+	else if (!ft_strncmp(cmd->cmds[0], "env", 4))
 		ft_env(ms);
-	else if (!ft_strncmp((*ms)->cmd[0], "export", 6))
-		ft_export(ms);
-	else if (!ft_strncmp((*ms)->cmd[0], "unset", 5))
-		ft_unset(ms);
-	else if (!ft_strncmp((*ms)->cmd[0], "echo", 4))
-		ft_echo(ms);
+	else if (!ft_strncmp(cmd->cmds[0], "export", 6))
+		ft_export(ms, cmd);
+	else if (!ft_strncmp(cmd->cmds[0], "unset", 5))
+		ft_unset(ms, cmd);
+	else if (!ft_strncmp(cmd->cmds[0], "echo", 4))
+		ft_echo(cmd);
 	else
 		return (false);
 	return (true);
@@ -44,11 +44,11 @@ void	ft_pwd(t_data **ms)
 	g_exit = 0;
 }
 
-void	ft_cd(t_data **ms)
+void	ft_cd(t_cmd *cmd)
 {
-	if (!(*ms)->cmd[1])
+	if (!cmd->cmds[1])
 		chdir(getenv("HOME"));
-	else if (chdir((*ms)->cmd[1]) != 0)
+	else if (chdir(cmd->cmds[1]) != 0)
 	{
 		g_exit = 1;
 		return (perror("cd"));
@@ -56,26 +56,26 @@ void	ft_cd(t_data **ms)
 	g_exit = 0;
 }
 
-void	ft_echo(t_data **ms)
+void	ft_echo(t_cmd *cmd)
 {
 	int	flag;
 	int	i;
 
 	flag = 0;
 	i = 0;
-	if ((*ms)->cmd[i])
+	if (cmd->cmds[i])
 	{
-		while ((*ms)->cmd[++i])
+		while (cmd->cmds[++i])
 		{
-			if (!ft_strncmp((*ms)->cmd[1], "-n", 2))
+			if (!ft_strncmp(cmd->cmds[1], "-n", 2))
 			{
 				flag = 1;
 				i++;
 			}
-			if ((*ms)->cmd[i + 1])
-				printf("%s ", (*ms)->cmd[i]);
+			if (cmd->cmds[i + 1])
+				printf("%s ", cmd->cmds[i]);
 			else
-				printf("%s", (*ms)->cmd[i]);
+				printf("%s", cmd->cmds[i]);
 		}
 		if (flag == 0)
 			printf("\n");
@@ -92,5 +92,5 @@ void	no_cmd(t_cmd *cmd)
 	printf("smashell: command not found: ");
 	while (cmd->cmds[++i])
 		printf("%s ", cmd->cmds[i]);
-	write(STDOUT_FILENO, "\n", 1);
+	printf("\n");
 }
