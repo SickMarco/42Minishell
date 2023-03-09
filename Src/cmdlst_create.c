@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirect.c                                         :+:      :+:    :+:   */
+/*   cmdlst_create.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 13:44:07 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/09 16:44:56 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/09 17:54:30 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ****************************************************************************/
 
@@ -27,7 +27,13 @@ t_cmd	*create_cmdlst(t_list	**lst, t_data *ms)
 	head = cmdlst;
 	while (*lst)
 	{
-		if (!(ft_strncmp((char *)((*lst)->content), "<",
+		if (!(ft_strncmp((char *)((*lst)->content), "|",
+						ft_sl((char *)((*lst)->content)))))
+		{
+			free((*lst)->content);
+			*lst = (*lst)->next; 
+		}
+		else if (!(ft_strncmp((char *)((*lst)->content), "<",
 						ft_sl((char *)((*lst)->content)))))
 		{
 			free((*lst)->content);
