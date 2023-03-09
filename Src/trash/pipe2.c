@@ -6,7 +6,7 @@
 /*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 16:22:58 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/08 14:11:51 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/08 17:16:56 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void execute_multi_pipe(t_list *lst)
 			pid = fork();///int
 			/*	It creates a new pipe using pipe()
 			 *	and forks a child process using fork() */
+//			dup2(cmd.prev_pipe_fds[0], cmd.in_fd);
 			if (pid == 0)//child
 			{
 /*				close(cmd.pipe_fds[0]);//gpt
@@ -71,15 +72,20 @@ void execute_multi_pipe(t_list *lst)
 */
 //				pipe(cmd.prev_pipe_fds);
 //
-				dup2(cmd.prev_pipe_fds[1], 1);
+				/*dup2(fd[1], 1);
+close(fd[0]);
+close(fd[1]);*///
+/*				dup2(cmd.prev_pipe_fds[1], cmd.out_fd);
 				close(cmd.prev_pipe_fds[1]);
+				close(cmd.prev_pipe_fds[0]);*/
 				/* In the child process, the read end of the previous pipe is closed
 				 * and its file descriptor is duplicated onto
 				 * the standard input file descriptor (STDIN_FILENO) using dup2().*/
-/*				close(cmd.prev_pipe_fds[1]);
 				dup2(cmd.prev_pipe_fds[0], STDIN_FILENO);
+				close(cmd.prev_pipe_fds[1]);
+				//dup2(cmd.prev_pipe_fds[0], STDIN_FILENO);
 				close(cmd.prev_pipe_fds[0]);
-*/
+
 				/* If the current output file descriptor is not equal to standard output (STDOUT_FILENO),
 				* its file descriptor is duplicated onto the standard output file descriptor using dup2().*/
 				if (cmd.out_fd != STDOUT_FILENO)
@@ -111,6 +117,19 @@ void execute_multi_pipe(t_list *lst)
 				ft_perrex("fork");
 //			lst = lst->next;//i++;
 		}
+
+
+
+
+
+
+
+
+
+
+
+
+
 		else if (!(ft_strncmp((char *)(lst->content), "<",
 						ft_sl((char *)(lst->content)))))
 		{
@@ -153,6 +172,7 @@ void execute_multi_pipe(t_list *lst)
 		}
 	}
 //	args[arg_count] = NULL;
+/*
 	pid = fork();///int
 	if (pid == 0)//child
 	{
@@ -175,7 +195,7 @@ void execute_multi_pipe(t_list *lst)
 		
 	}
 	else
-		ft_perrex("fork");
+		ft_perrex("fork");*/
 	ft_freelist(&head);
 }
 
@@ -186,7 +206,7 @@ int main(int ac, char **av, char **envp)
 	(void)(ac);
 	(void)(av);
 	env = envp;
-	char *s = ft_strdup("ls -a | pwd");// | grep .c > output.txt | cat < output.txt");
+	char *s = ft_strdup("ls -a | wc");// | grep .c > output.txt | cat < output.txt");
 	t_list *lst = ft_subsplit((ft_split1(s)));
 //	ft_print_slst(lst);
 	execute_multi_pipe(lst);
