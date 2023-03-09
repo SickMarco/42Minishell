@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:19:29 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/09 15:14:05 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/09 21:17:50 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,19 @@ void	init_ms(t_data **ms, char **envp, int ac, char	**av)
 	printf("Welcome %s\n\n", getenv("USER"));
 }
 
+static int	is_valid_input(char *s)
+{
+	int	i;
+
+	i = -1;
+	while(s[++i])
+	{
+		if (s[i] > 33 && s[i] != 127)
+			return (1);
+	}
+	return (0);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_data	*ms;
@@ -44,7 +57,8 @@ int	main(int ac, char **av, char **envp)
 			printf("exit\n");
 			break ;
 		}
-		cmd_builder(&ms);
+		if (is_valid_input(ms->input))
+			cmd_builder(&ms);
 		if (ft_strlen(ms->input) != 0 && ms->hist == true)
 			add_history(ms->input);
 		free(ms->input);
