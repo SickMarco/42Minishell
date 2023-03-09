@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/09 16:12:48 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/09 17:23:48 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_data {
 
 //			BUILTINS		//
 
+bool	ft_builtin(t_data **data);
 void	ft_pwd(t_data **data);
 void	ft_clear(void);
 void	ft_cd(t_data **data);
@@ -75,11 +76,11 @@ void	ft_env(t_data **ms);
 void	ft_export(t_data **data);
 void	ft_unset(t_data **ms);
 void	ft_echo(t_data **ms);
+void	no_cmd(t_cmd *cmd);
 
 //			PARSING			//
 
 char	*ft_expander(char *line);
-bool	ft_builtin(t_data **data);
 int		ft_countwords1(char *s);
 void	ft_skip_space(char *s, int *i);
 void	ft_close_quote(char *s, int *i, char c);
@@ -96,15 +97,20 @@ void	ft_history(t_data **data);
 void	free_for_all(t_data **ms);
 int		ft_print_slst(t_list *lst);//for debugging
 void	set_env(t_data **ms, char **envp);
+void	ctrlc_handler(int sig);
+char	*exit_exp(char *line);
+int		env_len(t_data **ms, int i);
+
+//			EXECUTOR		//
+
+void	cmd_builder(t_data **ms);
 void	cmd_builder(t_data **ms);
 void	signal_handler(t_data **ms);
 void	ctrlc_handler(int sig);
-void	executor(t_data **ms);
-void	no_cmd(t_data **ms);
-char	*exit_exp(char *line);
-int		env_len(t_data **ms, int i);
+void	executor(t_data **ms, t_cmd *cmd);
+void	exec_cmd(t_data **ms, t_cmd *cmd_list);
+void	executor(t_data **ms, t_cmd *cmd);
 void	prnt_ctrl(int sig);
-void	pipe_cmd(t_data **ms, t_cmd *cmd_list);
 
 //		PROMPT_READER		//
 
@@ -121,7 +127,6 @@ void	ft_freejoin(char **origin, char **line);
 void	ft_addnl(char **origin);
 void	ft_promptpipe(char **origin);
 void	ft_reader(char **origin, char *prompt, char *c);
-void	heredoc_fork(t_data **ms, char *cmd);
 
 //		CMD_LIST		//
 

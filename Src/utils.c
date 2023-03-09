@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:28:56 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/07 15:13:44 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/09 17:31:37 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,21 @@
 void	cmd_builder(t_data **ms)
 {
 	int	i;
+	t_cmd	*cmd;
+	t_list	*lst;
 
-	if (ft_strncmp((*ms)->input, "\n", 2) != -10)
-	{
-		ft_readifyouneed(&((*ms)->input), ms);
-		(*ms)->cmd = ft_split1((*ms)->input);
-		i = -1;
-		while ((*ms)->cmd[++i])
-			(*ms)->cmd[i] = ft_expander((*ms)->cmd[i]);
-		if (ft_builtin(ms) == false && (*ms)->cmd[0])
-			executor(ms);
-		i = -1;
-		while ((*ms)->cmd[++i])
-			free((*ms)->cmd[i]);
-		free((*ms)->cmd);
-	}
+	ft_readifyouneed(&((*ms)->input), ms);
+	(*ms)->cmd = ft_split1((*ms)->input);
+	i = -1;
+	while ((*ms)->cmd[++i])
+		(*ms)->cmd[i] = ft_expander((*ms)->cmd[i]);
+	lst = ft_subsplit((*ms)->cmd);
+	cmd = create_cmdlst(&lst, *ms);
+	exec_cmd(ms, cmd);
+	i = -1;
+	while ((*ms)->cmd[++i])
+		free((*ms)->cmd[i]);
+	free((*ms)->cmd);
 	return ;
 }
 
