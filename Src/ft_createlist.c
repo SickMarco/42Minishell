@@ -6,7 +6,7 @@
 /*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 14:56:47 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/06 15:56:41 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/10 14:41:55 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ static t_list	*ft_tabtolist(char **tab)
 	i = 0;
 	while (tab[i])
 		i++;
-//	if (tab[i])
-//		free(tab[i]);
 	lst = ft_lstnew(tab[--i]);
 	if (!lst)
 		return (NULL);
@@ -62,7 +60,7 @@ t_list	*ft_createlist(char **tab)
 	lst = ft_tabtolist(tab);
 	if (!lst)
 		return (NULL);
-//	if (tab)
-//		free(tab);
+	if (tab)
+		free(tab);
 	return (lst);
 }
