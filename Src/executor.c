@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:08:17 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/09 20:33:55 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/10 12:54:04 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	custom_exec(t_data **ms, t_cmd *cmd)
 	{
 		execve(cmd->cmds[0], cmd->cmds, (*ms)->env);
 		perror("smashell");
+		exit(EXIT_FAILURE);
 	}
 	else if (!access(cmd->cmds[0], F_OK))
 	{
@@ -36,18 +37,36 @@ void	custom_exec(t_data **ms, t_cmd *cmd)
 	exit(g_exit);
 }
 
+void	exec_here(t_data **ms, t_cmd *cmd)
+{
+	char	**tmp;
+	int		i;
+
+	i = -1;
+	(*ms)->stdin_fd = dup(STDIN_FILENO);
+	tmp = ft_calloc(sizeof(char *), 2);
+	tmp[0] = ft_strdup(cmd->cmds[0]);
+	while (cmd->cmds[++i])
+		free(cmd->cmds[i]);
+	free(cmd->cmds);
+	cmd->cmds = tmp;
+	(*ms)->fd = open(HERED, O_RDONLY);
+	dup2((*ms)->fd, STDIN_FILENO);
+	close((*ms)->fd);
+	execve(cmd->cmd, cmd->cmds, (*ms)->env);
+	perror("smashell");
+	exit (EXIT_FAILURE);
+}
+
 void	executor(t_data **ms, t_cmd *cmd)
 {
 	int	i;
 
 	i = -1;
-	if (cmd->cmd && cmd->in_fd != -1)
+	if (cmd->cmd && cmd->in_fd == -1)
 	{
-		dup2(cmd->in_fd, STDIN_FILENO);
-		close(cmd->in_fd);
-		execve(cmd->cmd, cmd->cmds, NULL);
-		perror("smashell");
-		exit (EXIT_FAILURE);
+		exec_here(ms, cmd);
+		dup2((*ms)->stdin_fd, STDIN_FILENO);
 	}
 	else if (!cmd->cmd && (*ms)->hist)
 		custom_exec(ms, cmd);
@@ -57,8 +76,6 @@ void	executor(t_data **ms, t_cmd *cmd)
 		perror("smashell");
 		exit (EXIT_FAILURE);
 	}
-	if (!access(HERED, F_OK))
-		unlink(HERED);
 	return ;
 }
 

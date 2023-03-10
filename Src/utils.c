@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:28:56 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/09 21:31:30 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/10 12:55:11 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,11 @@ void	cmd_builder(t_data **ms)
 	t_cmd	*cmd;
 	t_list	*lst;
 
-
+	if (!access(HERED, F_OK))
+		unlink(HERED);
 	if (ft_strncmp((*ms)->input, "\n", 2) != -10)
 	{
-		//ft_readifyouneed(&((*ms)->input), ms);
+		ft_readifyouneed(&((*ms)->input), ms);
 		(*ms)->cmd = ft_split1((*ms)->input);
 		i = -1;
 		while ((*ms)->cmd[++i])
@@ -116,4 +117,6 @@ void	free_for_all(t_data **ms)
 	free((*ms)->input);
 	free((*ms)->env);
 	free(*ms);
+	if (!access(HERED, F_OK))
+		unlink(HERED);
 }
