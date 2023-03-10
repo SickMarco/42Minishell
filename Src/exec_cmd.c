@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 17:52:41 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/10 16:50:21 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/10 19:43:58 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,11 @@ void	single_cmd(t_data **ms, t_cmd *cmd_list)
 	if ((*ms)->pid == -1)
 		return (perror("fork"));
 	else if (!(*ms)->pid)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		executor(ms, cmd_list);
+	}
 	else
 	{
 		signal(SIGINT, prnt_ctrl);
