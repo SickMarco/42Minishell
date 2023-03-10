@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:00:33 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/09 20:32:46 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/10 14:35:21 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool	ft_builtin(t_data **ms, t_cmd *cmd)
 	if (!cmd->cmds[0])
 		return (false);
 	else if (!ft_strncmp(cmd->cmds[0], "pwd", 4) && !cmd->cmds[1])
-		ft_pwd(ms);
+		ft_pwd(ms, cmd);
 	else if (!ft_strncmp(cmd->cmds[0], "clear", 6))
 		ft_clear();
 	else if (!ft_strncmp(cmd->cmds[0], "cd", 3))
@@ -35,8 +35,12 @@ bool	ft_builtin(t_data **ms, t_cmd *cmd)
 	return (true);
 }
 
-void	ft_pwd(t_data **ms)
+void	ft_pwd(t_data **ms, t_cmd *cmd)
 {
+	if (cmd->out_fd != -1)
+		dup2(cmd->out_fd, STDOUT_FILENO);
+	else if (cmd->in_fd != -1)
+		dup2(cmd->in_fd, STDIN_FILENO);
 	(*ms)->pwd = getcwd(NULL, 0);
 	getcwd((*ms)->pwd, sizeof((*ms)->pwd));
 	printf("%s\n", (*ms)->pwd);
@@ -46,6 +50,10 @@ void	ft_pwd(t_data **ms)
 
 void	ft_cd(t_cmd *cmd)
 {
+	if (cmd->out_fd != -1)
+		dup2(cmd->out_fd, STDOUT_FILENO);
+	else if (cmd->in_fd != -1)
+		dup2(cmd->in_fd, STDIN_FILENO);
 	if (!cmd->cmds[1])
 		chdir(getenv("HOME"));
 	else if (chdir(cmd->cmds[1]) != 0)
@@ -63,6 +71,10 @@ void	ft_echo(t_cmd *cmd)
 
 	flag = 0;
 	i = 0;
+	if (cmd->out_fd != -1)
+		dup2(cmd->out_fd, STDOUT_FILENO);
+	else if (cmd->in_fd != -1)
+		dup2(cmd->in_fd, STDIN_FILENO);
 	if (cmd->cmds[i])
 	{
 		while (cmd->cmds[++i])

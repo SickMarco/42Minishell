@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 17:52:41 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/10 12:15:31 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/10 14:31:09 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	child_pipe(t_data **ms, t_cmd *cmd_list, int *pipefd)
 {
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	close(pipefd[0]);
 	if (dup2(pipefd[1], STDOUT_FILENO) == -1)
 	{
@@ -30,6 +32,7 @@ void	parent_pipe(t_data **ms, t_cmd *cmd_list, int *pipefd)
 {
 	int	status;
 
+	status = 0;
 	signal(SIGINT, prnt_ctrl);
 	signal(SIGQUIT, prnt_ctrl);
 	waitpid((*ms)->pid, &status, 0);
@@ -47,10 +50,11 @@ void	parent_pipe(t_data **ms, t_cmd *cmd_list, int *pipefd)
 	exec_cmd(ms, cmd_list->next);
 }
 
-void	last_cmd(t_data **ms, t_cmd *cmd_list)
+void	single_cmd(t_data **ms, t_cmd *cmd_list)
 {
 	int	status;
 
+	status = 0;
 	(*ms)->pid = fork();
 	if ((*ms)->pid == -1)
 		return (perror("fork"));
@@ -89,8 +93,8 @@ void	exec_cmd(t_data **ms, t_cmd *cmd_list)
 		else
 			parent_pipe(ms, cmd_list, pipefd);
 	}
-	else if (ft_builtin(ms, cmd_list) == false)
-		last_cmd(ms, cmd_list);
+	else
+		single_cmd(ms, cmd_list);
 	flag = 0;
 	dup2((*ms)->stdin_fd, STDIN_FILENO);
 }
