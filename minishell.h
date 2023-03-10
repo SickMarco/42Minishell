@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/10 14:29:00 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/10 14:43:34 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	set_env(t_data **ms, char **envp);
 void	ctrlc_handler(int sig);
 char	*exit_exp(char *line);
 int		env_len(t_data **ms, int i);
+void	free_cmd(t_cmd *cmd);
 
 //			EXECUTOR		//
 
