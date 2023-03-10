@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:28:56 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/10 15:09:09 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/10 15:39:42 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	free_cmd(t_cmd *cmd)
 	while (cmd->cmds[++i])
 		free(cmd->cmds[i]);
 	free(cmd->cmds);
-	i = -1;
 	while (cmd)
 	{
 		tmp = cmd->next;
@@ -47,7 +46,7 @@ void	ctrlc_handler(int sig)
 void	ft_clear(void)
 {
 	g_exit = 0;
-	write(STDOUT_FILENO, "\e[1;1H\e[2J", 12);
+	printf("\e[1;1H\e[2J");
 	printf("\033[31m" );
 	printf("\n░██████╗███╗░░░███╗░█████╗░░██████╗██╗░░\
 ██╗███████╗██╗░░░░░██╗░░░░░\n");

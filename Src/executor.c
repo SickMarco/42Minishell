@@ -6,32 +6,11 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:08:17 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/10 14:55:34 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/10 16:25:13 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	cmd_builder(t_data **ms)
-{
-	int		i;
-	t_cmd	*cmd;
-	t_list	*lst;
-
-	if (!access(HERED, F_OK))
-		unlink(HERED);
-	ft_readifyouneed(&((*ms)->input), ms);
-	(*ms)->cmd = ft_split1((*ms)->input);
-	i = -1;
-	while ((*ms)->cmd[++i])
-		(*ms)->cmd[i] = ft_expander((*ms)->cmd[i]);
-	ft_trimone((*ms)->cmd);
-	lst = ft_subsplit((*ms)->cmd);
-	cmd = create_cmdlst(&lst, *ms);
-	exec_cmd(ms, cmd);
-	free_cmd(cmd);
-	return ;
-}
 
 void	custom_exec(t_data **ms, t_cmd *cmd)
 {
@@ -112,4 +91,16 @@ void	prnt_ctrl(int sig)
 {
 	(void)sig;
 	write(STDOUT_FILENO, "\n", 1);
+}
+
+void	no_cmd(t_cmd *cmd)
+{
+	int	i;
+
+	i = -1;
+	g_exit = 127;
+	printf("smashell: command not found: ");
+	while (cmd->cmds[++i])
+		printf("%s ", cmd->cmds[i]);
+	printf("\n");
 }

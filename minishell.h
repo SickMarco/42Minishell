@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/10 14:43:34 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/10 17:34:55 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,15 @@ typedef struct s_data {
 	bool		hist;
 	int			fd;
 	int			stdin_fd;
+	int			stdout_fd;
 	int			blt;
 }				t_data;
 
 //			BUILTINS		//
 
 bool	ft_builtin(t_data **data, t_cmd	*cmd);
-void	ft_pwd(t_data **data, t_cmd *cmd);
+bool	check_builtin(t_cmd *cmd);
+void	ft_pwd(t_data **data);
 void	ft_clear(void);
 void	ft_cd(t_cmd	*cmd);
 void	ft_env(t_data **ms);
@@ -103,6 +105,7 @@ void	ctrlc_handler(int sig);
 char	*exit_exp(char *line);
 int		env_len(t_data **ms, int i);
 void	free_cmd(t_cmd *cmd);
+void	ft_freelist(t_list **lst);
 
 //			EXECUTOR		//
 
@@ -114,6 +117,8 @@ void	executor(t_data **ms, t_cmd *cmd);
 void	exec_cmd(t_data **ms, t_cmd *cmd_list);
 void	executor(t_data **ms, t_cmd *cmd);
 void	prnt_ctrl(int sig);
+void	open_redir(t_data **ms, t_cmd *cmd);
+void	close_redir(t_data **ms, t_cmd *cmd);
 
 //		PROMPT_READER		//
 

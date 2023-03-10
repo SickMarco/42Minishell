@@ -6,11 +6,33 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 17:52:41 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/10 14:31:09 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/10 16:50:21 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	cmd_builder(t_data **ms)
+{
+	int		i;
+	t_cmd	*cmd;
+	t_list	*lst;
+
+	if (!access(HERED, F_OK))
+		unlink(HERED);
+	ft_readifyouneed(&((*ms)->input), ms);
+	(*ms)->cmd = ft_split1((*ms)->input);
+	i = -1;
+	while ((*ms)->cmd[++i])
+		(*ms)->cmd[i] = ft_expander((*ms)->cmd[i]);
+	ft_trimone((*ms)->cmd);
+	lst = ft_subsplit((*ms)->cmd);
+	cmd = create_cmdlst(&lst, *ms);
+	ft_freelist(&lst);
+	exec_cmd(ms, cmd);
+	free_cmd(cmd);
+	return ;
+}
 
 void	child_pipe(t_data **ms, t_cmd *cmd_list, int *pipefd)
 {
@@ -23,7 +45,7 @@ void	child_pipe(t_data **ms, t_cmd *cmd_list, int *pipefd)
 		exit(EXIT_FAILURE);
 	}
 	close(pipefd[1]);
-	if (ft_builtin(ms, cmd_list) == false)
+	if (check_builtin(cmd_list) == false)
 		executor(ms, cmd_list);
 	exit(EXIT_FAILURE);
 }
@@ -43,6 +65,8 @@ void	parent_pipe(t_data **ms, t_cmd *cmd_list, int *pipefd)
 		exit(EXIT_FAILURE);
 	}
 	close(pipefd[0]);
+	if (check_builtin(cmd_list) == true)
+		ft_builtin(ms, cmd_list);
 	if (WIFEXITED(status))
 		g_exit = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
@@ -93,8 +117,8 @@ void	exec_cmd(t_data **ms, t_cmd *cmd_list)
 		else
 			parent_pipe(ms, cmd_list, pipefd);
 	}
-	else
+	else if (ft_builtin(ms, cmd_list) == false)
 		single_cmd(ms, cmd_list);
-	flag = 0;
 	dup2((*ms)->stdin_fd, STDIN_FILENO);
+	flag = 0;
 }

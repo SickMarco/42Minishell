@@ -3,12 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   cmdlst_create.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 13:44:07 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/10 16:53:23 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/10 16:58:53 by mbozzi           ###   ########.fr       */
 /*                                                                            */
-/* ****************************************************************************/
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -32,6 +32,7 @@ void	ft_freelist(t_list **lst)
 		free((*lst));
 		*lst = nxt;
 	}
+	free(*lst);
 }
 
 void	print_cmdlst(t_cmd *cmdn)
@@ -127,7 +128,6 @@ t_cmd	*create_cmdlst(t_list	**lst, t_data *ms)
 			ft_cmd_addback(&cmdlst, ft_cmdnew(lst, ms->path));//scorre lst nodes
 		cmdlst = ft_cmdlast(cmdlst);
 	}
-	print_cmdlst(head);
 	ft_freelist(lsthead);//free just the nodes, not the contents
 	return (head);
 }

@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:00:33 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/10 14:50:33 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/10 17:34:02 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 bool	ft_builtin(t_data **ms, t_cmd *cmd)
 {
+	if ((cmd->out_fd != -1 || cmd->in_fd != -1) && check_builtin(cmd) == true)
+		open_redir(ms, cmd);
 	if (!cmd->cmds[0])
 		return (false);
 	else if (!ft_strncmp(cmd->cmds[0], "pwd", 4) && !cmd->cmds[1])
-		ft_pwd(ms, cmd);
+		ft_pwd(ms);
 	else if (!ft_strncmp(cmd->cmds[0], "clear", 6))
 		ft_clear();
 	else if (!ft_strncmp(cmd->cmds[0], "cd", 3))
@@ -32,15 +34,12 @@ bool	ft_builtin(t_data **ms, t_cmd *cmd)
 		ft_echo(cmd);
 	else
 		return (false);
+	close_redir(ms, cmd);
 	return (true);
 }
 
-void	ft_pwd(t_data **ms, t_cmd *cmd)
+void	ft_pwd(t_data **ms)
 {
-	if (cmd->out_fd != -1)
-		dup2(cmd->out_fd, STDOUT_FILENO);
-	if (cmd->in_fd != -1)
-		dup2(cmd->in_fd, STDIN_FILENO);
 	(*ms)->pwd = getcwd(NULL, 0);
 	getcwd((*ms)->pwd, sizeof((*ms)->pwd));
 	printf("%s\n", (*ms)->pwd);
@@ -50,10 +49,6 @@ void	ft_pwd(t_data **ms, t_cmd *cmd)
 
 void	ft_cd(t_cmd *cmd)
 {
-	if (cmd->out_fd != -1)
-		dup2(cmd->out_fd, STDOUT_FILENO);
-	if (cmd->in_fd != -1)
-		dup2(cmd->in_fd, STDIN_FILENO);
 	if (!cmd->cmds[1])
 		chdir(getenv("HOME"));
 	else if (chdir(cmd->cmds[1]) != 0)
@@ -71,10 +66,6 @@ void	ft_echo(t_cmd *cmd)
 
 	flag = 0;
 	i = 0;
-	if (cmd->out_fd != -1)
-		dup2(cmd->out_fd, STDOUT_FILENO);
-	if (cmd->in_fd != -1)
-		dup2(cmd->in_fd, STDIN_FILENO);
 	if (cmd->cmds[i])
 	{
 		while (cmd->cmds[++i])
@@ -95,14 +86,15 @@ void	ft_echo(t_cmd *cmd)
 	g_exit = 0;
 }
 
-void	no_cmd(t_cmd *cmd)
+bool	check_builtin(t_cmd *cmd)
 {
-	int	i;
-
-	i = -1;
-	g_exit = 127;
-	printf("smashell: command not found: ");
-	while (cmd->cmds[++i])
-		printf("%s ", cmd->cmds[i]);
-	printf("\n");
+	if (!ft_strncmp(cmd->cmds[0], "pwd", 4)
+		|| !ft_strncmp(cmd->cmds[0], "clear", 6)
+		|| !ft_strncmp(cmd->cmds[0], "cd", 3)
+		|| !ft_strncmp(cmd->cmds[0], "env", 4)
+		|| !ft_strncmp(cmd->cmds[0], "export", 6)
+		|| !ft_strncmp(cmd->cmds[0], "unset", 5)
+		|| !ft_strncmp(cmd->cmds[0], "echo", 4))
+		return (true);
+	return (false);
 }
