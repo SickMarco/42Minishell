@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:08:17 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/10 16:25:13 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/10 19:29:19 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,6 @@ void	exec_here(t_data **ms, t_cmd *cmd)
 
 void	executor(t_data **ms, t_cmd *cmd)
 {
-	int	i;
-
-	i = -1;
 	if (cmd->cmd && (*ms)->hist == false)
 	{
 		if (cmd->out_fd != -1)
