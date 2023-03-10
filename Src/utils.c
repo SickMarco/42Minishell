@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:28:56 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/10 14:34:46 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/10 15:09:09 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ void	free_cmd(t_cmd *cmd)
 	int		i;
 	t_cmd	*tmp;
 
+	i = -1;
+	free(cmd->cmd);
+	while (cmd->cmds[++i])
+		free(cmd->cmds[i]);
+	free(cmd->cmds);
 	i = -1;
 	while (cmd)
 	{
