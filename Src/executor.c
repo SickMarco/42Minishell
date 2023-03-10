@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:08:17 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/10 14:34:58 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/10 14:55:34 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,10 @@ void	executor(t_data **ms, t_cmd *cmd)
 	i = -1;
 	if (cmd->cmd && (*ms)->hist == false)
 	{
+		if (cmd->out_fd != -1)
+			dup2(cmd->out_fd, STDOUT_FILENO);
+		if (cmd->in_fd != -1)
+			dup2(cmd->in_fd, STDIN_FILENO);
 		exec_here(ms, cmd);
 		dup2((*ms)->stdin_fd, STDIN_FILENO);
 	}
@@ -95,7 +99,7 @@ void	executor(t_data **ms, t_cmd *cmd)
 	{
 		if (cmd->out_fd != -1)
 			dup2(cmd->out_fd, STDOUT_FILENO);
-		else if (cmd->in_fd != -1)
+		if (cmd->in_fd != -1)
 			dup2(cmd->in_fd, STDIN_FILENO);
 		execve(cmd->cmd, cmd->cmds, (*ms)->env);
 		perror("smashell");

@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:00:33 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/10 14:35:21 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/10 14:50:33 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	ft_pwd(t_data **ms, t_cmd *cmd)
 {
 	if (cmd->out_fd != -1)
 		dup2(cmd->out_fd, STDOUT_FILENO);
-	else if (cmd->in_fd != -1)
+	if (cmd->in_fd != -1)
 		dup2(cmd->in_fd, STDIN_FILENO);
 	(*ms)->pwd = getcwd(NULL, 0);
 	getcwd((*ms)->pwd, sizeof((*ms)->pwd));
@@ -52,7 +52,7 @@ void	ft_cd(t_cmd *cmd)
 {
 	if (cmd->out_fd != -1)
 		dup2(cmd->out_fd, STDOUT_FILENO);
-	else if (cmd->in_fd != -1)
+	if (cmd->in_fd != -1)
 		dup2(cmd->in_fd, STDIN_FILENO);
 	if (!cmd->cmds[1])
 		chdir(getenv("HOME"));
@@ -73,7 +73,7 @@ void	ft_echo(t_cmd *cmd)
 	i = 0;
 	if (cmd->out_fd != -1)
 		dup2(cmd->out_fd, STDOUT_FILENO);
-	else if (cmd->in_fd != -1)
+	if (cmd->in_fd != -1)
 		dup2(cmd->in_fd, STDIN_FILENO);
 	if (cmd->cmds[i])
 	{
