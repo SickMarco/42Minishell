@@ -6,7 +6,7 @@
 /*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 13:44:07 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/09 20:46:19 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/10 16:53:23 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ****************************************************************************/
 
@@ -34,6 +34,26 @@ void	ft_freelist(t_list **lst)
 	}
 }
 
+void	print_cmdlst(t_cmd *cmdn)
+{
+	t_cmd	*nxt;
+	int i;
+	int n;
+
+	n = -1;
+	while (cmdn)
+	{
+		printf("cmd node %d:\n", ++n);
+		nxt = cmdn->next;
+		i = -1;
+		while ((cmdn->cmds)[++i])
+			printf("\tcmds[%d] = %s\n", i, (cmdn->cmds)[i]);
+		printf("\n\tpath = %s\n", cmdn->cmd);
+		printf("\n\t in_fd = %d\n\t out_fd = %d\n\n", cmdn->in_fd, cmdn->out_fd);
+		cmdn = nxt;
+	}
+}
+
 t_cmd	*create_cmdlst(t_list	**lst, t_data *ms)
 {
 	t_list	**lsthead;
@@ -43,7 +63,9 @@ t_cmd	*create_cmdlst(t_list	**lst, t_data *ms)
 	ft_print_slst(*lst);
 	return NULL;*/
 	lsthead = lst;
-	cmdlst = ft_cmdnew(lst, ms->path);
+//	cmdlst = ft_cmdnew(lst, ms->path);
+	cmdlst = NULL;
+	ft_cmd_addback(&cmdlst, ft_cmdnew(lst, ms->path));
 	head = cmdlst;
 	while (*lst)
 	{
@@ -51,7 +73,7 @@ t_cmd	*create_cmdlst(t_list	**lst, t_data *ms)
 						ft_sl((char *)((*lst)->content)))))
 		{
 			free((*lst)->content);
-			*lst = (*lst)->next; 
+			*lst = (*lst)->next;
 		}
 		else if (!(ft_strncmp((char *)((*lst)->content), "<",
 						ft_sl((char *)((*lst)->content)))))
@@ -103,7 +125,9 @@ t_cmd	*create_cmdlst(t_list	**lst, t_data *ms)
 		}
 		else
 			ft_cmd_addback(&cmdlst, ft_cmdnew(lst, ms->path));//scorre lst nodes
+		cmdlst = ft_cmdlast(cmdlst);
 	}
+	print_cmdlst(head);
 	ft_freelist(lsthead);//free just the nodes, not the contents
 	return (head);
 }
