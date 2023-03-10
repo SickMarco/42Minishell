@@ -6,7 +6,7 @@
 /*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:50:12 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/09 17:54:23 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/10 15:02:33 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ t_cmd	*ft_cmdnew(t_list **lst, char **path)
 	if (!cmdn)
 		return (NULL);
 	len = ft_cmdslen(*lst);
-	cmdn->cmds = malloc(len + 1);
+	cmdn->cmds = malloc(sizeof(char *) * (len + 1));
 	if (!(cmdn->cmds))
 		return (NULL);
 	(cmdn->cmds)[len] = NULL;
