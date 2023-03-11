@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 17:52:41 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/11 15:19:55 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/11 19:05:48 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	child_pipe(t_data **ms, t_cmd *cmd_list, int *pipefd)
 	close(pipefd[1]);
 	if (check_builtin(cmd_list) == false)
 		executor(ms, cmd_list);
+	else
+		ft_builtin(ms, cmd_list);
 	exit(EXIT_FAILURE);
 }
 
@@ -58,14 +60,13 @@ void	parent_pipe(t_data **ms, t_cmd *cmd_list, int *pipefd)
 	int	status;
 
 	status = 0;
+	(*ms)->pipe = 1;
 	signal(SIGINT, prnt_ctrl);
 	signal(SIGQUIT, prnt_ctrl);
 	waitpid((*ms)->pid, &status, 0);
 	close(pipefd[1]);
 	dup2(pipefd[0], STDIN_FILENO);
 	close(pipefd[0]);
-	if (check_builtin(cmd_list) == true)
-		ft_builtin(ms, cmd_list);
 	if (WIFEXITED(status))
 		g_exit = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
@@ -119,5 +120,6 @@ void	exec_cmd(t_data **ms, t_cmd *cmd_list)
 	}
 	else if (ft_builtin(ms, cmd_list) == false)
 		single_cmd(ms, cmd_list);
+	(*ms)->pipe = 0;
 	dup2((*ms)->stdin_fd, STDIN_FILENO);
 }

@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/11 17:05:22 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/11 19:06:03 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct s_data {
 	int			fd;
 	int			stdin_fd;
 	int			stdout_fd;
-	int			blt;
+	int			pipe;
 }				t_data;
 
 //			BUILTINS		//
@@ -75,7 +75,7 @@ bool	ft_builtin(t_data **data, t_cmd	*cmd);
 bool	check_builtin(t_cmd *cmd);
 void	ft_pwd(t_data **data);
 void	ft_clear(void);
-void	ft_cd(t_cmd	*cmd);
+void	ft_cd(t_data **ms, t_cmd *cmd);
 void	ft_env(t_data **ms);
 void	ft_export(t_data **ms, t_cmd *cmd);
 void	ft_unset(t_data **ms, t_cmd *cmd);

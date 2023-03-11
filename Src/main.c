@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:19:29 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/10 14:59:29 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/11 18:34:23 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	init_ms(t_data **ms, char **envp, int ac, char	**av)
 	(*ms)->exp = ft_calloc(sizeof(t_exp), 1);
 	(*ms)->prompt = ft_strjoin("\033[0;36m", getenv("USER"));
 	(*ms)->prompt = ft_strjoin2((*ms)->prompt, "@minishell: \033[0;37m");
+	(*ms)->stdin_fd = dup(STDIN_FILENO);
+	(*ms)->stdout_fd = dup(STDOUT_FILENO);
 	set_env(ms, envp);
 	ft_clear();
 	printf("Welcome %s\n\n", getenv("USER"));

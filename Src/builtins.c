@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:00:33 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/11 14:27:48 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/11 19:06:05 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ bool	ft_builtin(t_data **ms, t_cmd *cmd)
 	else if (!ft_strncmp(cmd->cmds[0], "clear", 6))
 		ft_clear();
 	else if (!ft_strncmp(cmd->cmds[0], "cd", 3))
-		ft_cd(cmd);
+		ft_cd(ms ,cmd);
 	else if (!ft_strncmp(cmd->cmds[0], "env", 4))
 		ft_env(ms);
 	else if (!ft_strncmp(cmd->cmds[0], "export", 6))
@@ -47,14 +47,17 @@ void	ft_pwd(t_data **ms)
 	g_exit = 0;
 }
 
-void	ft_cd(t_cmd *cmd)
+void	ft_cd(t_data **ms, t_cmd *cmd)
 {
-	if (!cmd->cmds[1])
-		chdir(getenv("HOME"));
-	else if (chdir(cmd->cmds[1]) != 0)
+	if ((*ms)->pipe == 0)
 	{
-		g_exit = 1;
-		return (perror("cd"));
+		if (!cmd->cmds[1])
+			chdir(getenv("HOME"));
+		else if (chdir(cmd->cmds[1]) != 0)
+		{
+			g_exit = 1;
+			return (perror("cd"));
+		}
 	}
 	g_exit = 0;
 }
