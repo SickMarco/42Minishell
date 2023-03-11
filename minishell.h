@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/10 17:34:55 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/11 17:05:22 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	executor(t_data **ms, t_cmd *cmd);
 void	exec_cmd(t_data **ms, t_cmd *cmd_list);
 void	executor(t_data **ms, t_cmd *cmd);
 void	prnt_ctrl(int sig);
-void	open_redir(t_data **ms, t_cmd *cmd);
+void	open_redir(t_cmd *cmd);
 void	close_redir(t_data **ms, t_cmd *cmd);
 
 //		PROMPT_READER		//
