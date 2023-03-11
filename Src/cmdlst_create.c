@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 13:44:07 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/10 16:58:53 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/11 16:38:14 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_perrex(char *s)
 {
 	perror(s);
-	exit(EXIT_FAILURE);
+	g_exit = 1234;
 }
 
 void	ft_freelist(t_list **lst)
@@ -85,7 +85,7 @@ t_cmd	*create_cmdlst(t_list	**lst, t_data *ms)
 				break ;
 			cmdlst->in_fd = open((char *)((*lst)->content), O_RDONLY);
 			if (cmdlst->in_fd < 0)
-				ft_perrex("open");
+				ft_perrex(cmdlst->cmds[0]);
 			free((*lst)->content);
 			*lst = (*lst)->next;
 		}
@@ -95,7 +95,7 @@ t_cmd	*create_cmdlst(t_list	**lst, t_data *ms)
 			free((*lst)->content);
 			cmdlst->in_fd = open(HERED, O_RDONLY);
 			if (cmdlst->in_fd < 0)
-				ft_perrex("open");
+				ft_perrex(cmdlst->cmds[0]);
 			*lst = (*lst)->next;
 		}
 		else if (!(ft_strncmp((char *)((*lst)->content), ">",
@@ -107,7 +107,7 @@ t_cmd	*create_cmdlst(t_list	**lst, t_data *ms)
 				break ;
 			cmdlst->out_fd = open((char *)((*lst)->content), O_WRONLY | O_CREAT | O_TRUNC, 0666);
 			if (cmdlst->out_fd < 0)
-				ft_perrex("open");
+				ft_perrex(cmdlst->cmds[0]);
 			free((*lst)->content);
 			*lst = (*lst)->next;
 		}
@@ -120,7 +120,7 @@ t_cmd	*create_cmdlst(t_list	**lst, t_data *ms)
 				break ;
 			cmdlst->out_fd = open((char *)((*lst)->content), O_WRONLY | O_CREAT | O_APPEND, 0666);
 			if (cmdlst->out_fd < 0)
-				ft_perrex("open");
+				ft_perrex(cmdlst->cmds[0]);
 			free((*lst)->content);
 			*lst = (*lst)->next;
 		}

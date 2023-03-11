@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:08:17 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/10 19:29:19 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/11 16:03:31 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	exec_here(t_data **ms, t_cmd *cmd)
 	int		i;
 
 	i = -1;
-	(*ms)->stdin_fd = dup(STDIN_FILENO);
 	tmp = ft_calloc(sizeof(char *), 2);
 	tmp[0] = ft_strdup(cmd->cmds[0]);
 	while (cmd->cmds[++i])
@@ -62,10 +61,8 @@ void	executor(t_data **ms, t_cmd *cmd)
 {
 	if (cmd->cmd && (*ms)->hist == false)
 	{
-		if (cmd->out_fd != -1)
-			dup2(cmd->out_fd, STDOUT_FILENO);
-		if (cmd->in_fd != -1)
-			dup2(cmd->in_fd, STDIN_FILENO);
+		if ((cmd->out_fd != -1 || cmd->in_fd != -1))
+			open_redir(cmd);
 		exec_here(ms, cmd);
 		dup2((*ms)->stdin_fd, STDIN_FILENO);
 	}
@@ -73,10 +70,8 @@ void	executor(t_data **ms, t_cmd *cmd)
 		custom_exec(ms, cmd);
 	else if (cmd && (*ms)->hist)
 	{
-		if (cmd->out_fd != -1)
-			dup2(cmd->out_fd, STDOUT_FILENO);
-		if (cmd->in_fd != -1)
-			dup2(cmd->in_fd, STDIN_FILENO);
+		if ((cmd->out_fd != -1 || cmd->in_fd != -1))
+			open_redir(cmd);
 		execve(cmd->cmd, cmd->cmds, (*ms)->env);
 		perror("smashell");
 		exit (EXIT_FAILURE);

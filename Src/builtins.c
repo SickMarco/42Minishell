@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:00:33 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/10 17:34:02 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/11 14:27:48 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 bool	ft_builtin(t_data **ms, t_cmd *cmd)
 {
 	if ((cmd->out_fd != -1 || cmd->in_fd != -1) && check_builtin(cmd) == true)
-		open_redir(ms, cmd);
+		open_redir(cmd);
 	if (!cmd->cmds[0])
 		return (false);
 	else if (!ft_strncmp(cmd->cmds[0], "pwd", 4) && !cmd->cmds[1])

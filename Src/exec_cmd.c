@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 17:52:41 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/10 19:43:58 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/11 15:19:55 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ void	cmd_builder(t_data **ms)
 	lst = ft_subsplit((*ms)->cmd);
 	cmd = create_cmdlst(&lst, *ms);
 	ft_freelist(&lst);
-	exec_cmd(ms, cmd);
+	if (g_exit == 1234)
+		g_exit = 1;
+	else
+		exec_cmd(ms, cmd);
 	free_cmd(cmd);
 	return ;
 }
@@ -59,11 +62,7 @@ void	parent_pipe(t_data **ms, t_cmd *cmd_list, int *pipefd)
 	signal(SIGQUIT, prnt_ctrl);
 	waitpid((*ms)->pid, &status, 0);
 	close(pipefd[1]);
-	if (dup2(pipefd[0], STDIN_FILENO) == -1)
-	{
-		perror("dup2");
-		exit(EXIT_FAILURE);
-	}
+	dup2(pipefd[0], STDIN_FILENO);
 	close(pipefd[0]);
 	if (check_builtin(cmd_list) == true)
 		ft_builtin(ms, cmd_list);
@@ -103,14 +102,11 @@ void	single_cmd(t_data **ms, t_cmd *cmd_list)
 void	exec_cmd(t_data **ms, t_cmd *cmd_list)
 {
 	int			pipefd[2];
-	static int	flag = 0;
 
-	if (cmd_list == NULL)
+	if (!cmd_list)
 		return ;
-	if (cmd_list->next != NULL)
+	if (cmd_list->next)
 	{
-		if (flag++ == 0)
-			(*ms)->stdin_fd = dup(STDIN_FILENO);
 		if (pipe(pipefd) == -1)
 			return (perror("pipe"));
 		(*ms)->pid = fork();
@@ -124,5 +120,4 @@ void	exec_cmd(t_data **ms, t_cmd *cmd_list)
 	else if (ft_builtin(ms, cmd_list) == false)
 		single_cmd(ms, cmd_list);
 	dup2((*ms)->stdin_fd, STDIN_FILENO);
-	flag = 0;
 }
