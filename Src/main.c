@@ -20,7 +20,6 @@ void	init_ms(t_data **ms, char **envp, int ac, char	**av)
 	(void)av;
 	g_exit = 0;
 	*ms = ft_calloc(sizeof(t_data), 1);
-	(*ms)->exp = ft_calloc(sizeof(t_exp), 1);
 	(*ms)->prompt = ft_strjoin("\033[0;36m", getenv("USER"));
 	(*ms)->prompt = ft_strjoin2((*ms)->prompt, "@minishell: \033[0;37m");
 	(*ms)->stdin_fd = dup(STDIN_FILENO);

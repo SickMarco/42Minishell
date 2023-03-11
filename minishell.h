@@ -60,13 +60,14 @@ typedef struct s_data {
 	char		**path;
 	char		*prompt;
 	char		**cmd;
-	t_exp		*exp;
 	pid_t		pid;
 	bool		hist;
 	int			fd;
 	int			stdin_fd;
 	int			stdout_fd;
 	int			pipe;
+	t_cmd		*cmd_list;
+	t_list		*list;
 }				t_data;
 
 //			BUILTINS		//
@@ -106,6 +107,7 @@ char	*exit_exp(char *line);
 int		env_len(t_data **ms, int i);
 void	free_cmd(t_cmd *cmd);
 void	ft_freelist(t_list **lst);
+void	free_for_all2(t_data **ms);
 
 //			EXECUTOR		//
 

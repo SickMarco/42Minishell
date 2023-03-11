@@ -15,8 +15,6 @@
 void	cmd_builder(t_data **ms)
 {
 	int		i;
-	t_cmd	*cmd;
-	t_list	*lst;
 
 	if (!access(HERED, F_OK))
 		unlink(HERED);
@@ -26,14 +24,14 @@ void	cmd_builder(t_data **ms)
 	while ((*ms)->cmd[++i])
 		(*ms)->cmd[i] = ft_expander((*ms)->cmd[i]);
 	ft_trimone((*ms)->cmd);
-	lst = ft_subsplit((*ms)->cmd);
-	cmd = create_cmdlst(&lst, *ms);
-	ft_freelist(&lst);
+	(*ms)->list = ft_subsplit((*ms)->cmd);
+	(*ms)->cmd_list = create_cmdlst(&(*ms)->list, *ms);
+	ft_freelist(&(*ms)->list);
 	if (g_exit == 1234)
 		g_exit = 1;
 	else
-		exec_cmd(ms, cmd);
-	free_cmd(cmd);
+		exec_cmd(ms, (*ms)->cmd_list);
+	free_cmd((*ms)->cmd_list);
 	return ;
 }
 
@@ -52,7 +50,8 @@ void	child_pipe(t_data **ms, t_cmd *cmd_list, int *pipefd)
 		executor(ms, cmd_list);
 	else
 		ft_builtin(ms, cmd_list);
-	exit(EXIT_FAILURE);
+	free_for_all2(ms);
+	exit(EXIT_SUCCESS);
 }
 
 void	parent_pipe(t_data **ms, t_cmd *cmd_list, int *pipefd)
@@ -87,6 +86,7 @@ void	single_cmd(t_data **ms, t_cmd *cmd_list)
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		executor(ms, cmd_list);
+		free_for_all2(ms);
 	}
 	else
 	{

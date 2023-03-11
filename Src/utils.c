@@ -28,7 +28,6 @@ void	free_cmd(t_cmd *cmd)
 		free(cmd);
 		cmd = tmp;
 	}
-	cmd = NULL;
 }
 
 void	ctrlc_handler(int sig)
@@ -91,10 +90,26 @@ void	free_for_all(t_data **ms)
 		free((*ms)->path[i]);
 	free((*ms)->path);
 	free((*ms)->prompt);
-	free((*ms)->exp);
 	free((*ms)->input);
 	free((*ms)->env);
 	free(*ms);
-	if (!access(HERED, F_OK))
-		unlink(HERED);
+}
+
+void	free_for_all2(t_data **ms)
+{
+	int	i;
+
+	i = -1;
+	while ((*ms)->env[++i])
+		free((*ms)->env[i]);
+	i = -1;
+	while ((*ms)->path[++i])
+		free((*ms)->path[i]);
+	free((*ms)->path);
+	free((*ms)->prompt);
+	free((*ms)->input);
+	free((*ms)->env);
+	free_cmd((*ms)->cmd_list);
+	ft_freelist(&(*ms)->list);
+	free(*ms);
 }

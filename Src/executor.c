@@ -33,7 +33,11 @@ void	custom_exec(t_data **ms, t_cmd *cmd)
 		perror("smashell");
 	}
 	else
+	{
 		no_cmd(cmd);
+		free_for_all2(ms);
+		exit(EXIT_SUCCESS);
+	}
 	exit(g_exit);
 }
 
@@ -76,7 +80,7 @@ void	executor(t_data **ms, t_cmd *cmd)
 		perror("smashell");
 		exit (EXIT_FAILURE);
 	}
-	return ;
+	exit(EXIT_FAILURE);
 }
 
 void	prnt_ctrl(int sig)
