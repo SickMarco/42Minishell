@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:00:33 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/11 19:06:05 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/12 18:17:36 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ bool	ft_builtin(t_data **ms, t_cmd *cmd)
 		open_redir(cmd);
 	if (!cmd->cmds[0])
 		return (false);
-	else if (!ft_strncmp(cmd->cmds[0], "pwd", 4) && !cmd->cmds[1])
+	else if (!ft_strncmp(cmd->cmds[0], "pwd", 4))
 		ft_pwd(ms);
 	else if (!ft_strncmp(cmd->cmds[0], "clear", 6))
 		ft_clear();
 	else if (!ft_strncmp(cmd->cmds[0], "cd", 3))
-		ft_cd(ms ,cmd);
+		ft_cd(ms, cmd);
 	else if (!ft_strncmp(cmd->cmds[0], "env", 4))
 		ft_env(ms);
 	else if (!ft_strncmp(cmd->cmds[0], "export", 6))
