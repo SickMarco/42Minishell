@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:00:33 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/12 18:17:36 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/12 19:54:44 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,23 @@ void	ft_cd(t_data **ms, t_cmd *cmd)
 	if ((*ms)->pipe == 0)
 	{
 		if (!cmd->cmds[1])
+		{
+			g_exit = 0;
 			chdir(getenv("HOME"));
+		}
+		else if (cmd->cmds[2])
+		{
+			g_exit = 1;
+			write(STDERR_FILENO, "cd : Too many arguments\n", 25);
+		}
 		else if (chdir(cmd->cmds[1]) != 0)
 		{
 			g_exit = 1;
 			return (perror("cd"));
 		}
+		else
+			g_exit = 0;
 	}
-	g_exit = 0;
 }
 
 void	ft_echo(t_cmd *cmd)
