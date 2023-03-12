@@ -145,6 +145,6 @@ t_cmd	*ft_cmdnew(t_list **lst, char **path);
 void	ft_cmd_addback(t_cmd **cmd, t_cmd *new);
 t_cmd	*ft_cmdlast(t_cmd *cmd);
 char	*path_search(char **path, char *cmd);
-t_cmd	*create_cmdlst(t_list **lst, t_data *ms);
+t_cmd	*create_cmdlst(t_list *lst, t_data *ms);
 
 #endif

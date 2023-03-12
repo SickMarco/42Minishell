@@ -55,9 +55,9 @@ void	print_cmdlst(t_cmd *cmdn)
 	}
 }
 
-t_cmd	*create_cmdlst(t_list	**lst, t_data *ms)
+t_cmd	*create_cmdlst(t_list	*lst, t_data *ms)
 {
-	t_list	**lsthead;
+	t_list	*lsthead;
 	t_cmd	*head;
 	t_cmd	*cmdlst;
 /*
@@ -66,68 +66,68 @@ t_cmd	*create_cmdlst(t_list	**lst, t_data *ms)
 	lsthead = lst;
 //	cmdlst = ft_cmdnew(lst, ms->path);
 	cmdlst = NULL;
-	ft_cmd_addback(&cmdlst, ft_cmdnew(lst, ms->path));
+	ft_cmd_addback(&cmdlst, ft_cmdnew(&lst, ms->path));
 	head = cmdlst;
-	while (*lst)
+	while (lst)
 	{
-		if (!(ft_strncmp((char *)((*lst)->content), "|",
-						ft_sl((char *)((*lst)->content)))))
+		if (!(ft_strncmp((char *)((lst)->content), "|",
+						ft_sl((char *)((lst)->content)))))
 		{
-			free((*lst)->content);
-			*lst = (*lst)->next;
+			free(lst->content);
+			lst = lst->next;
 		}
-		else if (!(ft_strncmp((char *)((*lst)->content), "<",
-						ft_sl((char *)((*lst)->content)))))
+		else if (!(ft_strncmp((char *)((lst)->content), "<",
+						ft_sl((char *)((lst)->content)))))
 		{
-			free((*lst)->content);
-			*lst = (*lst)->next;
-			if (!(*lst))
+			free(lst->content);
+			lst = lst->next;
+			if (!(lst))
 				break ;
-			cmdlst->in_fd = open((char *)((*lst)->content), O_RDONLY);
+			cmdlst->in_fd = open((char *)((lst)->content), O_RDONLY);
 			if (cmdlst->in_fd < 0)
 				ft_perrex(cmdlst->cmds[0]);
-			free((*lst)->content);
-			*lst = (*lst)->next;
+			free((lst)->content);
+			lst = lst->next;
 		}
-		else if (!(ft_strncmp((char *)((*lst)->content), "<<",
-						ft_sl((char *)((*lst)->content)))))///modifica readifyouneed in modo da lasciare << come nodo di lst
+		else if (!(ft_strncmp((char *)(lst->content), "<<",
+						ft_sl((char *)(lst->content)))))///modifica readifyouneed in modo da lasciare << come nodo di lst
 		{
-			free((*lst)->content);
+			free(lst->content);
 			cmdlst->in_fd = open(HERED, O_RDONLY);
 			if (cmdlst->in_fd < 0)
 				ft_perrex(cmdlst->cmds[0]);
-			*lst = (*lst)->next;
+			lst = lst->next;
 		}
-		else if (!(ft_strncmp((char *)((*lst)->content), ">",
-						ft_sl((char *)((*lst)->content)))))
+		else if (!(ft_strncmp((char *)(lst->content), ">",
+						ft_sl((char *)(lst->content)))))
 		{
-			free((*lst)->content);
-			*lst = (*lst)->next;
-			if (!(*lst))
+			free(lst->content);
+			lst = lst->next;
+			if (!(lst))
 				break ;
-			cmdlst->out_fd = open((char *)((*lst)->content), O_WRONLY | O_CREAT | O_TRUNC, 0666);
+			cmdlst->out_fd = open((char *)(lst->content), O_WRONLY | O_CREAT | O_TRUNC, 0666);
 			if (cmdlst->out_fd < 0)
 				ft_perrex(cmdlst->cmds[0]);
-			free((*lst)->content);
-			*lst = (*lst)->next;
+			free(lst->content);
+			lst = lst->next;
 		}
-		else if (!(ft_strncmp((char *)((*lst)->content), ">>",
-						ft_sl((char *)((*lst)->content)))))
+		else if (!(ft_strncmp((char *)(lst->content), ">>",
+						ft_sl((char *)(lst->content)))))
 		{
-			free((*lst)->content);
-			*lst = (*lst)->next;
-			if (!(*lst))
+			free(lst->content);
+			lst = lst->next;
+			if (!(lst))
 				break ;
-			cmdlst->out_fd = open((char *)((*lst)->content), O_WRONLY | O_CREAT | O_APPEND, 0666);
+			cmdlst->out_fd = open((char *)(lst->content), O_WRONLY | O_CREAT | O_APPEND, 0666);
 			if (cmdlst->out_fd < 0)
 				ft_perrex(cmdlst->cmds[0]);
-			free((*lst)->content);
-			*lst = (*lst)->next;
+			free(lst->content);
+			lst = lst->next;
 		}
 		else
-			ft_cmd_addback(&cmdlst, ft_cmdnew(lst, ms->path));//scorre lst nodes
+			ft_cmd_addback(&cmdlst, ft_cmdnew(&lst, ms->path));//scorre lst nodes
 		cmdlst = ft_cmdlast(cmdlst);
 	}
-	ft_freelist(lsthead);//free just the nodes, not the contents
+	ft_freelist(&lsthead);//free just the nodes, not the contents
 	return (head);
 }

@@ -110,6 +110,6 @@ void	free_for_all2(t_data **ms)
 	free((*ms)->input);
 	free((*ms)->env);
 	free_cmd((*ms)->cmd_list);
-	ft_freelist(&(*ms)->list);
+//	ft_freelist(&(*ms)->list);
 	free(*ms);
 }

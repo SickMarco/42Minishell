@@ -12,6 +12,19 @@
 
 #include "../minishell.h"
 
+void freeList(t_list *head)
+{
+   t_list *tmp;
+
+   while (head != NULL)
+    {
+       tmp = head;
+       head = head->next;
+       free(tmp);
+    }
+
+}
+
 void	cmd_builder(t_data **ms)
 {
 	int		i;
@@ -25,8 +38,7 @@ void	cmd_builder(t_data **ms)
 		(*ms)->cmd[i] = ft_expander((*ms)->cmd[i]);
 	ft_trimone((*ms)->cmd);
 	(*ms)->list = ft_subsplit((*ms)->cmd);
-	(*ms)->cmd_list = create_cmdlst(&(*ms)->list, *ms);
-	ft_freelist(&(*ms)->list);
+	(*ms)->cmd_list = create_cmdlst((*ms)->list, *ms);
 	if (g_exit == 1234)
 		g_exit = 1;
 	else
