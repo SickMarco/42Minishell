@@ -6,7 +6,7 @@
 /*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 12:49:23 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/13 12:49:35 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/13 12:52:02 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int	ft_print_slst(t_list *lst)
 void	print_cmdlst(t_cmd *cmdn)
 {
 	t_cmd	*nxt;
-	int i;
-	int n;
+	int		i;
+	int		n;
 
 	n = -1;
 	while (cmdn)

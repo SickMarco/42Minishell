@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:28:56 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/13 12:29:50 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/13 12:52:34 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,3 @@ void	set_env(t_data **ms, char **envp)
 	while (envp[++i])
 		(*ms)->env[i] = ft_strdup(envp[i]);
 }
-
