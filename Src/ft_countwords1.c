@@ -37,16 +37,19 @@ int	ft_countwords1(char *s)
 	int	i;
 	int	words;
 
+	if (!s || !(*s))
+		return (0);
 	words = 0;
 	i = 0;
-	while (s && s[i])
+	while (s[i])
 	{
 		words += (s[i] != 32);
 		while (s[i] && s[i] != 32)
 		{
 			if (s[i] == 34)
 			{
-				words += (s[i - 1] && s[i - 1] != 32);
+				if (i > 0 && s[i - 1] && s[i - 1] != 32)
+					words++;
 				ft_close_quote(s, &i, 34);
 			}
 			else if (s[i] == 39)
