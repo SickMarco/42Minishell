@@ -12,47 +12,6 @@
 
 #include "../minishell.h"
 
-void	ft_perrex(char *s)
-{
-	perror(s);
-	g_exit = 1234;
-}
-
-void	ft_freelist(t_list **lst)
-{
-	t_list	*nxt;
-
-	if (!lst || !(*lst))
-		return ;
-	while (*lst)
-	{
-		nxt = (*lst)->next;
-		free((*lst));
-		*lst = nxt;
-	}
-	free(*lst);
-}
-
-void	print_cmdlst(t_cmd *cmdn)
-{
-	t_cmd	*nxt;
-	int i;
-	int n;
-
-	n = -1;
-	while (cmdn)
-	{
-		printf("cmd node %d:\n", ++n);
-		nxt = cmdn->next;
-		i = -1;
-		while ((cmdn->cmds)[++i])
-			printf("\tcmds[%d] = %s\n", i, (cmdn->cmds)[i]);
-		printf("\n\tpath = %s\n", cmdn->cmd);
-		printf("\n\t in_fd = %d\n\t out_fd = %d\n\n", cmdn->in_fd, cmdn->out_fd);
-		cmdn = nxt;
-	}
-}
-
 t_cmd	*create_cmdlst(t_list	*lst, t_data *ms)
 {
 	t_list	*lsthead;

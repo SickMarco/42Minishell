@@ -12,19 +12,6 @@
 
 #include "../minishell.h"
 
-void freeList(t_list *head)
-{
-   t_list *tmp;
-
-   while (head != NULL)
-    {
-       tmp = head;
-       head = head->next;
-       free(tmp);
-    }
-
-}
-
 void	cmd_builder(t_data **ms)
 {
 	int		i;

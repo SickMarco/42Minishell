@@ -65,3 +65,24 @@ void	free_for_all2(t_data **ms)
 	free_cmd((*ms)->cmd_list);
 	free(*ms);
 }
+
+void	ft_perrex(char *s)
+{
+	perror(s);
+	g_exit = 1234;
+}
+
+void	ft_freelist(t_list **lst)
+{
+	t_list	*nxt;
+
+	if (!lst || !(*lst))
+		return ;
+	while (*lst)
+	{
+		nxt = (*lst)->next;
+		free((*lst));
+		*lst = nxt;
+	}
+	free(*lst);
+}

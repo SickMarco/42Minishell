@@ -59,3 +59,4 @@ void	set_env(t_data **ms, char **envp)
 	while (envp[++i])
 		(*ms)->env[i] = ft_strdup(envp[i]);
 }
+

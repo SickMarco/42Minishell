@@ -12,27 +12,6 @@
 
 #include "../minishell.h"
 
-int	ft_print_slst(t_list *lst)
-{
-	int	i;
-
-	if (!lst)
-	{
-		printf("(Null)\n");
-		return (0);
-	}
-	i = 1;
-	printf("%s", ((char *)(lst->content)));
-	while (lst->next)
-	{
-		lst = lst->next;
-		printf("\n%s", ((char *)(lst->content)));
-		i++;
-	}
-	printf("\n");
-	return (i);
-}
-
 static t_list	*ft_tabtolist(char **tab)
 {
 	int		i;
