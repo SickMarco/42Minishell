@@ -103,7 +103,7 @@ void	ft_readifyouneed(char **origin, t_data **ms)
 		ft_reader(origin, "quote> ", "\'");
 	else if (dc && sc && (sc % 2) && (dc % 2))
 		ft_search_first(origin);
-	else if (ft_strnstr(*origin, "<<", ft_strlen(*origin)))
+	else if (ft_strnstr(*origin, "<<", ft_sl(*origin)) && !is_in_quotes(*origin, "<<"))
 	{
 		sc = ft_strnstr(*origin, "<<", ft_strlen(*origin)) - *origin;
 		sep = ft_substr(*origin, sc + 2 + ft_splen(&(origin[0][sc + 2])),

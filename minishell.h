@@ -125,6 +125,7 @@ void	close_redir(t_data **ms, t_cmd *cmd);
 //		PROMPT_READER		//
 
 void	ft_readifyouneed(char **origin, t_data **ms);
+int		is_in_quotes(char *origin, char *ob);
 void	ft_count_quotes(char *s, int *dc, int *sc);
 void	ft_search_last_n_scale(char **origin, char c);
 char	*ft_sp(char *s);
@@ -148,5 +149,6 @@ char	*path_search(char **path, char *cmd);
 t_cmd	*create_cmdlst(t_list *lst, t_data *ms);
 void	lst_freecont_n_skip(t_list **lst);
 int		content_is(t_list *lst, const char *s);
+void	print_tab(char **s);
 
 #endif

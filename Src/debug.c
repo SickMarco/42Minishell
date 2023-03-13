@@ -52,3 +52,13 @@ void	print_cmdlst(t_cmd *cmdn)
 		cmdn = nxt;
 	}
 }
+
+void	print_tab(char **s)
+{
+	int	i;
+
+	i = -1;
+	printf("\n");
+	while (s[++i])
+		printf("m[%d] = %s\n", i, s[i]);
+}
