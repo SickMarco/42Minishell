@@ -12,6 +12,21 @@
 
 #include "../minishell.h"
 
+void	lst_freecont_n_skip(t_list **lst)
+{
+	free((*lst)->content);
+	*lst = (*lst)->next;
+}
+
+int	content_is(t_list *lst, const char *s)
+{
+	if (!(ft_strncmp((char *)((lst)->content), s,
+		ft_sl((char *)((lst)->content)))))
+		return (1);
+	else
+		return (0); 
+}
+
 t_cmd	*create_cmdlst(t_list	*lst, t_data *ms)
 {
 	t_list	*lsthead;
@@ -24,14 +39,9 @@ t_cmd	*create_cmdlst(t_list	*lst, t_data *ms)
 	head = cmdlst;
 	while (lst)
 	{
-		if (!(ft_strncmp((char *)((lst)->content), "|",
-						ft_sl((char *)((lst)->content)))))
-		{
-			free(lst->content);
-			lst = lst->next;
-		}
-		else if (!(ft_strncmp((char *)((lst)->content), "<",
-						ft_sl((char *)((lst)->content)))))
+		if (content_is(lst, "|"))
+			lst_freecont_n_skip(&lst);
+		else if (content_is(lst, "<"))
 		{
 			free(lst->content);
 			lst = lst->next;
@@ -43,8 +53,7 @@ t_cmd	*create_cmdlst(t_list	*lst, t_data *ms)
 			free((lst)->content);
 			lst = lst->next;
 		}
-		else if (!(ft_strncmp((char *)(lst->content), "<<",
-						ft_sl((char *)(lst->content)))))
+		else if (content_is(lst, "<<"))
 		{
 			free(lst->content);
 			cmdlst->in_fd = open(HERED, O_RDONLY);
@@ -52,8 +61,7 @@ t_cmd	*create_cmdlst(t_list	*lst, t_data *ms)
 				ft_perrex(cmdlst->cmds[0]);
 			lst = lst->next;
 		}
-		else if (!(ft_strncmp((char *)(lst->content), ">",
-						ft_sl((char *)(lst->content)))))
+		else if (content_is(lst, ">"))
 		{
 			free(lst->content);
 			lst = lst->next;
@@ -65,8 +73,7 @@ t_cmd	*create_cmdlst(t_list	*lst, t_data *ms)
 			free(lst->content);
 			lst = lst->next;
 		}
-		else if (!(ft_strncmp((char *)(lst->content), ">>",
-						ft_sl((char *)(lst->content)))))
+		else if (content_is(lst, ">>"))
 		{
 			free(lst->content);
 			lst = lst->next;
