@@ -12,42 +12,6 @@
 
 #include "../minishell.h"
 
-void	free_cmd(t_cmd *cmd)
-{
-	int		i;
-	t_cmd	*tmp;
-
-	while (cmd)
-	{
-		if (cmd->cmd != NULL)
-			free(cmd->cmd);
-		i = -1;
-		while (cmd->cmds[++i])
-			free(cmd->cmds[i]);
-		free(cmd->cmds);
-		tmp = cmd->next;
-		free(cmd);
-		cmd = tmp;
-	}
-}
-
-void	free_for_all(t_data **ms)
-{
-	int	i;
-
-	i = -1;
-	while ((*ms)->env[++i])
-		free((*ms)->env[i]);
-	i = -1;
-	while ((*ms)->path[++i])
-		free((*ms)->path[i]);
-	free((*ms)->path);
-	free((*ms)->prompt);
-	free((*ms)->input);
-	free((*ms)->env);
-	free(*ms);
-}
-
 void	free_for_all2(t_data **ms)
 {
 	int	i;
@@ -85,4 +49,19 @@ void	ft_freelist(t_list **lst)
 		*lst = nxt;
 	}
 	free(*lst);
+}
+
+void	lst_freecont_n_skip(t_list **lst)
+{
+	free((*lst)->content);
+	*lst = (*lst)->next;
+}
+
+int	content_is(t_list *lst, const char *s)
+{
+	if (!(ft_strncmp((char *)((lst)->content), s,
+			ft_sl((char *)((lst)->content)))))
+		return (1);
+	else
+		return (0);
 }

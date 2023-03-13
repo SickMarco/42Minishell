@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:28:56 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/13 12:52:34 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/13 15:03:44 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,40 @@ void	set_env(t_data **ms, char **envp)
 	i = -1;
 	while (envp[++i])
 		(*ms)->env[i] = ft_strdup(envp[i]);
+}
+
+void	free_cmd(t_cmd *cmd)
+{
+	int		i;
+	t_cmd	*tmp;
+
+	while (cmd)
+	{
+		if (cmd->cmd != NULL)
+			free(cmd->cmd);
+		i = -1;
+		while (cmd->cmds[++i])
+			free(cmd->cmds[i]);
+		free(cmd->cmds);
+		tmp = cmd->next;
+		free(cmd);
+		cmd = tmp;
+	}
+}
+
+void	free_for_all(t_data **ms)
+{
+	int	i;
+
+	i = -1;
+	while ((*ms)->env[++i])
+		free((*ms)->env[i]);
+	i = -1;
+	while ((*ms)->path[++i])
+		free((*ms)->path[i]);
+	free((*ms)->path);
+	free((*ms)->prompt);
+	free((*ms)->input);
+	free((*ms)->env);
+	free(*ms);
 }
