@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 16:53:53 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/12 19:42:28 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/13 15:30:36 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,14 @@ int	check_input(t_cmd *cmd)
 	if (ft_isdigit(cmd->cmds[1][i]) || cmd->cmds[1][i] == '=')
 	{
 		write(STDERR_FILENO, "Export: Not valid identifier\n", 30);
-		g_exit = 1;
-		return (1);
+		return (g_exit = 1);
 	}
 	while (cmd->cmds[1][i] && cmd->cmds[1][i] != '=')
 	{
 		if (!ft_isdigit(cmd->cmds[1][i]) && !ft_isalpha(cmd->cmds[1][i]))
 		{
 			write(STDERR_FILENO, "Export: Not valid identifier\n", 30);
-			return (1);
+			return (g_exit = 1);
 		}
 		i++;
 	}
@@ -48,6 +47,7 @@ void	ft_env(t_data **ms)
 	i = -1;
 	while ((*ms)->env[++i])
 		printf("%s\n", (*ms)->env[i]);
+	g_exit = 0;
 }
 
 void	ft_export(t_data **ms, t_cmd *cmd)
@@ -67,15 +67,14 @@ void	ft_export(t_data **ms, t_cmd *cmd)
 		new_env[i] = ft_strdup(cmd->cmds[1]);
 		free((*ms)->env);
 		(*ms)->env = new_env;
-		g_exit = 0;
 	}
 	else if (!(cmd->cmds[1]))
 	{
 		i = -1;
 		while ((*ms)->env[++i])
 			printf("declare -x %s\n", (*ms)->env[i]);
-		g_exit = 0;
 	}
+	g_exit = 0;
 }
 
 void	ft_unset(t_data **ms, t_cmd *cmd)
@@ -83,7 +82,6 @@ void	ft_unset(t_data **ms, t_cmd *cmd)
 	int		i;
 	int		j;
 	int		pos;
-	char	**new_env;
 
 	i = -1;
 	j = 0;
@@ -97,14 +95,15 @@ void	ft_unset(t_data **ms, t_cmd *cmd)
 		return ;
 	while ((*ms)->env[i])
 		i++;
-	new_env = ft_calloc(sizeof(char *), i);
+	(*ms)->new_env = ft_calloc(sizeof(char *), i);
 	i = -1;
 	while ((*ms)->env[++i])
 		if (i != pos)
-			new_env[j++] = (*ms)->env[i];
+			(*ms)->new_env[j++] = (*ms)->env[i];
 	free((*ms)->env[pos]);
 	free((*ms)->env);
-	(*ms)->env = new_env;
+	(*ms)->env = (*ms)->new_env;
+	g_exit = 0;
 }
 
 int	env_len(t_data **ms, int i)

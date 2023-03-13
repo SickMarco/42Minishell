@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:08:17 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/12 15:20:34 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/13 15:07:36 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,14 @@ void	exec_here(t_data **ms, t_cmd *cmd)
 		free(cmd->cmds[i]);
 	free(cmd->cmds);
 	cmd->cmds = tmp;
-	(*ms)->fd = open(HERED, O_RDONLY);
-	dup2((*ms)->fd, STDIN_FILENO);
-	close((*ms)->fd);
-	execve(cmd->cmd, cmd->cmds, (*ms)->env);
-	perror("smashell");
+	if (!access(HERED, F_OK))
+	{
+		(*ms)->fd = open(HERED, O_RDONLY);
+		dup2((*ms)->fd, STDIN_FILENO);
+		close((*ms)->fd);
+		execve(cmd->cmd, cmd->cmds, (*ms)->env);
+		perror("smashell");
+	}
 	exit (EXIT_FAILURE);
 }
 
@@ -76,6 +79,7 @@ void	executor(t_data **ms, t_cmd *cmd)
 		if ((cmd->out_fd != -1 || cmd->in_fd != -1))
 			open_redir(cmd);
 		execve(cmd->cmd, cmd->cmds, (*ms)->env);
+		close_redir(ms, cmd);
 		perror("smashell");
 		exit (EXIT_FAILURE);
 	}

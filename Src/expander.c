@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 19:39:04 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/08 15:11:15 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/13 16:54:16 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	apex_exp(t_exp **exp, char *line)
 		{
 			if (strchr((*exp)->cmds[i], 39) && strchr((*exp)->cmds[i], '$'))
 			{
+				free((*exp)->trim);
 				(*exp)->trim = ft_strtrim((*exp)->cmds[i], "\"\'$");
 				if (getenv((*exp)->trim))
 				{
@@ -33,9 +34,9 @@ void	apex_exp(t_exp **exp, char *line)
 					free((*exp)->cmds[i]);
 					(*exp)->cmds[i] = (*exp)->var;
 				}
-				free((*exp)->trim);
 			}
 		}
+		free(line);
 	}
 	return ;
 }
@@ -62,7 +63,8 @@ void	exp_line(t_exp **exp)
 		{
 			(*exp)->trim = ft_strtrim((*exp)->cmds[i], "\"");
 			free((*exp)->cmds[i]);
-			(*exp)->cmds[i] = (*exp)->trim;
+			(*exp)->cmds[i] = ft_strdup((*exp)->trim);
+			free((*exp)->trim);
 		}
 	}
 }
@@ -110,8 +112,8 @@ char	*ft_expander(char *line)
 		else if (strchr(line, '\"') && strchr(line, '$') && strchr(line, '\''))
 		{
 			apex_exp(&exp, line);
-			free(line);
 			line = exp->cmds[0];
+			free(exp->cmds);
 		}
 		free(exp->trim);
 	}
