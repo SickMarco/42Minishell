@@ -6,7 +6,7 @@
 /*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:36:29 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/06 15:40:04 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/13 12:22:43 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static int	ft_wordlen(char *s)
 {
 	int	len;
 
+	if (!s || !(*s))
+		return (0);
 	len = 0;
 	while (s[len] && s[len] != 32)
 	{

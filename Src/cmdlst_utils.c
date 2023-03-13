@@ -6,7 +6,7 @@
 /*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:50:12 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/10 15:02:33 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/13 12:33:56 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ static int	ft_cmdslen(t_list *lst)
 	i = 0;
 	if (lst)
 		str = (char *)(lst->content);
-	while (lst && ft_strncmp(str, "|", ft_sl(str)) &&
-		ft_strncmp(str, "<", ft_sl(str)) &&
-		ft_strncmp(str, ">", ft_sl(str)) &&
-		ft_strncmp(str, ">>", ft_sl(str)))
+	while (lst && ft_strncmp(str, "|", ft_sl(str))
+		&& ft_strncmp(str, "<", ft_sl(str))
+		&& ft_strncmp(str, ">", ft_sl(str))
+		&& ft_strncmp(str, ">>", ft_sl(str)))
 	{
 		i++;
 		lst = lst->next;

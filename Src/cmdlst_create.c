@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 13:44:07 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/11 16:38:14 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/13 12:38:52 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ void	ft_freelist(t_list **lst)
 	while (*lst)
 	{
 		nxt = (*lst)->next;
-//		if ((*lst)->content)
-//			free((*lst)->content);
 		free((*lst));
 		*lst = nxt;
 	}
@@ -60,11 +58,8 @@ t_cmd	*create_cmdlst(t_list	*lst, t_data *ms)
 	t_list	*lsthead;
 	t_cmd	*head;
 	t_cmd	*cmdlst;
-/*
-	ft_print_slst(*lst);
-	return NULL;*/
+
 	lsthead = lst;
-//	cmdlst = ft_cmdnew(lst, ms->path);
 	cmdlst = NULL;
 	ft_cmd_addback(&cmdlst, ft_cmdnew(&lst, ms->path));
 	head = cmdlst;
@@ -90,7 +85,7 @@ t_cmd	*create_cmdlst(t_list	*lst, t_data *ms)
 			lst = lst->next;
 		}
 		else if (!(ft_strncmp((char *)(lst->content), "<<",
-						ft_sl((char *)(lst->content)))))///modifica readifyouneed in modo da lasciare << come nodo di lst
+						ft_sl((char *)(lst->content)))))
 		{
 			free(lst->content);
 			cmdlst->in_fd = open(HERED, O_RDONLY);
@@ -125,9 +120,9 @@ t_cmd	*create_cmdlst(t_list	*lst, t_data *ms)
 			lst = lst->next;
 		}
 		else
-			ft_cmd_addback(&cmdlst, ft_cmdnew(&lst, ms->path));//scorre lst nodes
+			ft_cmd_addback(&cmdlst, ft_cmdnew(&lst, ms->path));
 		cmdlst = ft_cmdlast(cmdlst);
 	}
-	ft_freelist(&lsthead);//free just the nodes, not the contents
+	ft_freelist(&lsthead);
 	return (head);
 }
