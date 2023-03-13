@@ -85,22 +85,13 @@ t_cmd	*create_cmdlst(t_list	*lst, t_data *ms)
 		if (content_is(lst, "|"))
 			lst_freecont_n_skip(&lst);
 		else if (content_is(lst, "<"))
-		{
-			if (r_input(cmdlst, &lst))
-				break ;
-		}
+			r_input(cmdlst, &lst);
 		else if (content_is(lst, "<<"))
 			r_heredoc(cmdlst, &lst);
 		else if (content_is(lst, ">"))
-		{
-			if (r_output(cmdlst, &lst))
-				break ;
-		}
+			r_output(cmdlst, &lst);
 		else if (content_is(lst, ">>"))
-		{
-			if (r_append(cmdlst, &lst))
-				break ;
-		}
+			r_append(cmdlst, &lst);
 		else
 			ft_cmd_addback(&cmdlst, ft_cmdnew(&lst, ms->path));
 		cmdlst = ft_cmdlast(cmdlst);
