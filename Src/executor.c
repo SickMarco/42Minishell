@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:08:17 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/13 15:07:36 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/13 17:57:41 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,13 @@ void	custom_exec(t_data **ms, t_cmd *cmd)
 	if (!stat(cmd->cmds[0], &info) && (S_ISDIR(info.st_mode)))
 	{
 		g_exit = 126;
-		printf("smashell: %s: Is a directory\n", (*ms)->cmd[0]);
+		printf("smashell: %s: Is a directory\n", cmd->cmds[0]);
 	}
 	else if (!access(cmd->cmds[0], X_OK))
 	{
 		execve(cmd->cmds[0], cmd->cmds, (*ms)->env);
 		perror("smashell");
+		free_for_all2(ms);
 		exit(EXIT_FAILURE);
 	}
 	else if (!access(cmd->cmds[0], F_OK))
@@ -33,10 +34,8 @@ void	custom_exec(t_data **ms, t_cmd *cmd)
 		perror("smashell");
 	}
 	else
-	{
 		no_cmd(cmd);
-		free_for_all2(ms);
-	}
+	free_for_all2(ms);
 	exit(g_exit);
 }
 
@@ -60,7 +59,6 @@ void	exec_here(t_data **ms, t_cmd *cmd)
 		execve(cmd->cmd, cmd->cmds, (*ms)->env);
 		perror("smashell");
 	}
-	exit (EXIT_FAILURE);
 }
 
 void	executor(t_data **ms, t_cmd *cmd)
@@ -71,6 +69,7 @@ void	executor(t_data **ms, t_cmd *cmd)
 			open_redir(cmd);
 		exec_here(ms, cmd);
 		dup2((*ms)->stdin_fd, STDIN_FILENO);
+		free_for_all2(ms);
 	}
 	else if (!cmd->cmd && (*ms)->hist)
 		custom_exec(ms, cmd);
@@ -81,7 +80,6 @@ void	executor(t_data **ms, t_cmd *cmd)
 		execve(cmd->cmd, cmd->cmds, (*ms)->env);
 		close_redir(ms, cmd);
 		perror("smashell");
-		exit (EXIT_FAILURE);
 	}
 	exit(EXIT_FAILURE);
 }

@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 18:36:05 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/08 15:19:13 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/13 17:04:32 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ char	*exit_exp2(char *line, int stop)
 	x = -1;
 	while (exit[++x])
 		new[++i] = exit[x];
-	while (line[y] && line[y] != ' ' && line[y] != 34 && line[y] != 39)
+	while (line[y] && line[y] != ' ' && line[y] != 34 && line[y] != 39 
+		&& !ft_isalnum(line[y]))
 		y++;
 	if (line[y])
 		while (line[y])
