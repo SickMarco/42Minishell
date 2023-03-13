@@ -49,8 +49,13 @@ int	is_in_quotes(char *origin, char *ob)
 	char	*ob_posix;
 	int		ret;
 
+	if (!(ft_strncmp(origin, ob, ft_sl(origin))))
+		return (0);
 	ret = 0;
 	ob_posix = ft_strnstr(origin, "<<", ft_sl(origin));
+	if ((ob_posix - origin) <= 0
+			|| (!(ft_strncmp(ob_posix, ob, ft_sl(ob_posix)))))
+		return (0);
 	str_before = ft_substr(origin, 0, ob_posix - origin);
 	str_after = ft_strdup(ob_posix + ft_sl(ob));
 	if (is_in_quote(str_before, str_after, '\"')

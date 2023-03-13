@@ -106,8 +106,11 @@ void	ft_readifyouneed(char **origin, t_data **ms)
 	else if (ft_strnstr(*origin, "<<", ft_sl(*origin)) && !is_in_quotes(*origin, "<<"))
 	{
 		sc = ft_strnstr(*origin, "<<", ft_strlen(*origin)) - *origin;
-		sep = ft_substr(*origin, sc + 2 + ft_splen(&(origin[0][sc + 2])),
+		if (ft_lts(&(origin[0][sc + 2 + ft_splen(&(origin[0][sc + 2]))])))
+			sep = ft_substr(*origin, sc + 2 + ft_splen(&(origin[0][sc + 2])),
 				ft_lts(&(origin[0][sc + 2 + ft_splen(&(origin[0][sc + 2]))])));
+		else
+			sep = NULL;
 		ft_heredoc(origin, sep, sc);
 		(*ms)->hist = false;
 	}
