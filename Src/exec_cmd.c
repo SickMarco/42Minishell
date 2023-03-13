@@ -26,6 +26,8 @@ void	cmd_builder(t_data **ms)
 	ft_trimone((*ms)->cmd);
 	(*ms)->list = ft_subsplit((*ms)->cmd);
 	(*ms)->cmd_list = create_cmdlst((*ms)->list, *ms);
+	if ((*ms)->cmd_list == NULL && (*ms)->hist)
+		perror("Wrong syntax");
 	if (g_exit == 1234)
 		g_exit = 1;
 	else

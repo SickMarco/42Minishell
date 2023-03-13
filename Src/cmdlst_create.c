@@ -65,9 +65,13 @@ t_cmd	*create_cmdlst(t_list	*lst, t_data *ms)
 	t_cmd	*cmdlst;
 
 	lsthead = lst;
-	cmdlst = ft_cmdnew(&lst, ms->path);
+	cmdlst = NULL;
+	if (!(content_is(lst, "|") || content_is(lst, "<")
+			|| content_is(lst, "<<") || content_is(lst, ">")
+			|| content_is(lst, ">>")))
+		cmdlst = ft_cmdnew(&lst, ms->path);
 	head = cmdlst;
-	while (lst)
+	while (lst && cmdlst)
 	{
 		if (content_is(lst, "|"))
 			lst_freecont_n_skip(&lst);
