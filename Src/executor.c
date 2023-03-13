@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:08:17 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/13 17:57:41 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/13 18:44:07 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,13 @@ void	exec_here(t_data **ms, t_cmd *cmd)
 	int		i;
 
 	i = -1;
-	tmp = ft_calloc(sizeof(char *), 2);
-	tmp[0] = ft_strdup(cmd->cmds[0]);
+	while (cmd->cmds[++i] && ft_strncmp(cmd->cmds[i], "<<", 3))
+		i++;
+	tmp = ft_calloc(sizeof(char *), i + 1);
+	i = -1;
+	while (cmd->cmds[++i] && ft_strncmp(cmd->cmds[i], "<<", 3))
+		tmp[i] = ft_strdup(cmd->cmds[i]);
+	i = -1;
 	while (cmd->cmds[++i])
 		free(cmd->cmds[i]);
 	free(cmd->cmds);
@@ -63,24 +68,19 @@ void	exec_here(t_data **ms, t_cmd *cmd)
 
 void	executor(t_data **ms, t_cmd *cmd)
 {
+	if ((cmd->out_fd != -1 || cmd->in_fd != -1))
+		open_redir(cmd);
 	if (cmd->cmd && (*ms)->hist == false)
-	{
-		if ((cmd->out_fd != -1 || cmd->in_fd != -1))
-			open_redir(cmd);
 		exec_here(ms, cmd);
-		dup2((*ms)->stdin_fd, STDIN_FILENO);
-		free_for_all2(ms);
-	}
 	else if (!cmd->cmd && (*ms)->hist)
 		custom_exec(ms, cmd);
 	else if (cmd && (*ms)->hist)
 	{
-		if ((cmd->out_fd != -1 || cmd->in_fd != -1))
-			open_redir(cmd);
 		execve(cmd->cmd, cmd->cmds, (*ms)->env);
-		close_redir(ms, cmd);
 		perror("smashell");
 	}
+	close_redir(ms, cmd);
+	free_for_all2(ms);
 	exit(EXIT_FAILURE);
 }
 
