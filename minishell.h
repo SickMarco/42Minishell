@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/11 19:06:03 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/13 18:01:50 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ typedef struct s_cmd
 {
 	char			**cmds;
 	char			*cmd;
-	int				in_fd;//for redirects, -1 mean no redirects
-	int				out_fd;//idem
+	int				in_fd;
+	int				out_fd;
 	struct s_cmd	*next;
 }				t_cmd;
 
@@ -56,6 +56,7 @@ typedef struct s_exp {
 typedef struct s_data {
 	char		*input;
 	char		**env;
+	char		**new_env;
 	char		*pwd;
 	char		**path;
 	char		*prompt;

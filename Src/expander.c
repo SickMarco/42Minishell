@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 19:39:04 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/08 15:11:15 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/13 17:58:39 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	apex_exp(t_exp **exp, char *line)
 {
 	int		i;
+	char	*trim;
 
 	if (strchr(line, 39))
 	{
@@ -24,16 +25,16 @@ void	apex_exp(t_exp **exp, char *line)
 		{
 			if (strchr((*exp)->cmds[i], 39) && strchr((*exp)->cmds[i], '$'))
 			{
-				(*exp)->trim = ft_strtrim((*exp)->cmds[i], "\"\'$");
-				if (getenv((*exp)->trim))
+				trim = ft_strtrim((*exp)->cmds[i], "\"\'$");
+				if (getenv(trim))
 				{
-					(*exp)->var = ft_strdup(getenv((*exp)->trim));
+					(*exp)->var = ft_strdup(getenv(trim));
 					(*exp)->var = ft_strjoin3("\'", (*exp)->var, 1);
 					(*exp)->var = ft_strjoin3((*exp)->var, "\'", 0);
 					free((*exp)->cmds[i]);
 					(*exp)->cmds[i] = (*exp)->var;
 				}
-				free((*exp)->trim);
+				free(trim);
 			}
 		}
 	}
@@ -43,26 +44,28 @@ void	apex_exp(t_exp **exp, char *line)
 void	exp_line(t_exp **exp)
 {
 	int		i;
+	char	*trim;
 
 	i = -1;
 	while ((*exp)->cmds[++i])
 	{
 		if (strchr((*exp)->cmds[i], '$'))
 		{
-			(*exp)->trim = ft_strtrim((*exp)->cmds[i], "$\"");
-			if (getenv((*exp)->trim))
+			trim = ft_strtrim((*exp)->cmds[i], "$\"");
+			if (getenv(trim))
 			{
-				(*exp)->var = ft_strdup(getenv((*exp)->trim));
+				(*exp)->var = ft_strdup(getenv(trim));
 				free((*exp)->cmds[i]);
 				(*exp)->cmds[i] = (*exp)->var;
 			}
-			free((*exp)->trim);
+			free(trim);
 		}
 		else
 		{
-			(*exp)->trim = ft_strtrim((*exp)->cmds[i], "\"");
+			trim = ft_strtrim((*exp)->cmds[i], "\"");
 			free((*exp)->cmds[i]);
-			(*exp)->cmds[i] = (*exp)->trim;
+			(*exp)->cmds[i] = ft_strdup(trim);
+			free(trim);
 		}
 	}
 }
@@ -103,15 +106,15 @@ char	*ft_expander(char *line)
 		exp->trim = ft_strtrim(line, "$\"");
 		if (getenv(exp->trim))
 		{
-			exp->var = ft_strdup(getenv(exp->trim));
 			free(line);
-			line = exp->var;
+			line = ft_strdup(getenv(exp->trim));
 		}
 		else if (strchr(line, '\"') && strchr(line, '$') && strchr(line, '\''))
 		{
 			apex_exp(&exp, line);
 			free(line);
 			line = exp->cmds[0];
+			free(exp->cmds);
 		}
 		free(exp->trim);
 	}
