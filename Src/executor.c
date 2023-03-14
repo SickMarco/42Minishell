@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:08:17 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/13 18:44:07 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/14 12:53:12 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,16 @@
 
 void	custom_exec(t_data **ms, t_cmd *cmd)
 {
-	struct stat	info;
-
-	if (!stat(cmd->cmds[0], &info) && (S_ISDIR(info.st_mode)))
+	if (!access(cmd->cmds[0], X_OK))
 	{
-		g_exit = 126;
-		printf("smashell: %s: Is a directory\n", cmd->cmds[0]);
-	}
-	else if (!access(cmd->cmds[0], X_OK))
-	{
-		execve(cmd->cmds[0], cmd->cmds, (*ms)->env);
-		perror("smashell");
-		free_for_all2(ms);
-		exit(EXIT_FAILURE);
+		if (!ft_strncmp(cmd->cmds[0], "./", 2))
+		{
+			execve(cmd->cmds[0], cmd->cmds, (*ms)->env);
+			perror("smashell");
+			free_for_all2(ms);
+			exit(EXIT_FAILURE);
+		}
+		no_cmd(cmd);
 	}
 	else if (!access(cmd->cmds[0], F_OK))
 	{
@@ -68,6 +65,15 @@ void	exec_here(t_data **ms, t_cmd *cmd)
 
 void	executor(t_data **ms, t_cmd *cmd)
 {
+	struct stat	info;
+
+	if (!stat(cmd->cmds[0], &info) && (S_ISDIR(info.st_mode)))
+	{
+		g_exit = 126;
+		printf("smashell: %s: Is a directory\n", cmd->cmds[0]);
+		free_for_all2(ms);
+		exit(g_exit);
+	}
 	if ((cmd->out_fd != -1 || cmd->in_fd != -1))
 		open_redir(cmd);
 	if (cmd->cmd && (*ms)->hist == false)
