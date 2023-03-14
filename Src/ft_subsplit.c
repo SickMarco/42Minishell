@@ -72,18 +72,23 @@ static void	ft_splitlist(t_list *args)
 	{
 		i = -1;
 		s = (char *)(args->content);
-		while (s[++i])
+		if (!s || !(*s))
+			return ;
+		if (!(s[ft_sl(s) - 1] == s[0] && (s[0] == '\"' || s[0] == '\'')))
 		{
-			if (ft_strlen(s) > 1 && ft_ischarofset(s[i], "|<>"))
+			while (s[++i])
 			{
-				if (s[i + 1]
-					&& ft_ischarofset(s[i + 1], "<>") && s[i] == s[i + 1])
+				if (ft_strlen(s) > 1 && ft_ischarofset(s[i], "|<>"))
 				{
-					ft_reassemblelist(&(args), i, 2);
-					i++;
+					if (s[i + 1]
+						&& ft_ischarofset(s[i + 1], "<>") && s[i] == s[i + 1])
+					{
+						ft_reassemblelist(&(args), i, 2);
+						i++;
+					}
+					else
+						ft_reassemblelist(&(args), i, 1);
 				}
-				else
-					ft_reassemblelist(&(args), i, 1);
 			}
 		}
 		args = args->next;

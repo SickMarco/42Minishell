@@ -23,8 +23,9 @@ void	cmd_builder(t_data **ms)
 	i = -1;
 	while ((*ms)->cmd[++i])
 		(*ms)->cmd[i] = ft_expander((*ms)->cmd[i]);
-	ft_trimone((*ms)->cmd);
+//	ft_trimone((*ms)->cmd);
 	(*ms)->list = ft_subsplit((*ms)->cmd);
+//trimone dopo subsplit, trasformarlo per lavorare con le liste
 	(*ms)->cmd_list = create_cmdlst((*ms)->list, *ms);
 	if ((*ms)->cmd_list == NULL && (*ms)->hist)
 		perror("Wrong syntax");
