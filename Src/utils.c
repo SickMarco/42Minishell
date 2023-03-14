@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:28:56 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/13 15:03:44 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/14 18:29:23 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,55 +43,29 @@ void	ft_clear(void)
 ╚══════╝╚══════╝╚══════╝\n\n\033[0;37m");
 }
 
-void	set_env(t_data **ms, char **envp)
+void	ft_perrex(char *s)
 {
-	int	i;
-
-	i = -1;
-	(*ms)->path = ft_split(getenv("PATH"), ':');
-	while ((*ms)->path[++i])
-		(*ms)->path[i] = ft_strjoin2((*ms)->path[i], "/");
-	i = 0;
-	while (envp[i])
-		i++;
-	(*ms)->env = ft_calloc(sizeof(char *), (i + 1));
-	i = -1;
-	while (envp[++i])
-		(*ms)->env[i] = ft_strdup(envp[i]);
+	perror(s);
+	g_exit = 1234;
 }
 
-void	free_cmd(t_cmd *cmd)
+void	ft_freelist(t_list **lst)
 {
-	int		i;
-	t_cmd	*tmp;
+	t_list	*nxt;
 
-	while (cmd)
+	if (!lst || !(*lst))
+		return ;
+	while (*lst)
 	{
-		if (cmd->cmd != NULL)
-			free(cmd->cmd);
-		i = -1;
-		while (cmd->cmds[++i])
-			free(cmd->cmds[i]);
-		free(cmd->cmds);
-		tmp = cmd->next;
-		free(cmd);
-		cmd = tmp;
+		nxt = (*lst)->next;
+		free((*lst));
+		*lst = nxt;
 	}
+	free(*lst);
 }
 
-void	free_for_all(t_data **ms)
+void	lst_freecont_n_skip(t_list **lst)
 {
-	int	i;
-
-	i = -1;
-	while ((*ms)->env[++i])
-		free((*ms)->env[i]);
-	i = -1;
-	while ((*ms)->path[++i])
-		free((*ms)->path[i]);
-	free((*ms)->path);
-	free((*ms)->prompt);
-	free((*ms)->input);
-	free((*ms)->env);
-	free(*ms);
+	free((*lst)->content);
+	*lst = (*lst)->next;
 }
