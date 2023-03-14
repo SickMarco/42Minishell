@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-static int	ft_isextchar(char c, char *s)
+int	ft_isextchar(char c, char *s)
 {
 	if (!s || !(*s) || !c)
 		return (0);
@@ -21,11 +21,13 @@ static int	ft_isextchar(char c, char *s)
 	return (0);
 }
 
-static void	ft_trimex(char **arg)
+void	ft_trimex(char **arg)
 {
 	int		i;
 	char	*s;
 
+	if (!ft_isextchar('\"', *arg))
+		return ;
 	i = -1;
 	(*arg)[ft_strlen(*arg) - 1] = '\0';
 	while ((*arg)[++i])
@@ -37,12 +39,14 @@ static void	ft_trimex(char **arg)
 	*arg = s;
 }
 
-static void	ft_trimin(char **arg)
+void	ft_trimin(char **arg)
 {
 	int		i;
 	int		j;
 	char	*s;
-
+	
+	if (ft_isextchar('\"', *arg))
+		return ;
 	i = -1;
 	while ((*arg)[++i])
 	{
@@ -61,6 +65,28 @@ static void	ft_trimin(char **arg)
 	}
 }
 
+void	ft_lstiter2(t_list *lst, void (*f)(char **))
+{
+	char **cont;
+
+	if (!f)
+		return ;
+	while (lst)
+	{
+		cont = (char **)(&(lst->content));
+		(*f)(cont);
+		lst = lst->next;
+	}
+}
+
+void	ft_trimlist(t_list	*lst)
+{
+	ft_lstiter2(lst, ft_trimin);
+	ft_lstiter2(lst, ft_trimex);
+}
+/*
+//trimin, trimmare ' non esterne e non dentro ". es. 'you 'doing?
+//trimex, trimmare ' e " esterne
 void	ft_trimone(char **args)
 {
 	int	i;
@@ -78,17 +104,4 @@ void	ft_trimone(char **args)
 			ft_trimex(&(args[i]));
 	}
 }
-/*
-//trimin, trimmare ' non esterne e non dentro ". es. 'you 'doing?
-//trimex, trimmare ' e " esterne
-*/
-
-/*****************************************************************
- 
- !TO DO!
-
- fare check prima di split1:
- * se numero di ' e' dispari o numero di " e' dispari:
- * * trova il primo tipo di quote, fai gnl(0)
-
 */

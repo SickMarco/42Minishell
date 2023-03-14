@@ -94,9 +94,9 @@ char	**ft_split1(char *s);
 t_list	*ft_createlist(char **tab);
 t_list	*ft_subsplit(char **tab);
 int		ft_ischarofset(char c, char *set);
-void	ft_trimone(char **args);
+void	ft_trimlist(t_list	*lst);
 int		ft_sl(const char *s);
-
+int		ft_isextchar(char c, char *s);
 //			UTILS			//
 
 void	ft_history(t_data **data);
