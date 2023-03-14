@@ -13,7 +13,9 @@ Thanks to Minishell, you’ll be able to travel through time and come back to pr
 people faced when Windows didn’t exist.
 
 
-![Minishell](https://user-images.githubusercontent.com/107865727/225025081-358e9c7b-a98b-43be-bd45-0282f3ecc624.png)
+
+![Screenshot from 2023-03-14 14-43-49](https://user-images.githubusercontent.com/107865727/225047976-9b0f1128-8d6c-4523-9861-66684b75b34e.jpg)
+
 
 # Readline Leak Suppression
 
