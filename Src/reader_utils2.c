@@ -12,19 +12,21 @@
 
 #include "../minishell.h"
 
-void	ft_putinhdoc_n_free(char **line)
+void	ft_putinhdoc_n_free(char *line)
 {
 	int		fd;
 	char	*tmp;
 
 	fd = open(HERED, O_RDWR | O_CREAT | O_APPEND, 0666);
-	tmp = ft_strtrim(*line, "\n");
-	*line = ft_expander(tmp);
-	*line = ft_strjoin2(*line, "\n");
-	write(fd, *line, ft_sl(*line));
+	tmp = ft_strtrim(line, "\n");
+	if (line && *line)
+		free(line);
+	line = ft_expander(tmp);
+	line = ft_strjoin2(line, "\n");
+	write(fd, line, ft_sl(line));
 	close(fd);
-	if (*line && **line)
-		free(*line);
+	if (line && *line)
+		free(line);
 }
 
 void	ft_heredoc(char **origin, char *sep, int till_sep)

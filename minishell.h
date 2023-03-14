@@ -136,7 +136,7 @@ char	*ft_sp(char *s);
 int		ft_lts(char *s);
 int		ft_splen(char *s);
 char	*gnl(int fd);
-void	ft_putinhdoc_n_free(char **line);
+void	ft_putinhdoc_n_free(char *line);
 void	ft_heredoc(char **origin, char *sep, int till_sep);
 void	ft_freejoin(char **origin, char **line);
 void	ft_addnl(char **origin);

@@ -58,7 +58,7 @@ void	ft_reader(char **origin, char *prompt, char *c)
 			if (ft_endread(c, &line, origin))
 				break ;
 			if (!ft_strncmp("heredoc> ", prompt, ft_sl(prompt)))
-				ft_putinhdoc_n_free(&line);
+				ft_putinhdoc_n_free(line);
 			else
 				ft_freejoin(origin, &line);
 		}
