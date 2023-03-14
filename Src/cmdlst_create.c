@@ -87,6 +87,8 @@ t_cmd	*create_cmdlst(t_list	*lst, t_data *ms)
 			ft_cmd_addback(&cmdlst, ft_cmdnew(&lst, ms->path));
 		cmdlst = ft_cmdlast(cmdlst);
 	}
+	if (!head)
+		ft_freelistcont(lsthead);
 	ft_freelist(&lsthead);
 	return (head);
 }

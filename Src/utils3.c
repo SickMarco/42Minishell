@@ -66,3 +66,19 @@ int	is_in_quotes(char *origin, char *ob)
 		free(str_after);
 	return (ret);
 }
+
+void	ft_freelistcont(t_list *lst)
+{
+	t_list	*nxt;
+
+	if (!lst)
+		return ;
+	while (lst)
+	{
+		nxt = lst->next;
+		if (lst->content != NULL)
+			free(lst->content);
+		lst = nxt;
+	}
+	free(lst);
+}

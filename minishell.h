@@ -151,5 +151,6 @@ t_cmd	*create_cmdlst(t_list *lst, t_data *ms);
 void	lst_freecont_n_skip(t_list **lst);
 int		content_is(t_list *lst, const char *s);
 void	print_tab(char **s);
+void	ft_freelistcont(t_list *lst);
 
 #endif
