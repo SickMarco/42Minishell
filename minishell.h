@@ -157,5 +157,7 @@ void	lst_freecont_n_skip(t_list **lst);
 int		content_is(t_list *lst, const char *s);
 void	print_tab(char **s);
 void	ft_freelistcont(t_list *lst);
+void	init_cmdlst(t_cmd **cmdlst, t_cmd **head, t_list **lst, t_data *ms);
+void	clc_freelist(t_cmd *head, t_list **lsthead);
 
 #endif

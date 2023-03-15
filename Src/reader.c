@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 11:29:58 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/13 12:35:25 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/15 15:40:42 by mabaffo          ###   ########.fr       */
 /*   Updated: 2023/03/05 19:29:13 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -103,12 +103,14 @@ void	ft_readifyouneed(char **origin, t_data **ms)
 		ft_reader(origin, "quote> ", "\'");
 	else if (dc && sc && (sc % 2) && (dc % 2))
 		ft_search_first(origin);
-	else if (ft_strnstr(*origin, "<<", ft_sl(*origin)) && !is_in_quotes(*origin, "<<"))
+	else if (ft_strnstr(*origin, "<<", ft_sl(*origin))
+		&& !is_in_quotes(*origin, "<<"))
 	{
 		sc = ft_strnstr(*origin, "<<", ft_strlen(*origin)) - *origin;
 		if (ft_lts(&(origin[0][sc + 2 + ft_splen(&(origin[0][sc + 2]))])))
 			sep = ft_substr(*origin, sc + 2 + ft_splen(&(origin[0][sc + 2])),
-				ft_lts(&(origin[0][sc + 2 + ft_splen(&(origin[0][sc + 2]))])));
+					ft_lts(&(origin[0][sc + 2
+							+ ft_splen(&(origin[0][sc + 2]))])));
 		else
 			sep = NULL;
 		ft_heredoc(origin, sep, sc);

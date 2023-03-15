@@ -6,7 +6,7 @@
 /*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 14:58:24 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/02/24 18:15:39 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/15 15:33:46 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_trimin(char **arg)
 	int		i;
 	int		j;
 	char	*s;
-	
+
 	if (ft_isextchar('\"', *arg))
 		return ;
 	i = -1;
@@ -67,7 +67,7 @@ void	ft_trimin(char **arg)
 
 void	ft_lstiter2(t_list *lst, void (*f)(char **))
 {
-	char **cont;
+	char	**cont;
 
 	if (!f)
 		return ;

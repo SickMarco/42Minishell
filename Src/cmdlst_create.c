@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 13:44:07 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/13 14:58:44 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/15 15:56:06 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,7 @@ t_cmd	*create_cmdlst(t_list	*lst, t_data *ms)
 	t_cmd	*cmdlst;
 
 	lsthead = lst;
-	cmdlst = NULL;
-	if (!(content_is(lst, "|") || content_is(lst, "<")
-			|| content_is(lst, "<<") || content_is(lst, ">")
-			|| content_is(lst, ">>")))
-		cmdlst = ft_cmdnew(&lst, ms->path);
-	head = cmdlst;
+	init_cmdlst(&cmdlst, &head, &lst, ms);
 	while (lst && cmdlst)
 	{
 		if (content_is(lst, "|"))
@@ -87,8 +82,6 @@ t_cmd	*create_cmdlst(t_list	*lst, t_data *ms)
 			ft_cmd_addback(&cmdlst, ft_cmdnew(&lst, ms->path));
 		cmdlst = ft_cmdlast(cmdlst);
 	}
-	if (!head)
-		ft_freelistcont(lsthead);
-	ft_freelist(&lsthead);
+	clc_freelist(head, &lsthead);
 	return (head);
 }
