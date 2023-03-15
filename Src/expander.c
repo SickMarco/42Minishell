@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 19:39:04 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/15 15:10:57 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/15 15:42:22 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ char	*multi_exp(t_exp **exp, char *line)
 	return (ret);
 }
 
-char	*ft_expander(char *line)
+char	*ft_expander(char *line, int flag)
 {
 	t_exp	*exp;
 
@@ -119,7 +119,8 @@ char	*ft_expander(char *line)
 	}
 	else if (strchr(line, '$') && strchr(line, ' '))
 		line = multi_exp(&exp, line);
-	line = add_dapex(line, ft_strtrim(line, "\""));
+	if (flag == 0)
+		line = add_dapex(line, ft_strtrim(line, "\""));
 	free(exp);
 	return (line);
 }

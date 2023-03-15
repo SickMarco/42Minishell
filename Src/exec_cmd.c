@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 17:52:41 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/15 15:15:47 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/15 15:41:08 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	cmd_builder(t_data **ms)
 	(*ms)->cmd = ft_split1((*ms)->input);
 	i = -1;
 	while ((*ms)->cmd[++i])
-		(*ms)->cmd[i] = ft_expander((*ms)->cmd[i]);
+		(*ms)->cmd[i] = ft_expander((*ms)->cmd[i], 0);
 	(*ms)->list = ft_subsplit((*ms)->cmd);
 	ft_trimlist((*ms)->list);
 	(*ms)->cmd_list = create_cmdlst((*ms)->list, *ms);
