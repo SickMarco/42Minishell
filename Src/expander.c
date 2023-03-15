@@ -98,7 +98,9 @@ char	*multi_exp(t_exp **exp, char *line)
 char	*ft_expander(char *line)
 {
 	t_exp	*exp;
+	char	*tmp;
 
+	tmp = NULL;
 	exp = ft_calloc(sizeof(t_exp), 1);
 	line = exit_exp(line);
 	if (strchr(line, '$') && !strchr(line, ' '))
@@ -119,7 +121,11 @@ char	*ft_expander(char *line)
 		free(exp->trim);
 	}
 	else if (strchr(line, '$') && strchr(line, ' '))
+	{
+		tmp = line;
 		line = multi_exp(&exp, line);
+	}
+	free(tmp);
 	free(exp);
 	return (line);
 }
