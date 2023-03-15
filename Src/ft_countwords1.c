@@ -6,7 +6,7 @@
 /*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 14:47:01 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/06 15:36:22 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/15 16:52:21 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,9 @@ int	ft_countwords1(char *s)
 	int	i;
 	int	words;
 
-	if (!s || !(*s))
-		return (0);
 	words = 0;
 	i = 0;
-	while (s[i])
+	while (s && s[i])
 	{
 		words += (s[i] != 32);
 		while (s[i] && s[i] != 32)

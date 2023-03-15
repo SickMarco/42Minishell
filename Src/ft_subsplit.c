@@ -6,23 +6,11 @@
 /*   By: mabaffo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 14:40:32 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/03 15:53:53 by mabaffo          ###   ########.fr       */
+/*   Updated: 2023/03/15 16:45:00 by mabaffo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	ft_sl(const char *s)
-{
-	int	i;
-
-	if (!s || !(*s))
-		return (0);
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
 
 static void	ft_rl(t_list **arg, int sin, int slen)
 {
@@ -43,14 +31,14 @@ static void	ft_rl(t_list **arg, int sin, int slen)
 	(*arg)->content = ft_substr(so, 0, sin);
 }
 
-static void	ft_reassemblelist(t_list **arg, int sin, int slen)
+static int	ft_reassemblelist(t_list **arg, int sin, int slen)
 {
 	t_list	*nn;
 	char	*so;
 
 	so = (char *)((*arg)->content);
 	if (slen == 2 && ft_sl(so) == 2)
-		return ;
+		return (1);
 	nn = (*arg)->next;
 	if (sin)
 		ft_rl(arg, sin, slen);
@@ -61,6 +49,13 @@ static void	ft_reassemblelist(t_list **arg, int sin, int slen)
 		(*arg)->content = ft_substr(so, sin, slen);
 	}
 	free(so);
+	return (1);
+}
+
+static void	init_si(int *i, char *s, t_list *args)
+{
+	*i = -1;
+	s = (char *)(args->content);
 }
 
 static void	ft_splitlist(t_list *args)
@@ -68,12 +63,9 @@ static void	ft_splitlist(t_list *args)
 	int		i;
 	char	*s;
 
-	while (args)
+	init_si(&i, (s = NULL), args);
+	while (args && s && *s)
 	{
-		i = -1;
-		s = (char *)(args->content);
-		if (!s || !(*s))
-			return ;
 		if (!(s[ft_sl(s) - 1] == s[0] && (s[0] == '\"' || s[0] == '\'')))
 		{
 			while (s[++i])
@@ -82,10 +74,7 @@ static void	ft_splitlist(t_list *args)
 				{
 					if (s[i + 1]
 						&& ft_ischarofset(s[i + 1], "<>") && s[i] == s[i + 1])
-					{
-						ft_reassemblelist(&(args), i, 2);
-						i++;
-					}
+						i += ft_reassemblelist(&(args), i, 2);
 					else
 						ft_reassemblelist(&(args), i, 1);
 				}
@@ -93,6 +82,7 @@ static void	ft_splitlist(t_list *args)
 		}
 		args = args->next;
 	}
+	init_si(&i, s, args);
 }
 
 t_list	*ft_subsplit(char **tab)

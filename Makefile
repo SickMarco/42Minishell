@@ -1,7 +1,7 @@
 NAME = minishell
 
 SRC = main.c builtins.c utils.c expander.c ft_countwords1.c ft_split1.c ft_createlist.c ft_subsplit.c env.c executor.c ft_ischarofset.c ft_trimone.c \
-      reader.c reader_utils.c reader_utils2.c gnl.c expander2.c cmdlst_create.c cmdlst_utils.c exec_cmd.c redirect.c utils2.c debug.c free_exit.c cmdlst_utils2.c
+      reader.c reader_utils.c reader_utils2.c gnl.c expander2.c cmdlst_create.c cmdlst_utils.c exec_cmd.c redirect.c utils2.c debug.c free_exit.c cmdlst_utils2.c utils3.c
 
 SRC_DIR = ./Src/
 
