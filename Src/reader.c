@@ -88,13 +88,8 @@ static void	ft_search_first(char **origin)
 	}
 }
 
-void	ft_readifyouneed(char **origin, t_data **ms)
+static int	handle_quotes(int dc, int sc, char **origin)
 {
-	int		dc;
-	int		sc;
-	char	*sep;
-
-	ft_count_quotes(*origin, &dc, &sc);
 	if ((dc && dc % 2) || (sc && sc % 2))
 		ft_addnl(origin);
 	if (dc && dc % 2 != 0 && !(sc % 2))
@@ -103,6 +98,20 @@ void	ft_readifyouneed(char **origin, t_data **ms)
 		ft_reader(origin, "quote> ", "\'");
 	else if (dc && sc && (sc % 2) && (dc % 2))
 		ft_search_first(origin);
+	else
+		return (0);
+	return (1);
+}
+
+void	ft_readifyouneed(char **origin, t_data **ms)
+{
+	int		dc;
+	int		sc;
+	char	*sep;
+
+	ft_count_quotes(*origin, &dc, &sc);
+	if (handle_quotes(dc, sc, origin))
+		return ;
 	else if (ft_strnstr(*origin, "<<", ft_sl(*origin))
 		&& !is_in_quotes(*origin, "<<"))
 	{
