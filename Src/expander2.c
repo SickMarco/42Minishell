@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 18:36:05 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/13 17:04:32 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/15 15:22:06 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*exit_exp2(char *line, int stop)
 	x = -1;
 	while (exit[++x])
 		new[++i] = exit[x];
-	while (line[y] && line[y] != ' ' && line[y] != 34 && line[y] != 39 
+	while (line[y] && line[y] != ' ' && line[y] != 34 && line[y] != 39
 		&& !ft_isalnum(line[y]))
 		y++;
 	if (line[y])
@@ -59,4 +59,18 @@ char	*exit_exp(char *line)
 		}
 	}
 	return (line);
+}
+
+char	*add_dapex(char	*line, char	*trim)
+{
+	free(line);
+	trim = ft_strjoin3("\"", trim, 1);
+	trim = ft_strjoin3(trim, "\"", 0);
+	return (trim);
+}
+
+char	*free_and_replace(char	*line, char	*dup)
+{
+	free(line);
+	return (dup);
 }

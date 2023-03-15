@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 19:39:04 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/13 17:58:39 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/15 15:10:57 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,51 +81,45 @@ char	*multi_exp(t_exp **exp, char *line)
 	else
 		(*exp)->cmds = ft_split(line, ' ');
 	exp_line(exp);
-	ret = ft_strjoin((*exp)->cmds[i], " ");
-	while ((*exp)->cmds[++i])
+	ret = ft_strdup((*exp)->cmds[i]);
+	if ((*exp)->cmds[i + 1])
 	{
-		ret = ft_strjoin2(ret, (*exp)->cmds[i]);
-		if ((*exp)->cmds[i + 1])
+		while ((*exp)->cmds[++i])
+		{
 			ret = ft_strjoin2(ret, " ");
+			ret = ft_strjoin2(ret, (*exp)->cmds[i]);
+		}
 	}
 	i = -1;
 	while ((*exp)->cmds[++i])
 		free((*exp)->cmds[i]);
 	free((*exp)->cmds);
+	free(line);
 	return (ret);
 }
 
 char	*ft_expander(char *line)
 {
 	t_exp	*exp;
-	char	*tmp;
 
-	tmp = NULL;
 	exp = ft_calloc(sizeof(t_exp), 1);
 	line = exit_exp(line);
 	if (strchr(line, '$') && !strchr(line, ' '))
 	{
 		exp->trim = ft_strtrim(line, "$\"");
 		if (getenv(exp->trim))
-		{
-			free(line);
-			line = ft_strdup(getenv(exp->trim));
-		}
+			line = free_and_replace(line, ft_strdup(getenv(exp->trim)));
 		else if (strchr(line, '\"') && strchr(line, '$') && strchr(line, '\''))
 		{
 			apex_exp(&exp, line);
-			free(line);
-			line = exp->cmds[0];
+			line = free_and_replace(line, exp->cmds[0]);
 			free(exp->cmds);
 		}
 		free(exp->trim);
 	}
 	else if (strchr(line, '$') && strchr(line, ' '))
-	{
-		tmp = line;
 		line = multi_exp(&exp, line);
-	}
-	free(tmp);
+	line = add_dapex(line, ft_strtrim(line, "\""));
 	free(exp);
 	return (line);
 }

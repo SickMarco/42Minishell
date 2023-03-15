@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/14 17:26:14 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/15 14:58:05 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ void	ft_freelist(t_list **lst);
 void	free_for_all2(t_data **ms);
 void	ft_exit(t_data **ms);
 void	free_matrix(char **matrix);
+char	*add_dapex(char	*line, char	*trim);
+char	*free_and_replace(char	*line, char	*dup);
 
 //			EXECUTOR		//
 

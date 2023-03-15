@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 12:27:14 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/14 18:29:54 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/15 15:21:06 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,12 @@ int	is_in_quotes(char *origin, char *ob)
 	ret = 0;
 	ob_posix = ft_strnstr(origin, "<<", ft_sl(origin));
 	if ((ob_posix - origin) <= 0
-			|| (!(ft_strncmp(ob_posix, ob, ft_sl(ob_posix)))))
+		|| (!(ft_strncmp(ob_posix, ob, ft_sl(ob_posix)))))
 		return (0);
 	str_before = ft_substr(origin, 0, ob_posix - origin);
 	str_after = ft_strdup(ob_posix + ft_sl(ob));
 	if (is_in_quote(str_before, str_after, '\"')
-		    || is_in_quote(str_before, str_after, '\''))
+		|| is_in_quote(str_before, str_after, '\''))
 		ret++;
 	free(str_before);
 	if (str_after && *str_after)
