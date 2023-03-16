@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:08:17 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/14 12:53:12 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/16 16:38:06 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	custom_exec(t_data **ms, t_cmd *cmd)
 {
 	if (!access(cmd->cmds[0], X_OK))
 	{
-		if (!ft_strncmp(cmd->cmds[0], "./", 2))
+		if (!ft_strncmp(cmd->cmds[0], "./", 2)
+			|| !ft_strncmp(cmd->cmds[0], "/", 1))
 		{
 			execve(cmd->cmds[0], cmd->cmds, (*ms)->env);
 			perror("smashell");
