@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:01:01 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/15 15:40:26 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/16 16:10:25 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	no_cmd(t_cmd *cmd);
 
 //			PARSING			//
 
-char	*ft_expander(char *line, int flag);
+char	*ft_expander(char *line);
 int		ft_countwords1(char *s);
 void	ft_skip_space(char *s, int *i);
 void	ft_close_quote(char *s, int *i, char c);
@@ -118,12 +118,10 @@ char	*free_and_replace(char	*line, char	*dup);
 //			EXECUTOR		//
 
 void	cmd_builder(t_data **ms);
-void	cmd_builder(t_data **ms);
 void	signal_handler(t_data **ms);
 void	ctrlc_handler(int sig);
 void	executor(t_data **ms, t_cmd *cmd);
 void	exec_cmd(t_data **ms, t_cmd *cmd_list);
-void	executor(t_data **ms, t_cmd *cmd);
 void	prnt_ctrl(int sig);
 void	open_redir(t_cmd *cmd);
 void	close_redir(t_data **ms, t_cmd *cmd);

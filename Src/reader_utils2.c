@@ -6,7 +6,7 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 20:21:19 by mabaffo           #+#    #+#             */
-/*   Updated: 2023/03/15 15:48:03 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/16 16:10:46 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ void	ft_putinhdoc_n_free(char *line)
 		free(line);
 	if (ft_strchr(tmp, '\"'))
 	{
-		line = ft_expander(tmp, 1);
+		line = ft_expander(tmp);
 		line = add_dapex(line, ft_strtrim(line, "\""));
 	}
 	else
-		line = ft_expander(tmp, 1);
+		line = ft_expander(tmp);
 	line = ft_strjoin2(line, "\n");
 	write(fd, line, ft_sl(line));
 	close(fd);

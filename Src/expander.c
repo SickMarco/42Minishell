@@ -6,13 +6,13 @@
 /*   By: mbozzi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 19:39:04 by mbozzi            #+#    #+#             */
-/*   Updated: 2023/03/15 15:42:22 by mbozzi           ###   ########.fr       */
+/*   Updated: 2023/03/16 16:27:13 by mbozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	apex_exp(t_exp **exp, char *line)
+int	apex_exp(t_exp **exp, char *line)
 {
 	int		i;
 	char	*trim;
@@ -38,7 +38,7 @@ void	apex_exp(t_exp **exp, char *line)
 			}
 		}
 	}
-	return ;
+	return (1);
 }
 
 void	exp_line(t_exp **exp)
@@ -98,10 +98,12 @@ char	*multi_exp(t_exp **exp, char *line)
 	return (ret);
 }
 
-char	*ft_expander(char *line, int flag)
+char	*ft_expander(char *line)
 {
 	t_exp	*exp;
+	int		ktm;
 
+	ktm = 0;
 	exp = ft_calloc(sizeof(t_exp), 1);
 	line = exit_exp(line);
 	if (strchr(line, '$') && !strchr(line, ' '))
@@ -111,7 +113,7 @@ char	*ft_expander(char *line, int flag)
 			line = free_and_replace(line, ft_strdup(getenv(exp->trim)));
 		else if (strchr(line, '\"') && strchr(line, '$') && strchr(line, '\''))
 		{
-			apex_exp(&exp, line);
+			ktm = apex_exp(&exp, line);
 			line = free_and_replace(line, exp->cmds[0]);
 			free(exp->cmds);
 		}
@@ -119,7 +121,7 @@ char	*ft_expander(char *line, int flag)
 	}
 	else if (strchr(line, '$') && strchr(line, ' '))
 		line = multi_exp(&exp, line);
-	if (flag == 0)
+	if ((strchr(line, '\'') && ktm) || (strchr(line, '$') && strchr(line, ' ')))
 		line = add_dapex(line, ft_strtrim(line, "\""));
 	free(exp);
 	return (line);
